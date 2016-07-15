@@ -1,7 +1,22 @@
-<h2>Home</h2>
-        
 <div class="callout">
-  <h5>This is a callout.</h5>
-  <p>It has an easy to override visual style, and is appropriately subdued.</p>
-  <a href="#">It's dangerous to go alone, take this.</a>
+  <div class="callout-header">
+    <div class="row">
+        <div class="small-6 columns">
+          <%= link_to(image_tag("logo-dark.png", :alt => "logo", :title => "Home"), "/") %>
+        </div>
+        
+        <div class="small-6 columns">
+          <ul class="menu align-right">
+            <li><a href="#">Log In</a></li>
+            <li><a href="#">Register</a></li>
+          </ul>
+        </div>
+      
+    </div>
+  </div>
+  <div class="callout-body text-center">
+    <h3>Welcome Back</h3>
+    
+    <%= link_to 'Log In', dashboard_path, class: 'button' %>
+  </div>
 </div>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
   
   root 'pages#home'

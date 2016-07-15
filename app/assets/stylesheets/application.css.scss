@@ -16,7 +16,7 @@
  *= require font-awesome
  */
  
- @mixin box-shadow( $horiz : 0px , $vert : 0px , $blur : 0px , $spread : 5px , $color : rgba(0,0,0,.25) ){
+ @mixin box-shadow( $horiz : 0px , $vert : 0px , $blur : 5px , $spread : 0px , $color : rgba(0,0,0,.25) ){
   -webkit-box-shadow: $horiz $vert $blur $spread $color;
   -moz-box-shadow: $horiz $vert $blur $spread $color;
   box-shadow: $horiz $vert $blur $spread $color;
@@ -33,17 +33,35 @@
 $green: #c8da00;
 $green-txt: #b3c300;
 $blue: #50c4d1;
-$bg-grey: #eef1f5;
+$light-grey: #eef1f5;
 $mid-grey: #83878c;
 $dark-grey: #414b57;
 $half-white: rgba(255,255,255,.5);
 
 body{
     background: $dark-grey;
+    font-family: 'Roboto', sans-serif;
 }
 
 a{
-    @include transition(color .3s ease);
+    @include transition(all .3s ease);
+}
+
+.button{
+    background: $dark-grey;
+    
+    
+    -webkit-box-shadow: -4px 3px 0px 0px $blue,  2px -3px 0px 0px $green;
+    -moz-box-shadow:    -4px 3px 0px 0px $blue,  2px -3px 0px 0px $green;
+    box-shadow:         -3px 2px 0px 0px $blue,  2px -3px 0px 0px $green;
+    
+    &:hover{
+        background: $mid-grey;
+    }
+    
+    &:active{
+        background: $mid-grey;
+    }
 }
 
 .off-canvas-wrapper, .off-canvas-wrapper-inner{
@@ -51,7 +69,7 @@ a{
 }
 
 .off-canvas-content, .off-canvas-content{
-    background: $bg-grey;
+    background: $light-grey;
     color: $dark-grey;
     height: 100%;
 }
@@ -123,4 +141,43 @@ a{
     background: #fff;
     color: $dark-grey;
     margin-bottom: 30px;
+}
+
+
+.callout{
+    padding:0;
+    border:0;
+    @include box-shadow();
+    
+    .callout-header{
+        background: $light-grey;
+        padding: 1rem;
+    }
+    
+    .callout-body{
+        padding: 1rem;
+    }
+}
+
+.splash{
+    padding-top:6em;
+    
+     background-image: url('/assets/bg-login.jpg');
+     background-size:cover;
+  
+    h3{
+        font-family: 'Oswald', sans-serif;
+        color: $green;
+        letter-spacing:4px;
+        text-transform:uppercase;
+        margin-bottom:2em;
+    }
+
+     .callout-body{
+         padding-top:4em;
+         padding-bottom:4em;
+         background: url('/assets/bg-hex.png') right bottom no-repeat;
+         background-position: right 15px bottom 15px;
+     }
+     
 }
