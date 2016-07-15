@@ -18,6 +18,9 @@ gem 'foundation-rails'
 gem 'execjs' 
 gem 'therubyracer'
 
+#add fontawesome
+gem "font-awesome-rails"
+
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets

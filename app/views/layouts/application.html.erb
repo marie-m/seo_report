@@ -12,8 +12,70 @@
   </head>
 
   <body>
+    
+  <div class="off-canvas-wrapper">
+    <div class="off-canvas-wrapper-inner" data-off-canvas-wrapper>
+      <div class="off-canvas position-left reveal-for-medium" id="offCanvas" data-off-canvas>
 
-    <%= yield %>
+        <!-- Close button -->
+        <button class="close-button show-for-small-only" aria-label="Close menu" type="button" data-close>
+          <span aria-hidden="true">&times;</span>
+        </button>
+        
+        <div class="title">
+          
+          <%= link_to 'SEO Report', root_path %>
+          
+        </div>
+        
+        <div class="user-info">
+          <i class="fa fa-user fa-4x" aria-hidden="true"></i>
+
+          <h5>User Name</h5>
+          <h6 class="subheader">User Rank</h6>
+          
+        </div>
+
+        <!-- Menu -->
+        <ul class="vertical menu">
+          <li><%= link_to '<i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard'.html_safe, root_path %></li>
+          <li><%= link_to '<i class="fa fa-briefcase fa-fw" aria-hidden="true"></i> Businesses'.html_safe, '#' %></li>
+          <li><%= link_to '<i class="fa fa-cog fa-fw" aria-hidden="true"></i> Settings'.html_safe, '#' %></li>
+          <li><%= link_to '<i class="fa fa-question-circle fa-fw" aria-hidden="true"></i> Help'.html_safe, help_path %></li>
+          <li><%= link_to '<i class="fa fa-bug fa-fw" aria-hidden="true"></i> Found a bug?'.html_safe, '#' %></li>
+        </ul>
+
+      </div>
+
+      <div class="off-canvas-content" data-off-canvas-content>
+        
+        <!-- top-bar -->
+        <div class="title-bar">
+          <div class="title-bar-left">
+            <button class="menu-icon" type="button" data-open="offCanvas"></button>
+            <!--<span class="title-bar-title">Foundation</span>-->
+          </div>
+          <div class="title-bar-right">
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="small-12 columns">
+            
+            
+            <!-- Page content -->
+            <%= yield %>
+             
+         
+           </div>
+         </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+   
 
   </body>
 </html>

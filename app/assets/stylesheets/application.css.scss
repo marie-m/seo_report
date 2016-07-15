@@ -13,5 +13,114 @@
  *= require_tree .
  *= require_self
  *= require foundation_and_overrides
-
+ *= require font-awesome
  */
+ 
+ @mixin box-shadow( $horiz : 0px , $vert : 0px , $blur : 0px , $spread : 5px , $color : rgba(0,0,0,.25) ){
+  -webkit-box-shadow: $horiz $vert $blur $spread $color;
+  -moz-box-shadow: $horiz $vert $blur $spread $color;
+  box-shadow: $horiz $vert $blur $spread $color;
+}
+
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+ 
+$green: #c8da00;
+$green-txt: #b3c300;
+$blue: #50c4d1;
+$bg-grey: #eef1f5;
+$mid-grey: #83878c;
+$dark-grey: #414b57;
+$half-white: rgba(255,255,255,.5);
+
+body{
+    background: $dark-grey;
+}
+
+a{
+    @include transition(color .3s ease);
+}
+
+.off-canvas-wrapper, .off-canvas-wrapper-inner{
+    height: 100%;
+}
+
+.off-canvas-content, .off-canvas-content{
+    background: $bg-grey;
+    color: $dark-grey;
+    height: 100%;
+}
+
+
+
+.menu-icon::after {
+    background: $dark-grey none repeat scroll 0 0;
+    box-shadow: 0 7px 0 $dark-grey, 0 14px 0 $dark-grey;
+}
+
+
+.off-canvas{
+    background: none;
+    color: #fff;
+    
+    .title{
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid $mid-grey;
+        background: darken( $dark-grey, 5% );
+    }
+    
+    .user-info{
+        text-align: center;
+        padding: 2em 0;
+        font-size: .8em;
+        
+        .fa{
+            color: $mid-grey;
+        }
+        
+        h5{
+            margin: .5em 0 0 0;
+        }
+        
+        .subheader{
+            font-style: italic;
+            margin: 0;
+            color: $half-white;
+        }
+    }
+    
+    .menu.vertical > li{
+        border-bottom: 1px solid $mid-grey;
+        
+        &:first-child{
+            border-top: 1px solid $mid-grey;
+        }
+        
+        a{
+            color: $half-white;
+            
+            &:hover{
+                color:#fff;
+            }
+            
+            .fa{
+                font-size: 1.15em;
+                margin-right: .25em;
+            }
+        }
+        
+        
+    }
+}
+
+.title-bar {
+    background: #fff;
+    color: $dark-grey;
+    margin-bottom: 30px;
+}
