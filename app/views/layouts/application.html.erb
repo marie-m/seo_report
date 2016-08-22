@@ -9,7 +9,7 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
-    <link href='https://fonts.googleapis.com/css?family=Oswald|Roboto' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Oswald|Roboto:400,400italic|Roboto+Condensed' rel='stylesheet' type='text/css'>
   </head>
 
   <body>
@@ -25,7 +25,7 @@
         
         <div class="title">
           
-          <%= link_to 'SEO Report', dashboard_path %>
+          <%= link_to(image_tag("logo.png", :alt => "logo", :title => "Home"), dashboard_path ) %>
           
         </div>
         
@@ -39,10 +39,10 @@
 
         <!-- Menu -->
         <ul class="vertical menu">
-          <li><%= link_to '<i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard'.html_safe, dashboard_path %></li>
+          <li><%= link_to '<i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard'.html_safe, dashboard_path, class: cp(dashboard_path) %></li>
           <li><%= link_to '<i class="fa fa-briefcase fa-fw" aria-hidden="true"></i> Businesses'.html_safe, '#' %></li>
           <li><%= link_to '<i class="fa fa-cog fa-fw" aria-hidden="true"></i> Settings'.html_safe, '#' %></li>
-          <li><%= link_to '<i class="fa fa-question-circle fa-fw" aria-hidden="true"></i> Help'.html_safe, help_path %></li>
+          <li><%= link_to '<i class="fa fa-question-circle fa-fw" aria-hidden="true"></i> Help'.html_safe, help_path, class: cp(help_path) %></li>
           <li><%= link_to '<i class="fa fa-bug fa-fw" aria-hidden="true"></i> Found a bug?'.html_safe, '#' %></li>
         </ul>
 
@@ -53,10 +53,18 @@
         <!-- top-bar -->
         <div class="title-bar">
           <div class="title-bar-left">
-            <button class="menu-icon" type="button" data-open="offCanvas"></button>
-            <!--<span class="title-bar-title">Foundation</span>-->
+              <ul class="menu">
+            <!--<li><button class="menu-icon" type="button" data-open="offCanvas"></button></li>-->
+            <li><a data-open="offCanvas"><i class="fa fa-bars fa-fw"></i></a></li>
+           <li class="show-for-small-only"><span class="title-bar-title">SEO Report</span></li>
+             </ul>
           </div>
           <div class="title-bar-right">
+            <ul class="menu">
+              <li><%= link_to '<i class="fa fa-area-chart fa-fw"></i>'.html_safe, '#' %></li>
+              <li><%= link_to 'User Name', '#' %></li>
+              <li><%= link_to '<i class="fa fa-sign-out fa-fw"></i>'.html_safe, '#' %></li>
+            </ul>
           </div>
         </div>
         
