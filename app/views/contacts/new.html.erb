@@ -1,0 +1,29 @@
+<div class="page-title">
+    <h1>Contact Us</h1>
+    <h4 class="subheader">Got a problem?</h4>
+</div>
+
+
+<div class="callout">
+    <div class="callout-header">
+        <h4>Let Us Know What You're Thinking</h4>
+    </div>
+    <div class="callout-body">
+
+        <%= form_for @contact do |f| %>
+        
+            <%= f.label :name %>
+            <%= f.text_field :name %>
+        
+            <%= f.label :email %>
+            <%= f.email_field :email %>
+        
+            <%= f.label :comments %>
+            <%= f.text_area :comments %>
+            
+            <%= f.submit 'Submit', class: "button secondary" %>
+
+        <% end %>
+
+    </div>
+</div>
