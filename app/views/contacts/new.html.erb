@@ -4,7 +4,7 @@
 </div>
 
 
-<div class="callout">
+<div class="callout card">
     <div class="callout-header">
         <h4>Let Us Know What You're Thinking</h4>
     </div>
@@ -12,12 +12,17 @@
 
         <%= form_for @contact do |f| %>
         
-            <%= f.label :name %>
-            <%= f.text_field :name %>
-        
-            <%= f.label :email %>
-            <%= f.email_field :email %>
-        
+            <div class="row">
+                <div class="medium-6 columns">
+                    <%= f.label :name %>
+                    <%= f.text_field :name %>
+                </div>
+                <div class="medium-6 columns">
+                    <%= f.label :email %>
+                    <%= f.email_field :email %>
+                </div>
+            </div>
+            
             <%= f.label :comments %>
             <%= f.text_area :comments %>
             
