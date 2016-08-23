@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :contacts
+  resources :businesses
+  
   get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
   
