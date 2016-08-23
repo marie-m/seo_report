@@ -1,0 +1,41 @@
+<div class="page-title">
+    <h1>Contact Us</h1>
+    <h4 class="subheader">Response Recieved</h4>
+</div>
+
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Submitted Contact Form</h4>
+    </div>
+    <div class="callout-body">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>User Submission</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>Date</th>
+                    <td><%= @contact.created_at %></td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td><%= @contact.name %></td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td><%= @contact.email %></td>
+                </tr>
+                <tr>
+                    <th>Message</th>
+                    <td><%= @contact.comments %></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</div>

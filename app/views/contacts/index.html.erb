@@ -1,0 +1,42 @@
+<div class="page-title">
+    <h1>Contact Us</h1>
+    <h4 class="subheader">All submissions</h4>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>All Form Submissions</h4>
+    </div>
+    <div class="callout-body">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Comments</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <% @contacts.each do |contact| %>
+                    <tr>
+                        <th><%= contact.id %></th>
+                        <td><%= contact.created_at %></td>
+                        <td><%= contact.name %></td>
+                        <td><%= contact.email %></td>
+                        <td><%= contact.comments %></td>
+                        <td> <%= link_to "Delete", contact, method: :delete,
+                                  data: { confirm: "You sure?" } %></td>
+                    </tr>
+                <% end %>
+                
+                
+            </tbody>
+        </table
+        
+    </div>
+</div>
