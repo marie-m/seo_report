@@ -262,11 +262,16 @@ h6{ font-size: 1rem; }
         table{
             margin:0;
             border:0;
+            line-height:1;
         }
         
         thead, tfoot,
         tbody tr:nth-child(2n){
             background:none;
+        }
+        
+        tbody th, tbody td{
+            padding:.85em .625em;
         }
         
         tr{
