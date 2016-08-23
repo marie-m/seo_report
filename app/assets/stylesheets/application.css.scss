@@ -30,6 +30,13 @@
   transition: $args;
 }
 
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
 $green: #c8da00;
 $green-txt: #b3c300;
 $blue: #50c4d1;
@@ -87,6 +94,19 @@ h6{ font-size: 1rem; }
     
     &:active, &:focus{
         background: $mid-grey;
+    }
+}
+
+.expanded.link{
+    display:block;
+    padding: .5em;
+    text-align: center;
+    text-transform:uppercase;
+    color:$dark-grey;
+    font-size:.8em;
+    
+    &:hover{
+        color: $mid-grey;
     }
 }
 
@@ -235,6 +255,36 @@ h6{ font-size: 1rem; }
     .callout-body{
         padding: 1rem;
     }
+    
+    .callout-table{
+        padding: 0;
+        
+        table{
+            margin:0;
+            border:0;
+        }
+        
+        thead, tfoot,
+        tbody tr:nth-child(2n){
+            background:none;
+        }
+        
+        tr{
+            border-top:1px solid $light-grey;
+        }
+        
+        th{
+            text-align:left;
+        }
+        
+        .narrow{
+            width:1%;
+        }
+    }
+    
+    .callout-footer{
+        border-top: 1px solid $light-grey;
+    }
 }
 
 .splash{
@@ -293,4 +343,24 @@ h6{ font-size: 1rem; }
          background-position: right 15px bottom 15px;
      }
      
+}
+
+
+.icon-circle{
+    height:35px;
+    width:35px;
+    background:$grey;
+    color:#fff;
+    text-align:center;
+    line-height:35px;
+    
+    @include border-radius(35px); 
+}
+
+.time-ago{
+    color: $grey;
+    
+    .fa{
+        margin-right:3px;
+    }
 }

@@ -1,0 +1,28 @@
+ <div class="callout card">
+            
+    <div class="callout-header">
+        Latest Contact Form Submissions
+    </div>
+    <div class="callout-table">
+        <table>
+        
+         <%  @contacts = Contact.last(5).reverse %>
+         
+          <% @contacts.each do |contact| %>
+                <tr>
+                    <td class="narrow"><div class="icon-circle"><i class="fa fa-comments fa-fw"></i></div></td>
+                    <td>
+                        <%= contact.name %><br>
+                        <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(contact.created_at) %> ago</small>
+                    </td>
+                    <td class="text-right">
+                        <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, contact %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+    <div class="callout-footer">
+        <%= link_to 'See all contacts',  contacts_path, class: 'card expanded link' %>
+    </div>
+</div>

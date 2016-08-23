@@ -23,6 +23,10 @@ class ContactsController < ApplicationController
         @contact = Contact.find( params[:id] )
     end
     
+    def _show
+        @contacts = Contact.order(:id)
+    end
+    
   
     def destroy
         Contact.find(params[:id]).destroy
