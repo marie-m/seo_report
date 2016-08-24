@@ -1,0 +1,45 @@
+<div class="page-title">
+    <h1>Businesses</h1>
+    <h4 class="subheader">Businesses > All</h4>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_business_path, class: "button secondary small float-right" %>
+        <h4>All Businesses</h4>
+    </div>
+    <div class="callout-table">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Url</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <% @businesses.each do |business| %>
+                    <tr>
+                        <th><%= business.id %></th>
+                        <td><%= business.created_at.to_formatted_s(:long)  %></td>
+                        <td><%= link_to business.name, business%></td>
+                        <td><%= business.address %></td>
+                        <td><%= business.url %></td>
+                        <td><%= link_to 'Edit', {:action => "edit", :id => business.id} %></td>
+                        <td><%= link_to "Delete", business, method: :delete,
+                                  data: { confirm: "You sure?" } %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            
+        </table>
+        
+        
+    </div>
+</div>

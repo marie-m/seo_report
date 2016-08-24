@@ -1,0 +1,47 @@
+<div class="page-title">
+    <h1><%= @business.name %></h1>
+    <h4 class="subheader">Businesses </h4>
+</div>
+
+<div class="row">
+    <div class="medium-7 columns">
+        
+        <div class="callout card">
+            <div class="callout-header">
+                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_business_path, class: "button secondary small float-right" %>
+                <h4>Stats</h4>
+            </div>
+            <div class="callout-table">
+                
+                <table>
+                    <tr>
+                        <td class="narrow"><div class="icon-circle"><i class="fa fa-briefcase fa-fw"></i></div></td>
+                        <td>
+                            <%= @business.name %><br>
+                            <small>Business Name</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="narrow"><div class="icon-circle"><i class="fa fa-map-marker fa-fw"></i></div></td>
+                        <td>
+                            <%= @business.address %><br>
+                            <small>Business Address</small>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="narrow"><div class="icon-circle"><i class="fa fa-link fa-fw"></i></div></td>
+                        <td>
+                            <%= @business.url %><br>
+                            <small>Business URL</small>
+                        </td>
+                    </tr>
+                    
+                    
+                </table>
+                
+            </div>
+        </div>
+                
+    </div>
+    
+</div>

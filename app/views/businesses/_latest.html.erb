@@ -1,0 +1,28 @@
+ <div class="callout card">
+            
+    <div class="callout-header">
+        Latest Businesses
+    </div>
+    <div class="callout-table">
+        <table>
+        
+         <%  @business = Business.last(5).reverse %>
+         
+          <% @business.each do |business| %>
+                <tr>
+                    <td class="narrow"><div class="icon-circle"><i class="fa fa-comments fa-fw"></i></div></td>
+                    <td>
+                        <%= business.name %><br>
+                        <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(business.created_at) %> ago</small>
+                    </td>
+                    <td class="text-right">
+                        <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, business %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+    <div class="callout-footer">
+        <%= link_to 'See all Businesses',  businesses_path, class: 'card expanded link' %>
+    </div>
+</div>

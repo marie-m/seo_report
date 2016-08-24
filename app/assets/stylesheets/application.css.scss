@@ -80,20 +80,34 @@ h6{ font-size: 1rem; }
     }
 }
 
-.button{
+.button.fancy{
     background: $dark-grey;
     padding: .65em 4em;
-    
+        
     -webkit-box-shadow: -4px 3px 0px 0px $blue,  2px -3px 0px 0px $green;
     -moz-box-shadow:    -4px 3px 0px 0px $blue,  2px -3px 0px 0px $green;
     box-shadow:         -3px 2px 0px 0px $blue,  2px -3px 0px 0px $green;
-    
+
     &:hover{
         background: $mid-grey;
     }
     
     &:active, &:focus{
         background: $mid-grey;
+    }
+}
+
+.button.secondary{
+    background: $blue;
+    text-transform:uppercase;
+    margin-bottom:0;
+    
+    &:hover{
+        background: darken( $blue, 15% );
+    }
+    
+    &:active, &:focus{
+        background: darken( $blue, 15% );
     }
 }
 
@@ -250,6 +264,11 @@ h6{ font-size: 1rem; }
         h4{
             margin-bottom:0;
         }
+        
+        .button{
+            margin:0;
+            padding: .5em .85em;
+        }
     }
     
     .callout-body{
@@ -257,12 +276,16 @@ h6{ font-size: 1rem; }
     }
     
     .callout-table{
-        padding: 0;
+        padding:0;
         
         table{
             margin:0;
             border:0;
             line-height:1;
+            
+            [type="text"], [type="password"], [type="date"], [type="datetime"], [type="datetime-local"], [type="month"], [type="week"], [type="email"], [type="number"], [type="search"], [type="tel"], [type="time"], [type="url"], [type="color"], textarea{
+                margin-bottom:0;
+            }
         }
         
         thead, tfoot,
@@ -282,6 +305,14 @@ h6{ font-size: 1rem; }
             text-align:left;
         }
         
+        small{
+            color: $grey;
+            
+            .fa{
+                margin-right:3px;
+            }
+        }
+        
         .narrow{
             width:1%;
         }
@@ -289,6 +320,34 @@ h6{ font-size: 1rem; }
     
     .callout-footer{
         border-top: 1px solid $light-grey;
+    }
+}
+
+.count{
+    text-align:center;
+    
+    h6{
+        color:$green-txt;
+        text-transform:uppercase;
+        margin-top:6px;
+        margin-bottom:2px;
+        font-size:.9em;
+        letter-spacing:.5px;
+    }
+    
+    .stat{
+        color:$dark-grey;
+        font-size: 2rem;
+        font-weight:bolder;
+    }
+    
+    .count-icon{
+        height:72px;
+        width:72px;
+        line-height:72px;
+        background:$green;
+        color:#fff;
+        font-size:33px;
     }
 }
 
@@ -362,10 +421,3 @@ h6{ font-size: 1rem; }
     @include border-radius(35px); 
 }
 
-.time-ago{
-    color: $grey;
-    
-    .fa{
-        margin-right:3px;
-    }
-}

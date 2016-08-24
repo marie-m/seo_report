@@ -1,0 +1,36 @@
+<div class="page-title">
+    <h1>New Business</h1>
+    <h4 class="subheader">Add a Business</h4>
+</div>
+
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Business Details</h4>
+    </div>
+    <div class="callout-table">
+        
+        <%= form_for @business do |f| %>
+            <table>
+                <tr>
+                    <th><%= f.label :name %></th>
+                    <td><%= f.text_field :name %></td>
+                </tr>
+                <tr>
+                    <th><%= f.label :address %></th>
+                    <td><%= f.text_field :address %></td>
+                </tr>
+                <tr>
+                    <th><%= f.label :url %></th>
+                    <td><%= f.text_field :url %></td>
+                </tr>
+                <tr>
+                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
+                </tr>
+            </table>
+        <% end %>
+        
+        
+
+    </div>
+</div>
