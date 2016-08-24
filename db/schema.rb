@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160823183741) do
+ActiveRecord::Schema.define(version: 20160824153242) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -26,6 +26,17 @@ ActiveRecord::Schema.define(version: 20160823183741) do
     t.string   "name"
     t.string   "email"
     t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "phase3s", force: true do |t|
+    t.integer  "xmlSitemap"
+    t.integer  "visitorSitemap"
+    t.integer  "internalAudit"
+    t.integer  "externalAudit"
+    t.integer  "contactForm"
+    t.integer  "map"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
