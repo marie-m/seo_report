@@ -131,7 +131,7 @@ h6{ font-size: 1rem; }
 .off-canvas-content, .off-canvas-content{
     background: $light-grey;
     color: $dark-grey;
-    height: 100%;
+    min-height: 100%;
 }
 
 
@@ -249,10 +249,14 @@ h6{ font-size: 1rem; }
     }
 }
 
+.callout{
+    margin-bottom:1.9375rem;
+}
 
 .callout.card{
     padding:0;
     border:0;
+    
     @include box-shadow();
     
     
@@ -283,7 +287,8 @@ h6{ font-size: 1rem; }
             border:0;
             line-height:1;
             
-            [type="text"], [type="password"], [type="date"], [type="datetime"], [type="datetime-local"], [type="month"], [type="week"], [type="email"], [type="number"], [type="search"], [type="tel"], [type="time"], [type="url"], [type="color"], textarea{
+            [type="text"], [type="password"], [type="date"], [type="datetime"], [type="datetime-local"], [type="month"], [type="week"], [type="email"], [type="number"], [type="search"], [type="tel"], [type="time"], [type="url"], [type="color"], textarea,
+            [type="file"], [type="checkbox"], [type="radio"]{
                 margin-bottom:0;
             }
         }
@@ -319,12 +324,17 @@ h6{ font-size: 1rem; }
         
         .narrow{
             width:1%;
+            white-space:nowrap;
         }
     }
     
     .callout-footer{
         border-top: 1px solid $light-grey;
     }
+}
+
+form th{
+     border-right:1px solid $light-grey;
 }
 
 .count{

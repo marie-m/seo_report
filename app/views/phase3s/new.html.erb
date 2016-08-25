@@ -1,0 +1,101 @@
+<div class="page-title">
+    <h1><%= params[:business_name] %></h1>
+    <h4 class="subheader">Businesses > Phase 3 > New</h4>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Phase 3 Details</h4>
+    </div>
+    <div class="callout-table">
+        
+        <%= params[:business_id] %>
+        
+        <%= form_for @phase3 do |f| %>
+            <%= f.hidden_field :business_id, value: params[:business_id] %>
+        
+            <table>
+                <tr>
+                    <th class="narrow"><%= f.label :xmlSitemap, "XML Sitemap" %></th>
+                    <td>
+                        <%= f.radio_button :xmlSitemap, 'no' %> 
+                        <%= f.label :xmlSitemap, 'No', :value => 'no' %>
+                        <%= f.radio_button :xmlSitemap, 'yes' %>
+                        <%= f.label :xmlSitemap, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :xmlSitemap, 'n/a' %>
+                        <%= f.label :xmlSitemap, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :visitorSitemap, "Visitor Sitemap" %></th>
+                    <td>
+                        <%= f.radio_button :visitorSitemap, 'no' %> 
+                        <%= f.label :visitorSitemap, 'No', :value => 'no' %>
+                        <%= f.radio_button :visitorSitemap, 'yes' %>
+                        <%= f.label :visitorSitemap, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :visitorSitemap, 'n/a' %>
+                        <%= f.label :visitorSitemap, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :internalAudit, "Internal Link Audit" %></th>
+                    <td>
+                        <%= f.radio_button :internalAudit, 'no' %> 
+                        <%= f.label :internalAudit, 'No', :value => 'no' %>
+                        <%= f.radio_button :internalAudit, 'yes' %>
+                        <%= f.label :internalAudit, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :internalAudit, 'n/a' %>
+                        <%= f.label :internalAudit, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :externalAudit, "External Link Audit" %></th>
+                    <td>
+                        <%= f.radio_button :externalAudit, 'no' %> 
+                        <%= f.label :externalAudit, 'No', :value => 'no' %>
+                        <%= f.radio_button :externalAudit, 'yes' %>
+                        <%= f.label :externalAudit, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :externalAudit, 'n/a' %>
+                        <%= f.label :externalAudit, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :contactForm, "Contact Form" %></th>
+                    <td>
+                        <%= f.radio_button :contactForm, 'no' %> 
+                        <%= f.label :contactForm, 'No', :value => 'no' %>
+                        <%= f.radio_button :contactForm, 'yes' %>
+                        <%= f.label :contactForm, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :contactForm, 'n/a' %>
+                        <%= f.label :contactForm, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :map, "Map" %></th>
+                    <td>
+                        <%= f.radio_button :map, 'no' %> 
+                        <%= f.label :map, 'No', :value => 'no' %>
+                        <%= f.radio_button :map, 'yes' %>
+                        <%= f.label :map, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :map, 'n/a' %>
+                        <%= f.label :map, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
+                </tr>
+                
+                
+                
+                
+                
+            </table>
+        
+        
+        
+        
+        
+        <% end %>
+        
+    </div>
+</div>

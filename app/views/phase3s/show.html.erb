@@ -1,0 +1,62 @@
+<div class="page-title">
+    <h1>IDK</h1>
+    <h4 class="subheader">Phase 3 </h4>
+</div>
+
+<div class="row">
+    <div class="medium-7 columns">
+        <div class="callout card">
+            <div class="callout-header">
+                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
+                <h4><i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i> Phase 3</h4>
+            </div>
+            <div class="callout-table">
+                
+                <table>
+                    <tr>
+                        <th class="narrow">XML Sitemap?</th>
+                        <td>
+                            <p><%= @phase3.xmlSitemap %></p>
+                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Visitor Facing Sitemap?</th>
+                        <td>
+                            <p><%= @phase3.visitorSitemap %></p>
+                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Internal Link Audit?</th>
+                        <td>
+                            <p><%= @phase3.internalAudit %></p>
+                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">External Link Audit?</th>
+                        <td>
+                            <p><%= @phase3.externalAudit %></p>
+                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Contact Form?</th>
+                        <td>
+                            <p><%= @phase3.contactForm %></p>
+                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Map?</th>
+                        <td>
+                            <p><%= @phase3.map %></p>
+                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

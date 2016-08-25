@@ -27,7 +27,7 @@
                 <% @businesses.each do |business| %>
                     <tr>
                         <th><%= business.id %></th>
-                        <td><%= business.created_at.to_formatted_s(:long)  %></td>
+                        <td><%= business.created_at.to_formatted_s(:short)  %></td>
                         <td><%= link_to business.name, business%></td>
                         <td><%= business.address %></td>
                         <td><%= business.url %></td>

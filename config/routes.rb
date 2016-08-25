@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :contacts
   resources :businesses
+  resources :phase3s
   
   get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
