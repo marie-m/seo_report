@@ -4,7 +4,7 @@
 </div>
 
 <div class="row">
-    <div class="medium-7 columns">
+    <div class="medium-8 columns">
         <div class="callout card">
             <div class="callout-header">
                 <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
@@ -44,5 +44,14 @@
                 </table>
             </div>
         </div>
+        
+        <%= render 'details/detailsByPhase' %>
+    </div>
+    
+    <div class="medium-4 columns">
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New Page'.html_safe,  new_detail_path(phase1_id: @phase1.id), class: "button secondary expanded" %>
+
+        
+        
     </div>
 </div>

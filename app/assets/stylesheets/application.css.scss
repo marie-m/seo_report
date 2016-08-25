@@ -333,8 +333,8 @@ h6{ font-size: 1rem; }
     }
 }
 
-form th{
-     border-right:1px solid $light-grey;
+th + td{
+     border-left:1px solid $light-grey;
 }
 
 .count{

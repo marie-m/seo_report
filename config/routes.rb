@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :contacts
   resources :businesses
   resources :phase1s
+  resources :details
   resources :phase2s
   resources :phase3s
   

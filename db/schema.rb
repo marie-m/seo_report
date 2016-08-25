@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825145117) do
+ActiveRecord::Schema.define(version: 20160825172051) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -26,6 +26,28 @@ ActiveRecord::Schema.define(version: 20160825145117) do
     t.string   "name"
     t.string   "email"
     t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "details", force: true do |t|
+    t.string   "pageName"
+    t.string   "pageTitle"
+    t.text     "pageDescript"
+    t.text     "h1Tags"
+    t.text     "h2Tags"
+    t.integer  "phase1_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "phase1_pages", force: true do |t|
+    t.string   "pageName"
+    t.string   "title"
+    t.text     "description"
+    t.string   "h1tags"
+    t.string   "h2tags"
+    t.integer  "phase1_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

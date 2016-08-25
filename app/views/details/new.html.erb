@@ -1,0 +1,43 @@
+<div class="page-title">
+    <h1>Page Details</h1>
+    <h4 class="subheader">Businesses > Phase 1 > Add New Page Details</h4>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Phase 1 Page Details</h4>
+    </div>
+    <div class="callout-table">
+        
+        <%= form_for @detail do |f| %>
+            <%= f.hidden_field :phase1_id, value: params[:phase1_id] %>
+            
+            <table>
+                <tr>
+                    <th class="narrow"><%= f.label :pageName, "Page Name" %></th>
+                    <td><%= f.text_field :pageName %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :pageTitle, "Page Title" %></th>
+                    <td><%= f.text_field :pageTitle %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :pageDescript, "Description" %></th>
+                    <td><%= f.text_area :pageDescript %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :h1Tags, "H1 Tags" %></th>
+                    <td><%= f.text_area :h1Tags %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :h2Tags, "H2 Tags" %></th>
+                    <td><%= f.text_area :h2Tags %></td>
+                </tr>
+                <tr>
+                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
+                </tr>
+            </table>
+        <% end %>
+        
+    </div>
+</div>

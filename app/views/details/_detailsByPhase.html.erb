@@ -1,0 +1,53 @@
+<%  @details = Detail.where(:phase1_id => @phase1.id ) %>
+
+<% @details.each do |detail| %>
+
+ <div class="callout card">
+
+    <div class="callout-header">   
+        <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
+        <h4><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i><%= detail.pageName %> Page Details</h4>
+    </div>
+    <div class="callout-table">
+        <table>
+            <tr>
+                <th class="narrow">Page Name</th>
+                <td>
+                    <%= detail.pageName %>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">Page Title</th>
+                <td>
+                    <%= detail.pageTitle %>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">Description</th>
+                <td>
+                    <%= detail.pageDescript %>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">H1 Tags</th>
+                <td>
+                    <%= detail.h1Tags %>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">H2 Tags</th>
+                <td>
+                    <%= detail.h2Tags %>
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+<% end %>
