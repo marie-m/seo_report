@@ -1,0 +1,48 @@
+<div class="page-title">
+    <h1><%= @phase1.created_at.to_formatted_s(:long)  %></h1>
+    <h4 class="subheader">Phase 1</h4>
+</div>
+
+<div class="row">
+    <div class="medium-7 columns">
+        <div class="callout card">
+            <div class="callout-header">
+                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
+                <h4><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Phase 1</h4>
+            </div>
+            <div class="callout-table">
+                
+                <table>
+                <tr>
+                    <th class="narrow">Mobile friendly?</th>
+                    <td>
+                        <p><%= @phase1.mobileFriendly %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">www VS non-www</th>
+                    <td>
+                        <p><%= @phase1.wwwOrNot %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">NAP in the proper format?</th>
+                    <td>
+                        <p><%= @phase1.napFormat %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">robot.txt?</th>
+                    <td>
+                        <p><%= @phase1.robotsTXT %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

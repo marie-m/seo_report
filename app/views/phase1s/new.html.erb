@@ -1,0 +1,72 @@
+<div class="page-title">
+    <h1><%= params[:business_name] %></h1>
+    <h4 class="subheader">Businesses > Phase 1 > New</h4>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Phase 1 Details</h4>
+    </div>
+    <div class="callout-table">
+        
+        <%= form_for @phase1 do |f| %>
+            <%= f.hidden_field :business_id, value: params[:business_id] %>
+        
+            <table>
+                <tr>
+                    <th class="narrow"><%= f.label :mobileFriendly, "Mobile friendly?" %></th>
+                    <td>
+                        <%= f.radio_button :mobileFriendly, 'no' %> 
+                        <%= f.label :mobileFriendly, 'No', :value => 'no' %>
+                        <%= f.radio_button :mobileFriendly, 'yes' %>
+                        <%= f.label :mobileFriendly, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :mobileFriendly, 'n/a' %>
+                        <%= f.label :mobileFriendly, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :wwwOrNot, "www VS non-www" %></th>
+                    <td>
+                        <%= f.radio_button :wwwOrNot, 'no' %> 
+                        <%= f.label :wwwOrNot, 'No', :value => 'no' %>
+                        <%= f.radio_button :wwwOrNot, 'yes' %>
+                        <%= f.label :wwwOrNot, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :wwwOrNot, 'n/a' %>
+                        <%= f.label :wwwOrNot, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :napFormat, "NAP in the proper format?" %></th>
+                    <td>
+                        <%= f.radio_button :napFormat, 'no' %> 
+                        <%= f.label :napFormat, 'No', :value => 'no' %>
+                        <%= f.radio_button :napFormat, 'yes' %>
+                        <%= f.label :napFormat, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :napFormat, 'n/a' %>
+                        <%= f.label :napFormat, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :robotsTXT, "robot.txt?" %></th>
+                    <td>
+                        <%= f.radio_button :robotsTXT, 'no' %> 
+                        <%= f.label :robotsTXT, 'No', :value => 'no' %>
+                        <%= f.radio_button :robotsTXT, 'yes' %>
+                        <%= f.label :robotsTXT, 'Yes', :value => 'yes' %>
+                        <%= f.radio_button :robotsTXT, 'n/a' %>
+                        <%= f.label :robotsTXT, 'N/A', :value => 'n/a' %>
+                    </td>
+                </tr>
+                <tr>
+                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
+                </tr>
+                
+                
+                
+                
+                
+            </table>
+        <% end %>
+        
+    </div>
+</div>

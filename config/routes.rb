@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :contacts
   resources :businesses
+  resources :phase1s
   resources :phase2s
   resources :phase3s
   

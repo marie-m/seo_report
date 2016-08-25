@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825134946) do
+ActiveRecord::Schema.define(version: 20160825145117) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -26,6 +26,16 @@ ActiveRecord::Schema.define(version: 20160825134946) do
     t.string   "name"
     t.string   "email"
     t.text     "comments"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "phase1s", force: true do |t|
+    t.string   "mobileFriendly"
+    t.string   "wwwOrNot"
+    t.string   "napFormat"
+    t.string   "robotsTXT"
+    t.integer  "business_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

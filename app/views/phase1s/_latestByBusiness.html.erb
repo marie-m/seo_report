@@ -1,0 +1,25 @@
+ <div class="callout card">
+            
+    <div class="callout-header">
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_phase1_path(business_id: @business.id, business_name: @business.name), class: "button secondary small float-right" %>
+        <h4><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Phase 1</h4>
+    </div>
+    <div class="callout-table">
+        <table>
+            
+            <%  @phase1s = Phase1.where(:business_id => @business.id ).last(5).reverse %>
+            
+            <% @phase1s.each do |phase1| %>
+                <tr>
+                    <td>
+                        <%= phase1.created_at.to_formatted_s(:long) %>
+                    </td>
+                    <td class="text-right">
+                        <%= link_to '<i class="fa fa-chevron-right fa-fw"></i>'.html_safe, phase1 %>
+                    </td>
+                </tr>
+            <% end %>
+         
+        </table>
+    </div>
+</div>
