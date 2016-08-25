@@ -1,0 +1,97 @@
+<div class="page-title">
+    <h1><%= @phase2.created_at.to_formatted_s(:long)  %></h1>
+    <h4 class="subheader">Phase 2</h4>
+</div>
+
+<div class="row">
+    <div class="medium-7 columns">
+        <div class="callout card">
+            <div class="callout-header">
+                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
+                <h4><i class="fa fa-pie-chart fa-fw" aria-hidden="true"></i> Phase 2</h4>
+            </div>
+            <div class="callout-table">
+                
+                <table>
+                <tr>
+                    <th class="narrow">Navigation SEO-friendly and non-flash?</th>
+                    <td>
+                        <p><%= @phase2.seoFriendly %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">On-site copy contains keywords and locations?</th>
+                    <td>
+                       <p><%= @phase2.copyHasKeywords %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Fresh content? Which pages?</th>
+                    <td>
+                        <p><%= @phase2.freshContent %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Images named and tagged?</th>
+                    <td>
+                        <p><%= @phase2.imagesNamed %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Free of Black Hat tactics?</th>
+                    <td>
+                        <p><%= @phase2.blackHatFree %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Good loading speed?" %></th>
+                    <td>
+                        <p><%= @phase2.goodLoading %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Social media profile integrated?</th>
+                    <td>
+                        <p><%= @phase2.socialMedia %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Properly configured for webcrawlers?</th>
+                    <td>
+                        <p><%= @phase2.webcrawlerFirendly %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Google Analytics?</th>
+                    <td>
+                        <p><%= @phase2.googleAnalytics %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Google Webmaster Tools?</th>
+                    <td>
+                        <p><%= @phase2.webmasterTools %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                <tr>
+                    <th class="narrow">Local business schema markup?</th>
+                    <td>
+                        <p><%= @phase2.localBusiness %></p>
+                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
+                    </td>
+                </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

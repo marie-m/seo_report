@@ -19,12 +19,13 @@ class Phase3sController < ApplicationController
     def show
         @phase3 = Phase3.find( params[:id] )
     end
+    
     def destroy
         @phase3 = Phase3.find( params[:id] )
         ownerBusiness = @phase3.business_id
         
         Phase3.find(params[:id]).destroy
-        flash[:success] = "Contact entry deleted"
+        flash[:success] = "Phase 3 entry deleted"
         redirect_to business_path(ownerBusiness)
     end
     
