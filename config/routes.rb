@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   
   get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
+  get '/display' => 'pages#display'
   
   root 'pages#home'
   # The priority is based upon order of creation: first created -> highest priority.

@@ -8,4 +8,8 @@ class PagesController < ApplicationController
     
     def help
     end
+    
+    def display
+        render :layout => 'report'
+    end
 end

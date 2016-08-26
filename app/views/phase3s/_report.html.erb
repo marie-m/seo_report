@@ -1,0 +1,141 @@
+<% positiveScore = 0 %>
+<% @phase3 = Phase3.where(:id => params[:id]).first %>
+
+<div class="row lead-img"data-equalizer data-equalize-on="medium">
+    <div class="medium-3 columns arrows" data-equalizer-watch></div>
+    <div class="medium-9 columns" data-equalizer-watch>
+        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum augue sit amet urna gravida, interdum dictum augue ornare. Donec vitae eros et turpis semper condimentum. Nulla imperdiet nisl vel tincidunt maximus. Sed lacinia dictum tincidunt. Vestibulum interdum aliquet eros sed dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <h2 class="text-center">Analysis</h2>
+        
+        <table class="report">
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.xmlSitemap == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.xmlSitemap == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>XML Sitemap?</h4>
+                    <p>Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.xmlSitemap == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.xmlSitemap == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>XML Sitemap?</h4>
+                    <p>Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.visitorSitemap == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.visitorSitemap == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Visitor facing sitemap?</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique imperdiet enim in bibendum. Praesent pharetra posuere diam, non rutrum arcu ornare ac. </p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.internalAudit == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.internalAudit == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Internal Link Audit?</h4>
+                    <p>Curabitur sem turpis, condimentum ac ante quis, posuere vulputate eros. Aliquam at velit tempus, pharetra turpis in, faucibus ligula. </p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.externalAudit == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.externalAudit == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>External Link Audit?</h4>
+                    <p>Ut velit velit, condimentum eget leo eu, commodo ornare risus. Aliquam erat volutpat. Aliquam ac nibh pulvinar, auctor purus id, varius magna. Etiam condimentum id metus quis malesuada. Proin sed nisl finibus, porta ligula eu, vestibulum nulla.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.contactForm == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.contactForm == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Contact Form?</h4>
+                    <p>Nulla luctus pulvinar mi a pharetra.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase3.map == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.map == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Map?</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </td>
+            </tr>
+            
+            
+        </table>
+        
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="small-12 columns">
+        <h3 class="text-center">Overall Score: <span class="blue"> <%= positiveScore %>/6</span></h3>
+    </div>
+</div>

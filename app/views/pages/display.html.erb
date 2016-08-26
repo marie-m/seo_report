@@ -1,0 +1,16 @@
+<div class="report-header">
+    <h1>Phase <%= params[:phase] %></h1>
+</div>
+
+<% if params[:phase] == '1' %>
+load 1
+<% elsif params[:phase] == '2' %>
+load 2
+<% elsif params[:phase] == '3' %>
+    <%= render 'phase3s/report' %>
+<% else %>
+
+Woah there! You're not supposed to be here!
+
+
+<% end %>
