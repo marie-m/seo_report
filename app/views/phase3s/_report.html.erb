@@ -12,23 +12,7 @@
     <div class="small-12 columns">
         <h2 class="text-center">Analysis</h2>
         
-        <table class="report">
-            <tr>
-                <th class="narrow">
-                    <% if @phase3.xmlSitemap == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase3.xmlSitemap == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>XML Sitemap?</h4>
-                    <p>Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.</p>
-                </td>
-            </tr>
+        <table class="scores">
             <tr>
                 <th class="narrow">
                     <% if @phase3.xmlSitemap == 'yes' %>
@@ -134,7 +118,7 @@
 
 
 
-<div class="row">
+<div class="row trailing-arrows">
     <div class="small-12 columns">
         <h3 class="text-center">Overall Score: <span class="blue"> <%= positiveScore %>/6</span></h3>
     </div>

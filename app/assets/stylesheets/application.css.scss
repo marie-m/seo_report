@@ -435,3 +435,128 @@ th + td{
     @include border-radius(35px); 
 }
 
+.report{
+    background:#fff;
+    color:$grey;
+    
+    h1, h2, h3{
+        font-family:"Oswald", sans-serif;
+        text-transform:uppercase;
+        color:$green;
+        letter-spacing:.175em;
+    }
+    
+    h2{
+        font-size:60px;
+    }
+    
+    h3{
+        font-size:50px;
+    }
+    
+    .blue{
+        letter-spacing:normal;
+        color:$blue;
+    }
+    
+    .report-header{
+        background:$light-grey;
+        color:#fff;
+        text-align:center;
+        position:relative;
+        margin-bottom:2.5em;
+        
+        h1{
+            color:#fff;
+            position:relative;
+            left:0;
+            right:0;
+            font-size:75px;
+            bottom:-.2em;
+            letter-spacing:.175em;
+            font-weight:bolder;
+            line-height:1;
+            margin-bottom:0;
+        }
+    }
+    
+    .lead-img{
+        color:$blue;
+        margin-bottom:2.5em;
+        
+        .arrows{
+            background:url('/assets/bg-arrows.png') center center no-repeat;
+            background-size:contain;
+        }
+        
+        .columns + .columns{
+            border-left:2px solid $dark-grey;
+            padding-left:2em;
+            padding-top:2em;
+            padding-bottom:1.5em;
+        }
+    }
+    
+    table.scores{
+        border:0;
+        margin:2.5em 0;
+        
+        tbody, tbody tr:nth-child(2n){
+            background:0;
+            border:0;
+        }
+            
+        th{
+            vertical-align:top;
+            border:0;
+        }
+        
+        td{
+            border:0;
+        }
+        
+        
+        h4{
+            color:$dark-grey;
+            font-variant:small-caps;
+            text-transform:none;
+            font-weight:900;
+            font-style:italic;
+            font-family:"Raleway", sans-serif;
+            margin-bottom:0;
+        }
+    }
+    
+    
+    .score{
+        height:55px;
+        width:55px;
+        background-color:$grey;
+        background-image:url('/assets/bg-neutral.png');
+        background-position:center center;
+        background-repeat:none;
+        
+        @include border-radius(55px); 
+        
+        &.positive{
+            background-color:$green;
+            background-image:url('/assets/bg-positive.png');
+        }
+        
+        &.negative{
+            background-color:$blue;
+            background-image:url('/assets/bg-negative.png');
+        }
+        
+    }
+    
+    .trailing-arrows{
+        background:url('/assets/bg-trailing-arrows.png') center bottom no-repeat;
+        padding-bottom:150px;
+        margin-bottom:3em;
+        
+        h3{
+        }
+    }
+    
+}
