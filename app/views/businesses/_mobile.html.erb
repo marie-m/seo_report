@@ -1,0 +1,22 @@
+<% @business = Business.where(:id => @phase1.business_id).first %>
+
+<div class="mobileFriendiness text-center">
+    <div class="row">
+        <div class="small-12 columns">
+          <h1>Mobile Friendliness</h1>  
+            
+            <div class="desktop">
+                <iframe src="<%= @business.url %>"></iframe>
+            </div>
+            
+            <div class="tablet">
+                <iframe src="<%= @business.url %>"></iframe>
+            </div>
+            
+            <div class="phone">
+                <iframe src="<%= @business.url %>"></iframe>
+            </div>
+            
+        </div>
+    </div>
+</div>

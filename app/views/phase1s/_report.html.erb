@@ -1,0 +1,124 @@
+<% @phase1 = Phase1.where(:id => params[:id]).first %>
+
+<div class="row lead-img"data-equalizer data-equalize-on="medium">
+    <div class="medium-3 columns chart" data-equalizer-watch></div>
+    <div class="medium-9 columns" data-equalizer-watch>
+        <p class="lead">Making sure the content of your website is up to date and rich in valuable information can greatly assist in how highly Google and other search engines rank your website. Also important is how the information is tagged and named. Making alterations to things such as image names and alt tags on images can also improve search rankings for a variety of terms.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="small-12 columns">
+        <h3 class="text-center">About Title Tags</h3>
+        
+        <p class="lead">A title tag is the single most important on-site SEO element. This tells the search engines exactly what your website is about, what you do and where you are located. This is what a title tag shows up as in search results:</p>
+        
+        <%= image_tag("title.png", :class => "imgspace") %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="small-12 columns">
+        <h3 class="text-center">About Description Tag</h3>
+        
+        <p class="lead">Descriptions tags are used to tell the searcher what they will find when they click on your website. This  tag serves the function of advertising copy, drawing readers to a website from the results. This is how a meta description shows up in search results:</p>
+        
+        <%= image_tag("meta.png", :class => "imgspace") %>
+    </div>
+</div>
+
+<div class="row lead-img flip"data-equalizer data-equalize-on="medium">
+    <h3 class="text-center">Why are Tags Important?</h3>
+    <div class="medium-3 columns hex medium-push-9" data-equalizer-watch></div>
+    <div class="medium-9 columns medium-pull-3" data-equalizer-watch>
+        <p class="lead dark-grey">Making sure the content of your website is up to date and rich in valuable information can greatly assist in how highly Google and other search engines rank your website. Also important is how the information is tagged and named. Making alterations to things such as image names and alt tags on images can also improve search rankings for a variety of terms.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="small-12 columns">
+        <h2 class="text-center">Our Recommendations</h2>
+        
+        <%= render 'details/report' %>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="row">
+    <div class="small-12 columns">
+        <h2 class="text-center">Q&amp;A Checklist</h2>
+        
+        <table class="scores">
+            <tr>
+                <th class="narrow">
+                    <% if @phase1.mobileFriendly == 'yes' %>
+                        <div class="score positive"></div>
+                    <% elsif @phase1.mobileFriendly == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your website mobile friendly?</h4>
+                    <p>A mobile friendly website is critical in increasing traffic to your website.  In fact, if your website is not mobile friendly, Google may decide not to show you in mobile search results. According to Google, 94% of searchers use their phones to search for local information. If your site is not mobile friendly, potential customers may have a negative experience on your site and most likely will not convert to clients.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase1.wwwOrNot == 'yes' %>
+                        <div class="score positive"></div>
+                    <% elsif @phase1.wwwOrNot == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>www vs non www</h4>
+                    <p>A proper redirect should be set up on your website so that whether a visitor types your domain with or without the “www,” they will be taken to the same place. If this redirect is not set up, the search engines will see two live versions of your website, which runs the risk of being penalized for duplicate content.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase1.napFormat == 'yes' %>
+                        <div class="score positive"></div>
+                    <% elsif @phase1.napFormat == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your NAP (Name, Address, Phone Number) displayed on your website in the proper format?</h4>
+                    <p>It is important that your business name, address and phone number are consistent across your website. This information should be on every page of your site, and should be easy for the visitor to find. Your phone number should also be in the header of your website, with a clear call to action, and your entire name, address and phone number should be in the footer.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase1.robotsTXT == 'yes' %>
+                        <div class="score positive"></div>
+                    <% elsif @phase1.robotsTXT == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your site blocking web crawlers?</h4>
+                    <p>Most websites have a file called robots.txt. This tells the “web crawlers” what they can and cannot crawl on your website. We will be checking to make sure your website is allowing all crawlers to access it in order to read your code. If they cannot access the coding of your website, it is likely you will not rank.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+        
+<%= render 'businesses/mobile' %>

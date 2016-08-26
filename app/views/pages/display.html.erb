@@ -3,7 +3,7 @@
 </div>
 
 <% if params[:phase] == '1' %>
-load 1
+    <%= render 'phase1s/report' %>
 <% elsif params[:phase] == '2' %>
     <%= render 'phase2s/report' %>
 <% elsif params[:phase] == '3' %>

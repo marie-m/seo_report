@@ -1,0 +1,13 @@
+<%  @details = Detail.where(:phase1_id => @phase1.id ) %>
+
+<% @details.each do |detail| %>
+    
+    <p>
+        <strong class="blue">Page</strong> <%= detail.pageName %> <br>
+        <strong class="blue">New Title</strong> <%= detail.pageTitle %> <br>
+        <strong class="blue">New Description</strong> <%= detail.pageDescript %> <br>
+        <strong class="blue">H1</strong> <%= detail.h1Tags %> <br>
+        <strong class="blue">H2</strong> <%= detail.h2Tags %>
+    </p>
+
+<% end %>
