@@ -6,6 +6,9 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+    # config/application.rb
+  config.assets.initialize_on_precompile = false
+
 module SeoReport
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -20,7 +23,5 @@ module SeoReport
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
     
-    # config/application.rb
-  config.assets.initialize_on_precompile = false
   end
 end
