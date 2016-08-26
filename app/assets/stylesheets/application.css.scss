@@ -483,9 +483,15 @@ th + td{
     .lead-img{
         color:$blue;
         margin-bottom:2.5em;
+        text-transform:uppercase;
         
         .arrows{
             background:url('/assets/bg-arrows.png') center center no-repeat;
+            background-size:contain;
+        }
+        
+        .burst{
+            background:url('/assets/bg-burst.png') center center no-repeat;
             background-size:contain;
         }
         
@@ -557,6 +563,10 @@ th + td{
         
         h3{
         }
+    }
+    
+    .trailing-burst{
+        margin-bottom:3em;
     }
     
 }

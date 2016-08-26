@@ -5,7 +5,7 @@
 <% if params[:phase] == '1' %>
 load 1
 <% elsif params[:phase] == '2' %>
-load 2
+    <%= render 'phase2s/report' %>
 <% elsif params[:phase] == '3' %>
     <%= render 'phase3s/report' %>
 <% else %>

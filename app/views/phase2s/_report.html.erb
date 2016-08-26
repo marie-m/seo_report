@@ -1,0 +1,205 @@
+<% positiveScore = 0 %>
+<% @phase2 = Phase2.where(:id => params[:id]).first %>
+
+<div class="row lead-img"data-equalizer data-equalize-on="medium">
+    <div class="medium-3 columns burst" data-equalizer-watch></div>
+    <div class="medium-9 columns" data-equalizer-watch>
+        <p class="lead">Making sure the content of your website is up to date and rich in valuable information can greatly assist in how highly Google and other search engines rank your website. Also important is how the information is tagged and named. Making alterations to things such as image names and alt tags on images can also improve search rankings for a variety of terms.</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="small-12 columns">
+        <h2 class="text-center">Analysis</h2>
+        
+        <table class="scores">
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.seoFriendly == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.seoFriendly == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your website's navigation SEO-friendly and non-flash?</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique imperdiet enim in bibendum. Praesent pharetra posuere diam, non rutrum arcu ornare ac. </p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.copyHasKeywords == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.copyHasKeywords == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Does your on-site copy contain keywords and locations relevant to the page?</h4>
+                    <p>Ut velit velit, condimentum eget leo eu, commodo ornare risus. Aliquam erat volutpat. Aliquam ac nibh pulvinar, auctor purus id, varius magna. Etiam condimentum id metus quis malesuada. Proin sed nisl finibus, porta ligula eu, vestibulum nulla.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.freshContent == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.freshContent == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your content “fresh”? Which pages exactly?</h4>
+                    <p>Nulla luctus pulvinar mi a pharetra.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.imagesNamed == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.imagesNamed == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Are your images properly named and tagged?</h4>
+                    <p>At least one image per targeted page should contain images named and tagged with keywords relevant to your business in the format of:<br>
+                    &lt;img src=”keyword-city-state.jpg” alt=”keyword photo in city, state”&gt;</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.blackHatFree == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.blackHatFree == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your website free of hidden text or other “black hat” tactics that can potentially hurt your rankings?</h4>
+                    <p>Remove any hidden text, or duplicate content on the website.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.goodLoading == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.goodLoading == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Does your website have good loading speed?</h4>
+                    <p>Sed sodales elit nec justo fringilla consectetur. In eu luctus dui, id gravida erat.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.socialMedia == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.socialMedia == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Are links to your social media profile integrated into your website?</h4>
+                    <p>Vivamus vitae velit massa.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.webcrawlerFirendly == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.webcrawlerFirendly == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your website properly configured for webcrawlers to index your site?</h4>
+                    <p>Morbi viverra gravida felis non ullamcorper. Nulla hendrerit tellus sed justo imperdiet eleifend. Aliquam at velit tempus, pharetra turpis in, faucibus ligula. </p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.googleAnalytics == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.googleAnalytics == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Does your website have Google Analytics?</h4>
+                    <p>Donec tempus egestas arcu nec sollicitudin. Donec tempus neque eget tortor rhoncus aliquet. Morbi lacinia ac erat sit amet ornare. Donec eget iaculis est. Duis eget diam massa. Sed tempus aliquet nunc, sed fringilla elit blandit ut.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.webmasterTools == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.webmasterTools == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Google Webmaster Tools?</h4>
+                    <p>Pellentesque a nunc suscipit massa tincidunt venenatis et a tellus. Quisque cursus, lacus quis faucibus sollicitudin, tortor sem finibus dui, non venenatis magna erat quis ante. Aliquam erat volutpat. </p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% if @phase2.localBusiness == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.localBusiness == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Local business schema markup?</h4>
+                    <p>Fusce efficitur dolor a dignissim tristique. In nulla nisi, congue non commodo vel, aliquet sit amet neque. Duis ac finibus velit, et mattis mi. Quisque arcu felis, ultricies id tincidunt a, bibendum eget dui. Integer ac condimentum urna.</p>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+
+
+<div class="row trailing-burst">
+    <div class="small-12 columns">
+        <h3 class="text-center">Overall Score: <span class="blue"> <%= positiveScore %>/11</span></h3>
+    </div>
+</div>
