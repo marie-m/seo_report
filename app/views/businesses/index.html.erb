@@ -1,21 +1,44 @@
 <div class="page-title">
     <h1>Businesses</h1>
-    <h4 class="subheader">Businesses > All</h4>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Businesses',  businesses_path %></li>
+        <li>
+          <span class="show-for-sr">Current: </span> 
+          
+              <% if params[:search] %>
+                  Search: <%= params[:search] %>
+              <% else %>
+                  All
+              <% end %>
+        </li>
+      </ul>
+    </nav>
 </div>
 
 <div class="callout card">
     <div class="callout-header">
         <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_business_path, class: "button secondary small float-right" %>
-        <h4>All Businesses</h4>
+        <% if params[:search] %>
+             Business Search
+          <% else %>
+              All Businesses
+          <% end %>
     </div>
+    
+<% if @businesses.blank? %>
+    <div class="callout-body">
+        <h4>There are no businesses containing the term <%= params[:search] %>.</h4>
+    </div>
+<% else %>
+    
     <div class="callout-table">
         
         <table>
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Date</th>
                     <th>Name</th>
+                    <th>Date</th>
                     <th>Address</th>
                     <th>Url</th>
                     <th>&nbsp;</th>
@@ -26,9 +49,8 @@
             <tbody>
                 <% @businesses.each do |business| %>
                     <tr>
-                        <th><%= business.id %></th>
+                        <td><%= link_to business.name, business %></td>
                         <td><%= business.created_at.to_formatted_s(:short)  %></td>
-                        <td><%= link_to business.name, business%></td>
                         <td><%= business.address %></td>
                         <td><%= business.url %></td>
                         <td><%= link_to 'Edit', {:action => "edit", :id => business.id} %></td>
@@ -42,4 +64,5 @@
         
         
     </div>
+    <% end %>
 </div>

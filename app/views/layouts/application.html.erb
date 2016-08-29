@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "SEO Report" %></title>
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
     <link href='https://fonts.googleapis.com/css?family=Oswald|Roboto:400,400italic|Roboto+Condensed' rel='stylesheet' type='text/css'>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
   </head>
 
   <body>
@@ -58,6 +59,15 @@
             <!--<li><button class="menu-icon" type="button" data-open="offCanvas"></button></li>-->
             <li><a data-open="offCanvas"><i class="fa fa-bars fa-fw"></i></a></li>
            <li class="show-for-small-only"><span class="title-bar-title">SEO Report</span></li>
+           
+           <li class="no-border">
+             <div class="search">
+              <%= form_tag(businesses_path, :method => "get", id: "search-form") do %>
+                <%= label_tag :search, '<i class="fa fa-search fa-lg fa-fw"></i>'.html_safe %>
+                <%= text_field_tag :search, params[:search], :utf8 => nil %>
+              <% end %>
+             </div>
+           </li>
              </ul>
           </div>
           <div class="title-bar-right">

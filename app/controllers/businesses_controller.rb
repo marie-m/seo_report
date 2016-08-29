@@ -1,7 +1,17 @@
 class BusinessesController < ApplicationController
     
+    # def index
+    #     @businesses = Business.order(:id)
+    # end
+    
     def index
-        @businesses = Business.order(:id)
+        @businesses = Business.order(:id).reverse
+       
+        if params[:search]
+            @businesses = Business.search(params[:search]).order(:id).reverse
+        else
+            @businesses = Business.all.order(:id).reverse
+        end
     end
     
     def new

@@ -1,0 +1,63 @@
+<div class="page-title">
+    <h1>Phase 2</h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Phase 2',  phase2s_path %></li>
+        <li>
+          <span class="show-for-sr">Current: </span> All
+        </li>
+      </ul>
+    </nav>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>All Phase 2</h4>
+    </div>
+    <div class="callout-table">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Business Name</th>
+                    <th>SEO Friendly</th>
+                    <th>Keywords</th>
+                    <th>Fresh Content</th>
+                    <th>Images Named</th>
+                    <th>Black Hat Free</th>
+                    <th>Loading</th>
+                    <th>Social Media</th>
+                    <th>Web Crawlers</th>
+                    <th>Analytics</th>
+                    <th>Web Master</th>
+                    <th>Local Business</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <% @phase2s.each do |phase2| %>
+                    <tr>
+                        <td><%= link_to phase2.created_at.to_formatted_s(:short), phase2_url(phase2)  %></td>
+                        <td>
+                            <% @business = Business.where(:id => phase2.business_id).first %>
+                            <%= @business.name %>
+                        </td>
+                        <td><%= phase2.seoFriendly %></td>
+                        <td><%= phase2.copyHasKeywords %></td>
+                        <td><%= phase2.freshContent %></td>
+                        <td><%= phase2.imagesNamed %></td>
+                        <td><%= phase2.blackHatFree %></td>
+                        <td><%= phase2.goodLoading %></td>
+                        <td><%= phase2.socialMedia %></td>
+                        <td><%= phase2.webcrawlerFirendly %></td>
+                        <td><%= phase2.googleAnalytics %></td>
+                        <td><%= phase2.webmasterTools %></td>
+                        <td><%= phase2.localBusiness %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            
+        </table>
+    </div>
+</div>

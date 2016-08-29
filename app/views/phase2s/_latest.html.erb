@@ -1,0 +1,29 @@
+ <div class="callout card">
+            
+    <div class="callout-header">
+        <h4>Latest Phase 2</h4>
+    </div>
+    <div class="callout-table">
+        <table>
+        
+         <%  @phase2s = Phase2.last(5).reverse %>
+         
+          <% @phase2s.each do |phase2| %>
+                <tr>
+                    <td class="narrow"><div class="icon-circle"><i class="fa fa-pie-chart fa-fw"></i></div></td>
+                    <td>
+                        <% @business = Business.where(:id => phase2.business_id).first %>
+                        <%= @business.name %><br>
+                        <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(phase2.created_at) %> ago</small>
+                    </td>
+                    <td class="text-right">
+                        <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, phase2_url(phase2) %>
+                    </td>
+                </tr>
+            <% end %>
+        </table>
+    </div>
+    <div class="callout-footer">
+        <%= link_to 'See all Phase 2', phase2s_path, class: 'card expanded link' %>
+    </div>
+</div>

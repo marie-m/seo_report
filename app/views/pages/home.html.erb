@@ -17,6 +17,23 @@
   <div class="callout-body text-center">
     <h3>Welcome Back</h3>
     
-    <%= link_to 'Log In', dashboard_path, class: 'button fancy' %>
+    <div class="row login-form">
+      <div class="small-10 medium-6 small-offset-1 medium-offset-3 columns">
+            
+            <div class="wrap wrap-user">
+              <i class="fa fa-user fa-lg fa-fw"></i>
+              <input id="username" type="text" name="fname" placeholder="Username or Email">
+            </div>
+            
+            <div class="wrap wrap-pass">
+              <i class="fa fa-lock fa-lg fa-fw"></i>
+              <input type="password" name="fname" placeholder="Password">
+            </div>
+              
+            <%= link_to 'Log In', '#', class: 'button fancy' %>
+        
+      </div>
+    </div>
+
   </div>
 </div>

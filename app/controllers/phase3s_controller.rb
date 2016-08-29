@@ -1,5 +1,9 @@
 class Phase3sController < ApplicationController
     
+    def index
+        @phase3s = Phase3.order(:id).reverse
+    end
+    
     def new
         @phase3 = Phase3.new
     end

@@ -4,6 +4,6 @@
     </div>
     <div>
         <h6>Total Businesses</h6>
-        <div class="stat"><%= Business.count %></div>
+        <div class="stat"><%= link_to Business.count, businesses_path, class: 'no-link' %></div>
     </div>
 </div>

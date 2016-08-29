@@ -3,7 +3,18 @@
 
 <div class="page-title">
     <h1><%= @phase2.created_at.to_formatted_s(:long)  %></h1>
-    <h4 class="subheader">Phase 2</h4>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Businesses',  businesses_path %></li>
+        <li>
+            <% @business = Business.where(:id => @phase2.business_id).first %>
+            <%= link_to @business.name, business_path(@business) %>
+        </li>
+        <li>
+          <span class="show-for-sr">Current: </span> Phase 2
+        </li>
+      </ul>
+    </nav>
 </div>
 
 <div class="row">
@@ -18,80 +29,47 @@
                 <table>
                 <tr>
                     <th class="narrow">Navigation SEO-friendly and non-flash?</th>
-                    <td>
-                        <p><%= @phase2.seoFriendly %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.seoFriendly %></td>
                 </tr>
                 <tr>
                     <th class="narrow">On-site copy contains keywords and locations?</th>
-                    <td>
-                       <p><%= @phase2.copyHasKeywords %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.copyHasKeywords %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Fresh content? Which pages?</th>
-                    <td>
-                        <p><%= @phase2.freshContent %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.freshContent %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Images named and tagged?</th>
-                    <td>
-                        <p><%= @phase2.imagesNamed %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.imagesNamed %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Free of Black Hat tactics?</th>
-                    <td>
-                        <p><%= @phase2.blackHatFree %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.blackHatFree %></td>
                 </tr>
                 <tr>
-                    <th class="narrow">Good loading speed?" %></th>
-                    <td>
-                        <p><%= @phase2.goodLoading %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <th class="narrow">Good loading speed?</th>
+                    <td><%= @phase2.goodLoading %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Social media profile integrated?</th>
-                    <td>
-                        <p><%= @phase2.socialMedia %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.socialMedia %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Properly configured for webcrawlers?</th>
-                    <td>
-                        <p><%= @phase2.webcrawlerFirendly %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.webcrawlerFirendly %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Google Analytics?</th>
-                    <td>
-                        <p><%= @phase2.googleAnalytics %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.googleAnalytics %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Google Webmaster Tools?</th>
-                    <td>
-                        <p><%= @phase2.webmasterTools %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.webmasterTools %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Local business schema markup?</th>
-                    <td>
-                        <p><%= @phase2.localBusiness %></p>
-                        Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                    </td>
+                    <td><%= @phase2.localBusiness %></td>
                 </tr>
                 </table>
             </div>

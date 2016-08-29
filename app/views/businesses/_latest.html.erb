@@ -1,7 +1,8 @@
  <div class="callout card">
             
     <div class="callout-header">
-        Latest Businesses
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_business_path, class: "button secondary small float-right" %>
+        <h4>Latest Businesses</h4>
     </div>
     <div class="callout-table">
         <table>
@@ -10,7 +11,7 @@
          
           <% @business.each do |business| %>
                 <tr>
-                    <td class="narrow"><div class="icon-circle"><i class="fa fa-comments fa-fw"></i></div></td>
+                    <td class="narrow"><div class="icon-circle"><i class="fa fa-briefcase fa-fw"></i></div></td>
                     <td>
                         <%= business.name %><br>
                         <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(business.created_at) %> ago</small>

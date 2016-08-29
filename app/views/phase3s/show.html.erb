@@ -3,7 +3,18 @@
 
 <div class="page-title">
     <h1><%= @phase3.created_at.to_formatted_s(:long)  %></h1>
-    <h4 class="subheader">Phase 3 </h4>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Businesses',  businesses_path %></li>
+        <li>
+            <% @business = Business.where(:id => @phase3.business_id).first %>
+            <%= link_to @business.name, business_path(@business) %>
+        </li>
+        <li>
+          <span class="show-for-sr">Current: </span> Phase 3
+        </li>
+      </ul>
+    </nav>
 </div>
 
 <div class="row">
@@ -18,45 +29,27 @@
                 <table>
                     <tr>
                         <th class="narrow">XML Sitemap?</th>
-                        <td>
-                            <p><%= @phase3.xmlSitemap %></p>
-                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                        </td>
+                        <td><%= @phase3.xmlSitemap %></td>
                     </tr>
                     <tr>
                         <th class="narrow">Visitor Facing Sitemap?</th>
-                        <td>
-                            <p><%= @phase3.visitorSitemap %></p>
-                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                        </td>
+                        <td><%= @phase3.visitorSitemap %></td>
                     </tr>
                     <tr>
                         <th class="narrow">Internal Link Audit?</th>
-                        <td>
-                            <p><%= @phase3.internalAudit %></p>
-                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                        </td>
+                        <td><%= @phase3.internalAudit %></td>
                     </tr>
                     <tr>
                         <th class="narrow">External Link Audit?</th>
-                        <td>
-                            <p><%= @phase3.externalAudit %></p>
-                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                        </td>
+                        <td><%= @phase3.externalAudit %></td>
                     </tr>
                     <tr>
                         <th class="narrow">Contact Form?</th>
-                        <td>
-                            <p><%= @phase3.contactForm %></p>
-                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                        </td>
+                        <td><%= @phase3.contactForm %></td>
                     </tr>
                     <tr>
                         <th class="narrow">Map?</th>
-                        <td>
-                            <p><%= @phase3.map %></p>
-                            Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.
-                        </td>
+                        <td><%= @phase3.map %></td>
                     </tr>
                 </table>
             </div>

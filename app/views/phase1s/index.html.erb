@@ -1,0 +1,49 @@
+<div class="page-title">
+    <h1>Phase 1</h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Phase 1',  phase1s_path %></li>
+        <li>
+          <span class="show-for-sr">Current: </span> All
+        </li>
+      </ul>
+    </nav>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>All Phase 1</h4>
+    </div>
+    <div class="callout-table">
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Business Name</th>
+                    <th>Mobile friendly</th>
+                    <th>www vs non-www</th>
+                    <th>NAP</th>
+                    <th>robot.txt</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                <% @phase1s.each do |phase1| %>
+                    <tr>
+                        <td><%= link_to phase1.created_at.to_formatted_s(:short), phase1_url(phase1)  %></td>
+                        <td>
+                            <% @business = Business.where(:id => phase1.business_id).first %>
+                            <%= @business.name %>
+                        </td>
+                        <td><%= phase1.mobileFriendly %></td>
+                        <td><%= phase1.wwwOrNot %></td>
+                        <td><%= phase1.napFormat %></td>
+                        <td><%= phase1.robotsTXT %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+            
+        </table>
+    </div>
+</div>
