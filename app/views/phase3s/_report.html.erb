@@ -1,4 +1,5 @@
 <% positiveScore = 0 %>
+<% fromScore = 0 %>
 <% @phase3 = Phase3.where(:id => params[:id]).first %>
 
 <div class="row lead-img"data-equalizer data-equalize-on="medium">
@@ -15,6 +16,7 @@
         <table class="scores">
             <tr>
                 <th class="narrow">
+                    <% fromScore += 1 %>
                     <% if @phase3.xmlSitemap == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
@@ -25,12 +27,13 @@
                     <% end %>
                 </th>
                 <td>
-                    <h4>XML Sitemap?</h4>
-                    <p>Curabitur luctus porttitor libero eu porttitor. Nunc aliquam elementum nisl in sodales.</p>
+                    <h4>Does your website have an XML sitemap?</h4>
+                    <p>XML sitemaps are used to help the web crawlers navigate throughout your website. They also help create a site structure and hierarchy. This is important for larger websites so that no pages are missed during a crawl.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
+                    <% fromScore += 1 %>
                     <% if @phase3.visitorSitemap == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
@@ -41,12 +44,13 @@
                     <% end %>
                 </th>
                 <td>
-                    <h4>Visitor facing sitemap?</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique imperdiet enim in bibendum. Praesent pharetra posuere diam, non rutrum arcu ornare ac. </p>
+                    <h4>Does your website have a visitor facing sitemap?</h4>
+                    <p>A visitor facing sitemap does all the same things as an XML, but is visible from your website. This is to help visitors find pages and navigate through the site. This also creates internal linking opportunities.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
+                    <% fromScore += 1 %>
                     <% if @phase3.internalAudit == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
@@ -57,28 +61,13 @@
                     <% end %>
                 </th>
                 <td>
-                    <h4>Internal Link Audit?</h4>
-                    <p>Curabitur sem turpis, condimentum ac ante quis, posuere vulputate eros. Aliquam at velit tempus, pharetra turpis in, faucibus ligula. </p>
+                    <h4>Are there any missing internal link opportunities?</h4>
+                    <p>Internal links are helpful in guiding visitors from one page to another. These are placed within your content when a keyword or phrase is linked to a corresponding page. Just like sitemaps, these help the web crawlers navigate your pages.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
-                    <% if @phase3.externalAudit == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase3.externalAudit == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>External Link Audit?</h4>
-                    <p>Ut velit velit, condimentum eget leo eu, commodo ornare risus. Aliquam erat volutpat. Aliquam ac nibh pulvinar, auctor purus id, varius magna. Etiam condimentum id metus quis malesuada. Proin sed nisl finibus, porta ligula eu, vestibulum nulla.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
+                    <% fromScore += 1 %>
                     <% if @phase3.contactForm == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
@@ -89,12 +78,13 @@
                     <% end %>
                 </th>
                 <td>
-                    <h4>Contact Form?</h4>
-                    <p>Nulla luctus pulvinar mi a pharetra.</p>
+                    <h4>Does your website have a contact form?</h4>
+                    <p>Contact forms are a helpful way for visitors and potential customers to get in touch with you. They should include a field for Name, Phone Number, Email Address, and a Message/Question.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
+                    <% fromScore += 1 %>
                     <% if @phase3.map == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
@@ -105,8 +95,8 @@
                     <% end %>
                 </th>
                 <td>
-                    <h4>Map?</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h4>Is there a map on your website or a link to get directions?</h4>
+                    <p>It is helpful to have a Google Map embedded on your contact us page, along with your address. This is known to improve your rankings and help in local search.</p>
                 </td>
             </tr>
     
@@ -119,6 +109,6 @@
 
 <div class="row trailing-arrows">
     <div class="small-12 columns">
-        <h3 class="text-center">Overall Score: <span class="blue"> <%= positiveScore %>/6</span></h3>
+        <h3 class="text-center">Overall Score: <span class="blue"> <%= positiveScore %>/<%= fromScore %></span></h3>
     </div>
 </div>
