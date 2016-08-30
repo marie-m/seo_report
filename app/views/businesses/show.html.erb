@@ -14,7 +14,11 @@
     <div class="medium-7 columns">
         <div class="callout card">
             <div class="callout-header">
-                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_business_path, class: "button secondary small float-right" %>
+                <div class ="float-right">
+                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_business_path, class: "button secondary small" %>
+                    <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
+                </div>
+
                 <h4>Stats</h4>
             </div>
             <div class="callout-table">

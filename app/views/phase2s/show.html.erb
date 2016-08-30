@@ -21,16 +21,16 @@
     <div class="medium-7 columns">
         <div class="callout card">
             <div class="callout-header">
-                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
+                <div class ="float-right">
+                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_phase2_path, class: "button secondary small" %>
+                    <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
+                </div>
+                
                 <h4><i class="fa fa-pie-chart fa-fw" aria-hidden="true"></i> Phase 2</h4>
             </div>
             <div class="callout-table">
                 
                 <table>
-                <tr>
-                    <th class="narrow">Navigation SEO-friendly and non-flash?</th>
-                    <td><%= @phase2.seoFriendly %></td>
-                </tr>
                 <tr>
                     <th class="narrow">On-site copy contains keywords and locations?</th>
                     <td><%= @phase2.copyHasKeywords %></td>
@@ -44,20 +44,8 @@
                     <td><%= @phase2.imagesNamed %></td>
                 </tr>
                 <tr>
-                    <th class="narrow">Free of Black Hat tactics?</th>
-                    <td><%= @phase2.blackHatFree %></td>
-                </tr>
-                <tr>
-                    <th class="narrow">Good loading speed?</th>
-                    <td><%= @phase2.goodLoading %></td>
-                </tr>
-                <tr>
                     <th class="narrow">Social media profile integrated?</th>
                     <td><%= @phase2.socialMedia %></td>
-                </tr>
-                <tr>
-                    <th class="narrow">Properly configured for webcrawlers?</th>
-                    <td><%= @phase2.webcrawlerFirendly %></td>
                 </tr>
                 <tr>
                     <th class="narrow">Google Analytics?</th>

@@ -24,6 +24,22 @@ class Phase3sController < ApplicationController
         @phase3 = Phase3.find( params[:id] )
     end
     
+    def edit
+        @phase3 = Phase3.find( params[:id] )
+    end
+    
+    def update
+        @phase3 = Phase3.find( params[:id] )
+        
+        if @phase3.update_attributes(phase3_params)
+            flash[:success] = "Phase 3 updated"
+            redirect_to @phase3
+        else
+            flash[:alert] = "Phase 3 not updated"
+            redirect_to @phase3
+        end
+    end
+    
     def destroy
         @phase3 = Phase3.find( params[:id] )
         ownerBusiness = @phase3.business_id

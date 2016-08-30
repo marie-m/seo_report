@@ -21,7 +21,11 @@
     <div class="medium-7 columns">
         <div class="callout card">
             <div class="callout-header">
-                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small float-right",  data: { confirm: "You sure?" } %>
+                <div class ="float-right">
+                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_phase3_path, class: "button secondary small" %>
+                    <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
+                </div>
+                
                 <h4><i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i> Phase 3</h4>
             </div>
             <div class="callout-table">
@@ -39,11 +43,6 @@
                         <th class="narrow">Internal Link Audit?</th>
                         <td><%= @phase3.internalAudit %></td>
                     </tr>
-                    <tr>
-                        <th class="narrow">External Link Audit?</th>
-                        <td><%= @phase3.externalAudit %></td>
-                    </tr>
-                    <tr>
                         <th class="narrow">Contact Form?</th>
                         <td><%= @phase3.contactForm %></td>
                     </tr>

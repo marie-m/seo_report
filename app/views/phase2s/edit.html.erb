@@ -1,14 +1,18 @@
+<% @business = Business.where(:id => @phase2.business_id).first %>
+
 <div class="page-title">
-    <h1><%= params[:business_name] %></h1>
+    <h1><%= @business.name %></h1>
     <nav aria-label="You are here:" role="navigation">
       <ul class="breadcrumbs">
         <li><%= link_to 'Businesses',  businesses_path %></li>
         <li>
-            <% @business = Business.where(:id => params[:business_id]).first %>
             <%= link_to @business.name, business_path(@business) %>
         </li>
         <li>
-          <span class="show-for-sr">Current: </span> New Phase 2
+            <%= link_to 'Phase 2',  @phase2 %>
+        </li>
+        <li>
+          <span class="show-for-sr">Current: </span> Editing
         </li>
       </ul>
     </nav>
@@ -21,7 +25,6 @@
     <div class="callout-table">
         
         <%= form_for @phase2 do |f| %>
-            <%= f.hidden_field :business_id, value: params[:business_id] %>
         
             <table>
                 <tr>
@@ -104,16 +107,7 @@
                 <tr>
                     <td><%= f.submit 'Submit', class: "button secondary" %></td>
                 </tr>
-                
-                
-                
-                
-                
             </table>
-        
-        
-        
-        
         
         <% end %>
         

@@ -21,14 +21,10 @@
                 <tr>
                     <th>Date</th>
                     <th>Business Name</th>
-                    <th>SEO Friendly</th>
                     <th>Keywords</th>
                     <th>Fresh Content</th>
                     <th>Images Named</th>
-                    <th>Black Hat Free</th>
-                    <th>Loading</th>
                     <th>Social Media</th>
-                    <th>Web Crawlers</th>
                     <th>Analytics</th>
                     <th>Web Master</th>
                     <th>Local Business</th>
@@ -43,14 +39,10 @@
                             <% @business = Business.where(:id => phase2.business_id).first %>
                             <%= @business.name %>
                         </td>
-                        <td><%= phase2.seoFriendly %></td>
                         <td><%= phase2.copyHasKeywords %></td>
                         <td><%= phase2.freshContent %></td>
                         <td><%= phase2.imagesNamed %></td>
-                        <td><%= phase2.blackHatFree %></td>
-                        <td><%= phase2.goodLoading %></td>
                         <td><%= phase2.socialMedia %></td>
-                        <td><%= phase2.webcrawlerFirendly %></td>
                         <td><%= phase2.googleAnalytics %></td>
                         <td><%= phase2.webmasterTools %></td>
                         <td><%= phase2.localBusiness %></td>
