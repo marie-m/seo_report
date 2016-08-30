@@ -18,9 +18,9 @@
     <div class="callout-header">
         <h4>Phase 3 Details</h4>
     </div>
-    <div class="callout-table">
         
-        <%= form_for @phase3 do |f| %>
+    <%= form_for @phase3 do |f| %>
+        <div class="callout-table">
             <%= f.hidden_field :business_id, value: params[:business_id] %>
         
             <table>
@@ -79,21 +79,11 @@
                         <%= f.label :map, 'N/A', :value => 'n/a' %>
                     </td>
                 </tr>
-                <tr>
-                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
-                </tr>
-                
-                
-                
-                
-                
             </table>
-        
-        
-        
-        
-        
-        <% end %>
-        
-    </div>
+        </div>
+    
+        <div class="callout-footer padded">
+            <%= f.submit 'Submit', class: "button secondary" %>
+        </div>
+    <% end %>
 </div>

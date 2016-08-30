@@ -22,9 +22,9 @@
     <div class="callout-header">
         <h4>Phase 1 Details</h4>
     </div>
-    <div class="callout-table">
         
-        <%= form_for @phase1 do |f| %>
+    <%= form_for @phase1 do |f| %>
+        <div class="callout-table">
             <table>
                 <tr>
                     <th class="narrow"><%= f.label :mobileFriendly, "Mobile friendly?" %></th>
@@ -70,12 +70,11 @@
                         <%= f.label :robotsTXT, 'N/A', :value => 'n/a' %>
                     </td>
                 </tr>
-                <tr>
-                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
-                </tr>
-                
             </table>
-        <% end %>
-        
-    </div>
+        </div>
+    
+        <div class="callout-footer padded">
+            <%= f.submit 'Submit', class: "button secondary" %>
+        </div>
+    <% end %>
 </div>

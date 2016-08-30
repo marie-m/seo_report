@@ -13,7 +13,7 @@ class Phase1sController < ApplicationController
         
         if @phase1.save
             flash[:success] = "Phase 1 added."
-            redirect_to business_path(@phase1.business_id)
+            redirect_to @phase1
         else
             flash[:alert] = "Error occured, phase 1 not added."
             redirect_to business_path(@phase1.business_id)

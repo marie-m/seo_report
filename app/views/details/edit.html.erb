@@ -1,0 +1,48 @@
+<div class="page-title">
+    <h1>Page Details</h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Phase 1',  phase1_path(@detail.phase1_id) %></li>
+        <li><%= link_to 'Page',  phase1_path(@detail.phase1_id) %> </li>
+        <li>
+          <span class="show-for-sr">Current: </span> Edit
+        </li>
+      </ul>
+    </nav>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i><%= @detail.pageName %> Page Details</h4>
+    </div>
+    <div class="callout-table">
+         <%= form_for @detail do |f| %>
+            
+            <table>
+                <tr>
+                    <th class="narrow"><%= f.label :pageName, "Page Name" %></th>
+                    <td><%= f.text_field :pageName %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :pageTitle, "Page Title" %></th>
+                    <td><%= f.text_field :pageTitle %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :pageDescript, "Description" %></th>
+                    <td><%= f.text_area :pageDescript %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :h1Tags, "H1 Tags" %></th>
+                    <td><%= f.text_area :h1Tags %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label :h2Tags, "H2 Tags" %></th>
+                    <td><%= f.text_area :h2Tags %></td>
+                </tr>
+                <tr>
+                    <td><%= f.submit 'Submit', class: "button secondary" %></td>
+                </tr>
+            </table>
+        <% end %>
+    </div>
+</div>

@@ -20,6 +20,23 @@ class DetailsController < ApplicationController
         @detail = Detail.find( params[:id] )
     end
     
+    def edit
+        @detail = Detail.find( params[:id] )
+    end
+    
+    def update
+        @detail = Detail.find( params[:id] )
+        
+        if @detail.update_attributes(detail_params)
+            flash[:success] = "Page Details updated"
+            redirect_to phase1_path(@detail.phase1_id)
+        else
+            flash[:alert] = "Phase Details not updated"
+            redirect_to phase1_path(@detail.phase1_id)
+        end
+        
+    end
+    
     def destroy
         @detail = Detail.find( params[:id] )
         ownerPhase1 = @detail.phase1_id
