@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160825172051) do
+ActiveRecord::Schema.define(version: 20160830184859) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -63,14 +63,10 @@ ActiveRecord::Schema.define(version: 20160825172051) do
   end
 
   create_table "phase2s", force: true do |t|
-    t.string   "seoFriendly"
     t.string   "copyHasKeywords"
     t.string   "freshContent"
     t.string   "imagesNamed"
-    t.string   "blackHatFree"
-    t.string   "goodLoading"
     t.string   "socialMedia"
-    t.string   "webcrawlerFirendly"
     t.string   "googleAnalytics"
     t.string   "webmasterTools"
     t.string   "localBusiness"
@@ -83,7 +79,6 @@ ActiveRecord::Schema.define(version: 20160825172051) do
     t.string   "xmlSitemap"
     t.string   "visitorSitemap"
     t.string   "internalAudit"
-    t.string   "externalAudit"
     t.string   "contactForm"
     t.string   "map"
     t.datetime "created_at"

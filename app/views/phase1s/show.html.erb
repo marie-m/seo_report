@@ -1,4 +1,4 @@
-<%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Online Report'.html_safe,  display_path(phase: "1", id: @phase1.id ), class: "button secondary float-right" %>
+<%= link_to '<i class="fa fa-file  fa-fw" aria-hidden="true"></i> Online Report'.html_safe,  display_path(phase: "1", id: @phase1.id ), class: "button secondary float-right" %>
 
 
 <div class="page-title">
@@ -61,12 +61,13 @@
             </div>
             <div class="callout-body">
                 
-            <%= form_tag("/search", method: "get") do %>
+            <%= form_tag(new_detail_path, method: "get") do %>
                 <%= label_tag(:q, "Number of new pages:") %>
-                <%= select_tag :credit, options_for_select(1..15) %>
+                <%= select_tag :count, options_for_select(1..15) %>
+                <%= hidden_field_tag :phase1_id, @phase1.id %>
                 
                 <div class="text-right">
-                    <%= submit_tag("Create Pages".html_safe, class: "button secondary small" ) %>
+                    <%= submit_tag("Create Pages".html_safe, class: "button secondary small", :name => nil) %>
                 </div>
             <% end %>
     </div>
