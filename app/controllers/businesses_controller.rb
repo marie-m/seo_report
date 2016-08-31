@@ -50,11 +50,11 @@ class BusinessesController < ApplicationController
         end
     end
 
-    def destroy
+    def destroy 
         
-        Phase1.find_by(business_id: params[:id]).destroy
-        Phase2.find_by(business_id: params[:id]).destroy
-        Phase3.find_by(business_id: params[:id]).destroy
+        Phase1.destroy_all(business_id: params[:id])
+        Phase2.destroy_all(business_id: params[:id])
+        Phase3.destroy_all(business_id: params[:id])
         
         Business.find(params[:id]).destroy
         
