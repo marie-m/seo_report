@@ -1,0 +1,30 @@
+<% @phase1 = Phase1.where(:id => params[:id]).first %>
+<% fullCount = 0 %>
+<% positiveCount = 0 %>
+<% rotate = 0 %>
+
+<% @phase1.attributes.each do |key, value| %>
+   
+    <% if !(key.to_s == "id") && !(key.to_s == "created_at") && !(key.to_s == "updated_at") && !(key.to_s == "business_id")  %>
+        <% fullCount += 1  %>
+    <% end %>
+    
+   <% if value.to_s == "yes" %>
+        <% positiveCount += 1  %>
+   <% end %>
+<% end %>
+
+<% rotate = (positiveCount.to_f / fullCount.to_f)*180 + 45  %>
+
+<div class="callout card scoreCard">
+    <div class="callout-body">
+        <h4 class="text-center">Score</h4>
+        
+        <div class="gauge-mask">
+            <div class="gauge" style="transform:rotate(<%= rotate %>deg);"></div>
+        </div>
+        <div class="values">
+            <%= "#{positiveCount} / #{fullCount}" %>
+        </div>
+    </div>
+</div>
