@@ -1,5 +1,5 @@
 <div class="page-title">
-    <h1><%= @business.name %></h1>
+    <h1><%= @business.name %> Page Headers</h1>
     <nav aria-label="You are here:" role="navigation">
       <ul class="breadcrumbs">
         <li><%= link_to 'Businesses',  businesses_path %></li>
@@ -11,3 +11,52 @@
       </ul>
     </nav>
 </div>
+
+
+
+<%= form_tag business_phase1_headers_path(@business, @phase1) do %>
+<% count = params[:count].to_i %>
+<% count.to_i.times do |x| %>
+    <div class="callout card">
+        <div class="callout-header">
+            <h4>Page <%= x + 1 %> Details</h4>
+        </div>
+        <div class="callout-table">
+            <table>
+                <tr>
+                    <th class="narrow"><label>Page Name</label></th>
+                    <td><%= text_field_tag :headers_pageName, "", :name => "headers[#{x}][pageName]" %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><label>Page Title</label></th>
+                    <td><%= text_field_tag :headers_pageTitle, "", :name => "headers[#{x}][pageTitle]" %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><label>Description</label></th>
+                    <td><%= text_area_tag :headers_pageDescript, "", :name => "headers[#{x}][pageDescript]" %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><label>H1 Tags</label></th>
+                    <td><%= text_area_tag :headers_h1Tags, "", :name => "headers[#{x}][h1Tags]" %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><label>H2 Tags</label></th>
+                    <td><%= text_area_tag :headers_h2Tags, "", :name => "headers[#{x}][h2Tags]" %></td>
+                </tr>
+            </table>
+            
+        </div>
+    </div>
+
+<% end %>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Submit</h4>
+    </div>
+    <div class="callout-body">
+        <%= submit_tag("Submit".html_safe, class: "button secondary small", :name => nil) %>
+    </div>
+</div>
+
+<% end %>

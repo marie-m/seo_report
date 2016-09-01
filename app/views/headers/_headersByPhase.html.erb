@@ -1,51 +1,5 @@
-<% @headers = Header.where(:phase1_id => @phase1.id ) %>
-
+<% @headers = @phase1.headers.all %>
 <% @headers.each do |header| %>
-<div class="callout card">
-
-    <div class="callout-header"> 
-        <div class ="float-right">
-            <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_header_path(header), class: "button secondary small" %>
-            <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, @phase1, class: "button secondary small", method: :delete,
-                          data: { confirm: "You sure?" } %>
-        </div>  
-        <h4><i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i><%= header.pageName %> Page Details</h4>
-    </div>
-    <div class="callout-table">
-        <table>
-            <tr>
-                <th class="narrow">Page Name</th>
-                <td>
-                    <%= header.pageName %>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">Page Title</th>
-                <td>
-                    <%= header.pageTitle %>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">Description</th>
-                <td>
-                    <%= header.pageDescript %>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">H1 Tags</th>
-                <td>
-                    <%= header.h1Tags %>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">H2 Tags</th>
-                <td>
-                    <%= header.h2Tags %>
-                </td>
-            </tr>
-            
-        </table>
-    </div>
-</div>
+card
 
 <% end %>

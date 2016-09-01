@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :businesses do
     
     resources :phase1s do
-        resources :headers
+        resources :headers, shallow: true
     end
     
     resources :phase2s
