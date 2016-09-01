@@ -57,3 +57,7 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# use passenger as app server
+gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
+
+
