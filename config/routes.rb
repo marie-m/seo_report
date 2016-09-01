@@ -4,16 +4,18 @@ Rails.application.routes.draw do
   resources :phase1s
   resources :headers
   resources :details
-  resources :phase2s
+  # resources :phase2s
   # resources :phase3s
   
   resources :businesses do
+    resources :phase2s
     resources :phase3s
   end
   
   get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
   get '/display' => 'pages#display'
+  get '/phase2' => 'phase2s#index'
   get '/phase3' => 'phase3s#index'
   
   root 'pages#home'

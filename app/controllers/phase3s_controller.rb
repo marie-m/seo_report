@@ -19,13 +19,12 @@ class Phase3sController < ApplicationController
             flash[:alert] = "Error occured, phase 3 not added."
         end
         
-         redirect_to business_path(@business)
+        redirect_to business_path(@business)
     end
     
     def show
         @business = Business.find(params[:business_id])
         @phase3 = Phase3.find( params[:id] )
-        
     end
     
     def edit
@@ -39,10 +38,8 @@ class Phase3sController < ApplicationController
         
         if @phase3.update_attributes(phase3_params)
             flash[:success] = "Phase 3 updated"
-        #     redirect_to @phase3
         else
             flash[:alert] = "Phase 3 not updated"
-        #     redirect_to @phase3
         end
         
         redirect_to  business_phase3_path(@business, @phase3)

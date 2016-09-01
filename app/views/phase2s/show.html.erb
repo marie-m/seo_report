@@ -1,13 +1,11 @@
 <%= link_to '<i class="fa fa-file fa-fw" aria-hidden="true"></i> Online Report'.html_safe,  display_path(phase: "2", id: @phase2.id ), class: "button secondary float-right" %>
 
-
 <div class="page-title">
     <h1><%= @phase2.created_at.to_formatted_s(:long)  %></h1>
     <nav aria-label="You are here:" role="navigation">
       <ul class="breadcrumbs">
         <li><%= link_to 'Businesses',  businesses_path %></li>
         <li>
-            <% @business = Business.where(:id => @phase2.business_id).first %>
             <%= link_to @business.name, business_path(@business) %>
         </li>
         <li>
@@ -22,7 +20,7 @@
         <div class="callout card">
             <div class="callout-header">
                 <div class ="float-right">
-                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_phase2_path, class: "button secondary small" %>
+                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_business_phase2_path(@business, @phase2.id), class: "button secondary small" %>
                     <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
                 </div>
                 
@@ -62,8 +60,5 @@
                 </table>
             </div>
         </div>
-    </div>
-    <div class="medium-4 columns">
-        <%= render 'phase2s/scoreCard' %>
     </div>
 </div>

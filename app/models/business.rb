@@ -1,6 +1,8 @@
 class Business < ActiveRecord::Base
     has_many :phase1s
-    has_many :phase2s
+    
+    has_many :phase2s, dependent: :destroy
+    accepts_nested_attributes_for :phase2s
     
     has_many :phase3s, dependent: :destroy
     accepts_nested_attributes_for :phase3s

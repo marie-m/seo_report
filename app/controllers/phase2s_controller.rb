@@ -5,39 +5,44 @@ class Phase2sController < ApplicationController
     end
     
     def new
+        @business = Business.find(params[:business_id])
         @phase2 = Phase2.new
     end
     
     def create
-         @phase2 = Phase2.new(phase2_params)
+        @business = Business.find(params[:business_id])
+        @phase2 = @business.phase2s.new(phase2_params)
         
         if @phase2.save
             flash[:success] = "Phase 2 added."
-            redirect_to business_path(@phase2.business_id)
         else
             flash[:alert] = "Error occured, phase 2 not added."
-            redirect_to business_path(@phase2.business_id)
         end
+        
+        redirect_to business_path(@business)
     end
     
     def show
+        @business = Business.find(params[:business_id])
         @phase2 = Phase2.find( params[:id] )
     end
     
     def edit
+        @business = Business.find(params[:business_id])
         @phase2 = Phase2.find( params[:id] )
     end
     
     def update
+        @business = Business.find(params[:business_id])
         @phase2 = Phase2.find( params[:id] )
         
         if @phase2.update_attributes(phase2_params)
             flash[:success] = "Phase 2 updated"
-            redirect_to @phase2
         else
             flash[:alert] = "Phase 2 not updated"
-            redirect_to @phase2
         end
+        
+        redirect_to  business_phase2_path(@business, @phase2)
     end
     
     def destroy
@@ -52,6 +57,6 @@ class Phase2sController < ApplicationController
     
     private
         def phase2_params
-            params.require(:phase2).permit(:seoFriendly, :copyHasKeywords, :freshContent, :imagesNamed, :blackHatFree, :goodLoading, :socialMedia, :webcrawlerFirendly, :googleAnalytics, :webmasterTools, :localBusiness, :business_id)
+            params.require(:phase2).permit(:copyHasKeywords, :freshContent, :imagesNamed, :socialMedia, :googleAnalytics, :webmasterTools, :localBusiness)
         end
 end

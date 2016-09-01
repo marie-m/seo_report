@@ -7,8 +7,8 @@
     <div class="callout-table">
         <table>
             
-           <% @phase3s = @business.phase3s.all.reverse %>
-             <% @phase3s.each do |phase3| %>
+            <% @phase3s = @business.phase3s.all.reverse %>
+            <% @phase3s.each do |phase3| %>
                <tr>
                     <td>
                         <%= phase3.created_at.to_formatted_s(:long) %>

@@ -21,6 +21,9 @@ gem 'therubyracer'
 #add fontawesome
 gem "font-awesome-rails"
 
+#fix sprockets
+gem 'sprockets', '3.6.3'
+
 # Use SCSS for stylesheets
 gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets

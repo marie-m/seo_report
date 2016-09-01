@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831192846) do
+ActiveRecord::Schema.define(version: 20160901125105) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -84,10 +84,12 @@ ActiveRecord::Schema.define(version: 20160831192846) do
     t.string   "googleAnalytics"
     t.string   "webmasterTools"
     t.string   "localBusiness"
-    t.integer  "business_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "business_id"
   end
+
+  add_index "phase2s", ["business_id"], name: "index_phase2s_on_business_id"
 
   create_table "phase3s", force: true do |t|
     t.string   "xmlSitemap"
