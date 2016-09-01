@@ -51,7 +51,7 @@
             </div>
         </div>
         
-        <%= render 'details/detailsByPhase' %>
+        <%= render 'headers/headersByPhase' %>
     </div>
     
     <div class="medium-4 columns">
@@ -63,10 +63,11 @@
             </div>
             <div class="callout-body">
                 
-            <%= form_tag(new_detail_path, method: "get") do %>
+            <%= form_tag(new_header_path, method: "get") do %>
                 <%= label_tag(:q, "Number of new pages:") %>
                 <%= select_tag :count, options_for_select(1..15) %>
                 <%= hidden_field_tag :phase1_id, @phase1.id %>
+                <%= hidden_field_tag :business_id, @phase1.business_id %>
                 
                 <div class="text-right">
                     <%= submit_tag("Create Pages".html_safe, class: "button secondary small", :name => nil) %>

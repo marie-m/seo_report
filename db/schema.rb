@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160830184859) do
+ActiveRecord::Schema.define(version: 20160831192846) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -40,6 +40,20 @@ ActiveRecord::Schema.define(version: 20160830184859) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "headers", force: true do |t|
+    t.string   "pageName"
+    t.string   "pageTitle"
+    t.text     "pageDescript"
+    t.text     "h1Tags"
+    t.text     "h2Tags"
+    t.integer  "business_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "phase1_id"
+  end
+
+  add_index "headers", ["phase1_id"], name: "index_headers_on_phase1_id"
 
   create_table "phase1_pages", force: true do |t|
     t.string   "pageName"
@@ -85,5 +99,7 @@ ActiveRecord::Schema.define(version: 20160830184859) do
     t.datetime "updated_at"
     t.integer  "business_id"
   end
+
+  add_index "phase3s", ["business_id"], name: "index_phase3s_on_business_id"
 
 end

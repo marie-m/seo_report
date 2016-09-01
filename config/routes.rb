@@ -1,14 +1,20 @@
 Rails.application.routes.draw do
   resources :contacts
-  resources :businesses
+  # resources :businesses
   resources :phase1s
+  resources :headers
   resources :details
   resources :phase2s
-  resources :phase3s
+  # resources :phase3s
+  
+  resources :businesses do
+    resources :phase3s
+  end
   
   get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
   get '/display' => 'pages#display'
+  get '/phase3' => 'phase3s#index'
   
   root 'pages#home'
   # The priority is based upon order of creation: first created -> highest priority.

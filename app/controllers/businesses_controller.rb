@@ -1,9 +1,5 @@
 class BusinessesController < ApplicationController
     
-    # def index
-    #     @businesses = Business.order(:id)
-    # end
-    
     def index
         @businesses = Business.order(:id).reverse
        
@@ -23,7 +19,7 @@ class BusinessesController < ApplicationController
         
         if @business.save
             flash[:success] = "Business added."
-            redirect_to businesses_url
+            redirect_to @business
         else
             flash[:alert] = "Error occured, business not added."
             redirect_to businesses_url
@@ -51,12 +47,14 @@ class BusinessesController < ApplicationController
     end
 
     def destroy 
+        @business = Business.find( params[:id] )
         
-        Phase1.destroy_all(business_id: params[:id])
-        Phase2.destroy_all(business_id: params[:id])
-        Phase3.destroy_all(business_id: params[:id])
+        #Phase1.destroy_all(business_id: params[:id])
+        #Phase2.destroy_all(business_id: params[:id])
+       # Phase3.destroy_all(business_id: params[:id])
         
-        Business.find(params[:id]).destroy
+       # Business.find(params[:id]).destroy
+       @business.destroy
         
         flash[:success] = "Business deleted"
         redirect_to businesses_url

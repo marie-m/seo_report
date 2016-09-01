@@ -5,39 +5,47 @@ class Phase3sController < ApplicationController
     end
     
     def new
+        @business = Business.find(params[:business_id])
         @phase3 = Phase3.new
     end
     
     def create
-         @phase3 = Phase3.new(phase3_params)
+        @business = Business.find(params[:business_id])
+        @phase3 = @business.phase3s.new(phase3_params)
         
         if @phase3.save
             flash[:success] = "Phase 3 added."
-            redirect_to business_path(@phase3.business_id)
         else
             flash[:alert] = "Error occured, phase 3 not added."
-            redirect_to business_path(@phase3.business_id)
         end
+        
+         redirect_to business_path(@business)
     end
     
     def show
+        @business = Business.find(params[:business_id])
         @phase3 = Phase3.find( params[:id] )
+        
     end
     
     def edit
+        @business = Business.find(params[:business_id])
         @phase3 = Phase3.find( params[:id] )
     end
     
     def update
+        @business = Business.find(params[:business_id])
         @phase3 = Phase3.find( params[:id] )
         
         if @phase3.update_attributes(phase3_params)
             flash[:success] = "Phase 3 updated"
-            redirect_to @phase3
+        #     redirect_to @phase3
         else
             flash[:alert] = "Phase 3 not updated"
-            redirect_to @phase3
+        #     redirect_to @phase3
         end
+        
+        redirect_to  business_phase3_path(@business, @phase3)
     end
     
     def destroy
@@ -51,7 +59,7 @@ class Phase3sController < ApplicationController
     
     private
         def phase3_params
-            params.require(:phase3).permit(:xmlSitemap, :visitorSitemap,  :internalAudit, :externalAudit, :contactForm, :map, :business_id)
+            params.require(:phase3).permit(:xmlSitemap, :visitorSitemap,  :internalAudit, :contactForm, :map)
         end
 end
     

@@ -44,7 +44,7 @@ class Phase1sController < ApplicationController
         @phase1 = Phase1.find( params[:id] )
         ownerBusiness = @phase1.business_id
         
-        Phase1.find(params[:id]).destroy
+        @phase1.destroy
         flash[:success] = "Phase 1 entry deleted"
         redirect_to business_path(ownerBusiness)
     end

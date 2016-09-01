@@ -1,16 +1,10 @@
-<% @business = Business.where(:id => @phase3.business_id).first %>
-
 <div class="page-title">
-    <h1><%= @business.name %></h1>
+    <h1><%= @phase3.created_at.to_formatted_s(:long)  %></h1>
     <nav aria-label="You are here:" role="navigation">
       <ul class="breadcrumbs">
         <li><%= link_to 'Businesses',  businesses_path %></li>
-        <li>
-            <%= link_to @business.name, business_path(@business) %>
-        </li>
-        <li>
-            <%= link_to 'Phase 3',  @phase3 %>
-        </li>
+        <li><%= link_to @business.name, business_path(@business) %></li>
+        <li><%= link_to 'Phase 3',  business_phase3_url(@business, @phase3) %></li>
         <li>
           <span class="show-for-sr">Current: </span> Editing
         </li>
@@ -20,10 +14,10 @@
 
 <div class="callout card">
     <div class="callout-header">
-        <h4>Phase 3 Details</h4>
+        <h4><i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i> Phase 3: Editing</h4>
     </div>
-        
-    <%= form_for @phase3 do |f| %>
+    
+     <%= form_for @phase3, url: business_phase3_path(@business, @phase3), method: :patch do |f| %>
         <div class="callout-table">
             <table>
                 <tr>
@@ -88,4 +82,5 @@
             <%= f.submit 'Submit', class: "button secondary" %>
         </div>
     <% end %>
+
 </div>

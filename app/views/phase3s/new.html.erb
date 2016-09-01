@@ -1,10 +1,9 @@
 <div class="page-title">
-    <h1><%= params[:business_name] %></h1>
+    <h1><%= @business.name %></h1>
     <nav aria-label="You are here:" role="navigation">
       <ul class="breadcrumbs">
         <li><%= link_to 'Businesses',  businesses_path %></li>
         <li>
-            <% @business = Business.where(:id => params[:business_id]).first %>
             <%= link_to @business.name, business_path(@business) %>
         </li>
         <li>
@@ -14,15 +13,14 @@
     </nav>
 </div>
 
+
 <div class="callout card">
     <div class="callout-header">
         <h4>Phase 3 Details</h4>
     </div>
-        
-    <%= form_for @phase3 do |f| %>
+    
+     <%= form_for([@business, @business.phase3s.build]) do |f| %>
         <div class="callout-table">
-            <%= f.hidden_field :business_id, value: params[:business_id] %>
-        
             <table>
                 <tr>
                     <th class="narrow"><%= f.label :xmlSitemap, "XML Sitemap" %></th>
@@ -86,4 +84,5 @@
             <%= f.submit 'Submit', class: "button secondary" %>
         </div>
     <% end %>
+
 </div>

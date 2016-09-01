@@ -1,24 +1,23 @@
  <div class="callout card">
             
     <div class="callout-header">
-        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_phase3_path(business_id: @business.id, business_name: @business.name), class: "button secondary small float-right" %>
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe, new_business_phase3_path(@business), class: "button secondary small float-right" %>
         <h4><i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i> Phase 3</h4>
     </div>
     <div class="callout-table">
         <table>
             
-            <%  @phase3s = Phase3.where(:business_id => @business.id ).last(5).reverse %>
-            
-            <% @phase3s.each do |phase3| %>
-                <tr>
+           <% @phase3s = @business.phase3s.all.reverse %>
+             <% @phase3s.each do |phase3| %>
+               <tr>
                     <td>
                         <%= phase3.created_at.to_formatted_s(:long) %>
                     </td>
                     <td class="text-right">
-                        <%= link_to '<i class="fa fa-chevron-right fa-fw"></i>'.html_safe, phase3 %>
+                        <%= link_to '<i class="fa fa-chevron-right fa-fw"></i>'.html_safe, business_phase3_path(@business, phase3) %>
                     </td>
                 </tr>
-            <% end %>
+             <% end %>
          
         </table>
     </div>
