@@ -1,0 +1,15 @@
+<div class="callout card">
+    <div class="callout-header">
+        <h4><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Add Pages</h4>
+    </div>
+    <div class="callout-body">
+        <%= form_tag(new_business_phase1_header_path(@business, @phase1), method: "get") do %>
+            <%= label_tag(:q, "Number of new pages:") %>
+            <%= select_tag :count, options_for_select(1..15) %>
+            
+            <div class="text-right">
+                <%= submit_tag("Create Pages".html_safe, class: "button secondary small", :name => nil) %>
+            </div>
+        <% end %>
+    </div>
+</div>

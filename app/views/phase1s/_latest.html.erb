@@ -6,9 +6,9 @@
     <div class="callout-table">
         <table>
         
-         <%  @phase1s = Phase1.last(5).reverse %>
+            <% @phase1s = Phase1.last(5).reverse %>
          
-          <% @phase1s.each do |phase1| %>
+            <% @phase1s.each do |phase1| %>
                 <tr>
                     <td class="narrow"><div class="icon-circle"><i class="fa fa-bar-chart fa-fw"></i></div></td>
                     <td>
@@ -17,13 +17,13 @@
                         <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(phase1.created_at) %> ago</small>
                     </td>
                     <td class="text-right">
-                        <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, phase1_url(phase1) %>
+                        <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, business_phase1_path(@business, phase1) %>
                     </td>
                 </tr>
             <% end %>
         </table>
     </div>
     <div class="callout-footer">
-        <%= link_to 'See all Phase 1', phase1s_path, class: 'card expanded link' %>
+        <%= link_to 'See all Phase 1', phase1_path, class: 'card expanded link' %>
     </div>
 </div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160901125105) do
+ActiveRecord::Schema.define(version: 20160901132723) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -71,10 +71,12 @@ ActiveRecord::Schema.define(version: 20160901125105) do
     t.string   "wwwOrNot"
     t.string   "napFormat"
     t.string   "robotsTXT"
-    t.integer  "business_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "business_id"
   end
+
+  add_index "phase1s", ["business_id"], name: "index_phase1s_on_business_id"
 
   create_table "phase2s", force: true do |t|
     t.string   "copyHasKeywords"

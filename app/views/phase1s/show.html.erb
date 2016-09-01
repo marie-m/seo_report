@@ -7,7 +7,6 @@
       <ul class="breadcrumbs">
         <li><%= link_to 'Businesses',  businesses_path %></li>
         <li>
-            <% @business = Business.where(:id => @phase1.business_id).first %>
             <%= link_to @business.name, business_path(@business) %>
         </li>
         <li>
@@ -22,7 +21,7 @@
         <div class="callout card">
             <div class="callout-header">
                 <div class ="float-right">
-                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_phase1_path, class: "button secondary small" %>
+                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_business_phase1_path(@business, @phase1.id), class: "button secondary small" %>
                     <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
                 </div>
               
@@ -51,30 +50,11 @@
             </div>
         </div>
         
-        <%= render 'headers/headersByPhase' %>
     </div>
     
     <div class="medium-4 columns">
-        <%= render 'phase1s/scoreCard' %>
+        <%= render 'headers/addHeaders' %>
         
-        <div class="callout card">
-            <div class="callout-header">
-                <h4><i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> Add Pages</h4>
-            </div>
-            <div class="callout-body">
-                
-            <%= form_tag(new_header_path, method: "get") do %>
-                <%= label_tag(:q, "Number of new pages:") %>
-                <%= select_tag :count, options_for_select(1..15) %>
-                <%= hidden_field_tag :phase1_id, @phase1.id %>
-                <%= hidden_field_tag :business_id, @phase1.business_id %>
-                
-                <div class="text-right">
-                    <%= submit_tag("Create Pages".html_safe, class: "button secondary small", :name => nil) %>
-                </div>
-            <% end %>
-    </div>
-        </div>
         
         
     </div>

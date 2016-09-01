@@ -1,13 +1,14 @@
 Rails.application.routes.draw do
   resources :contacts
-  # resources :businesses
-  resources :phase1s
-  resources :headers
-  resources :details
-  # resources :phase2s
-  # resources :phase3s
+  # resources :headers
+  # resources :details
   
   resources :businesses do
+    
+    resources :phase1s do
+        resources :headers
+    end
+    
     resources :phase2s
     resources :phase3s
   end
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
   get '/dashboard' => 'pages#dashboard'
   get '/help' => 'pages#help'
   get '/display' => 'pages#display'
+  get '/phase1' => 'phase1s#index'
   get '/phase2' => 'phase2s#index'
   get '/phase3' => 'phase3s#index'
   

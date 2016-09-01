@@ -5,46 +5,51 @@ class Phase1sController < ApplicationController
     end
     
     def new
+        @business = Business.find(params[:business_id])
         @phase1 = Phase1.new
     end
     
     def create
-         @phase1 = Phase1.new(phase1_params)
+        @business = Business.find(params[:business_id])
+        @phase1 = @business.phase1s.new(phase1_params)
         
         if @phase1.save
             flash[:success] = "Phase 1 added."
-            redirect_to @phase1
         else
             flash[:alert] = "Error occured, phase 1 not added."
-            redirect_to business_path(@phase1.business_id)
         end
+        
+        redirect_to business_path(@business)
     end
     
     def show
+        @business = Business.find(params[:business_id])
         @phase1 = Phase1.find( params[:id] )
     end
     
     def edit
+        @business = Business.find(params[:business_id])
         @phase1 = Phase1.find( params[:id] )
     end
     
     def update
+        @business = Business.find(params[:business_id])
         @phase1 = Phase1.find( params[:id] )
         
         if @phase1.update_attributes(phase1_params)
             flash[:success] = "Phase 1 updated"
-            redirect_to @phase1
         else
             flash[:alert] = "Phase 1 not updated"
-            redirect_to @phase1
         end
+        
+        redirect_to  business_phase1_path(@business, @phase1)
     end
     
     def destroy
         @phase1 = Phase1.find( params[:id] )
         ownerBusiness = @phase1.business_id
         
-        @phase1.destroy
+        Phase1.find(params[:id]).destroy
         flash[:success] = "Phase 1 entry deleted"
         redirect_to business_path(ownerBusiness)
     end

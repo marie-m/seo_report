@@ -47,14 +47,8 @@ class BusinessesController < ApplicationController
     end
 
     def destroy 
-        @business = Business.find( params[:id] )
-        
-        #Phase1.destroy_all(business_id: params[:id])
-        #Phase2.destroy_all(business_id: params[:id])
-       # Phase3.destroy_all(business_id: params[:id])
-        
-       # Business.find(params[:id]).destroy
-       @business.destroy
+        @business = Business.find( params[:id] ) 
+        @business.destroy
         
         flash[:success] = "Business deleted"
         redirect_to businesses_url
