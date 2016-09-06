@@ -64,9 +64,6 @@ GEM
     mime-types (1.25.1)
     minitest (5.9.0)
     multi_json (1.12.1)
-    passenger (5.0.30)
-      rack
-      rake (>= 0.8.1)
     pg (0.18.4)
     polyglot (0.3.5)
     rack (1.5.5)
@@ -147,7 +144,6 @@ DEPENDENCIES
   foundation-rails
   jbuilder (= 2.0)
   jquery-rails
-  passenger (>= 5.0.25)
   pg
   rails (= 4.1.2)
   rails_12factor

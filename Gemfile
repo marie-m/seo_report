@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.2'
 # Use sqlite3 as the database for Active Record
-gem 'sqlite3', group: [:development, :test]
+gem 'sqlite3'
 
 # Use postgresql as the database for production
 group :production do
@@ -56,8 +56,3 @@ gem 'spring',        group: :development
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
-
-# use passenger as app server
-gem "passenger", ">= 5.0.25", require: "phusion_passenger/rack_handler"
-
-
