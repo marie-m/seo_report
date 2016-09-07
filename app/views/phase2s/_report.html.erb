@@ -28,8 +28,25 @@
                     <% end %>
                 </th>
                 <td>
-                    <h4>Does your on-site content contain keywords and locations?</h4>
-                    <p>When a search is made, Google looks for keywords within your coding, as well as your content, that is relevant to the user's search. The search engines are looking for fresh, engaging and informative content that is also relative to the search. The services offered and the locations you service should always be easy to find within your content.</p>
+                    <h4>Does your home page content contain keywords and locations?</h4>
+                    <p>When a search is made, Google looks for keywords within your coding, as well as your content, that is relevant to the user's search. The search engines are looking for fresh, engaging and informative content that is also relative to the search. The services offered and the locations you service should always be easy to find within your content and a home page should never have less than 150 characters.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% fromScore += 1 %>
+                    <% if @phase2.optimized == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.optimized == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Are your landing pages/service pages optimized?</h4>
+                    <p>In order for Google to associate your website with the services you offer, it is important that those landing pages are optimized for the specific service. This should include your title tag, meta description, heading tags, images, content and URL.</p>
                 </td>
             </tr>
             <tr>
@@ -132,6 +149,40 @@
                 <td>
                     <h4>Is Local Business Schema Markup implemented on your website?</h4>
                     <p>This is a tool in Google Webmaster Tools that adds coding around your name, address, phone number, hours of operation and other items that a local searcher would be looking for. This code is a signal to the search engines and is known to improve local search rankings.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% fromScore += 1 %>
+                    <% if @phase2.shortURL == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.shortURL == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Are your URLs short and user friendly?</h4>
+                    <p>Your page URL should be no more than 115 characters and should describe the corresponding content. name. If I am on the services page, the URL should be www.domain.com/services.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% fromScore += 1 %>
+                    <% if @phase2.blackHatFree == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase2.blackHatFree == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your website free of hidden text or other “black hat” tactics that can potentially hurt your rankings?</h4>
+                    <p>With SEO, it is important that we are staying inline with Google's standards and not implementing any tactics that they would consider black hat. This could be hidden text, spammy links or keyword stuffing.</p>
                 </td>
             </tr>
         </table>

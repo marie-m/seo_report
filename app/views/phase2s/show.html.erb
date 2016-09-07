@@ -30,11 +30,15 @@
                 
                 <table>
                 <tr>
-                    <th class="narrow">On-site copy contains keywords and locations?</th>
+                    <th class="narrow">Home page content contains keywords and locations?</th>
                     <td><%= @phase2.copyHasKeywords %></td>
                 </tr>
                 <tr>
-                    <th class="narrow">Fresh content? Which pages?</th>
+                    <th class="narrow">Landing pages/service pages optimized?</th>
+                    <td><%= @phase2.optimized %></td>
+                </tr>
+                <tr>
+                    <th class="narrow">Fresh content? Pages need to be updated?</th>
                     <td><%= @phase2.freshContent %></td>
                 </tr>
                 <tr>
@@ -54,8 +58,12 @@
                     <td><%= @phase2.webmasterTools %></td>
                 </tr>
                 <tr>
-                    <th class="narrow">Local business schema markup?</th>
-                    <td><%= @phase2.localBusiness %></td>
+                    <th class="narrow">URLs short and user friendly?</th>
+                    <td><%= @phase2.shortURL %></td>
+                </tr>
+                <tr>
+                    <th class="narrow">Black Hat Free?</th>
+                    <td><%= @phase2.blackHatFree %></td>
                 </tr>
                 </table>
             </div>

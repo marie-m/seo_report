@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907185635) do
+ActiveRecord::Schema.define(version: 20160907191134) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -89,6 +89,9 @@ ActiveRecord::Schema.define(version: 20160907185635) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "business_id"
+    t.string   "optimized"
+    t.string   "shortURL"
+    t.string   "blackHatFree"
   end
 
   add_index "phase2s", ["business_id"], name: "index_phase2s_on_business_id"
