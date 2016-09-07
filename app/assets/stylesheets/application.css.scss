@@ -461,7 +461,7 @@ th + td{
 .splash{
     padding-top:6em;
     
-     background-image: url('/assets/bg-login.jpg');
+     background-image: image-url('bg-login.jpg');
      background-size:cover;
      
     .callout-header{
@@ -512,7 +512,7 @@ th + td{
      .callout-body{
          padding-top:4em;
          padding-bottom:4em;
-         background: url('/assets/bg-hex.png') right bottom no-repeat;
+         background: image-url('bg-hex.png') right bottom no-repeat;
          background-position: right 15px bottom 15px;
      }
      
@@ -600,22 +600,22 @@ th + td{
         }
         
         .arrows{
-            background:url('/assets/bg-arrows.png') center center no-repeat;
+            background:image-url('bg-arrows.png') center center no-repeat;
             background-size:contain;
         }
         
         .burst{
-            background:url('/assets/bg-burst.png') center center no-repeat;
+            background:image-url('bg-burst.png') center center no-repeat;
             background-size:contain;
         }
         
         .chart{
-            background:url('/assets/bg-chart.png') center center no-repeat;
+            background:image-url('bg-chart.png') center center no-repeat;
             background-size:contain;
         }
         
         .hex{
-            background:url('/assets/bg-hex2.png') center center no-repeat;
+            background:image-url('bg-hex2.png') center center no-repeat;
             background-size:contain;
         }
         
@@ -672,7 +672,7 @@ th + td{
         height:55px;
         width:55px;
         background-color:$grey;
-        background-image:url('/assets/bg-neutral.png');
+        background-image:image-url('bg-neutral.png');
         background-position:center center;
         background-repeat:none;
         
@@ -680,18 +680,18 @@ th + td{
         
         &.positive{
             background-color:$green;
-            background-image:url('/assets/bg-positive.png');
+            background-image:image-url('bg-positive.png');
         }
         
         &.negative{
             background-color:$blue;
-            background-image:url('/assets/bg-negative.png');
+            background-image:image-url('bg-negative.png');
         }
         
     }
     
     .trailing-arrows{
-        background:url('/assets/bg-trailing-arrows.png') center bottom no-repeat;
+        background:image-url('bg-trailing-arrows.png') center bottom no-repeat;
         padding-bottom:150px;
         margin-bottom:3em;
         
@@ -726,7 +726,7 @@ th + td{
     
     .desktop{
         margin:0 auto 8em;
-        background:url('/assets/bg-desktop.png') center bottom no-repeat;
+        background:image-url('bg-desktop.png') center bottom no-repeat;
         height:908px;
         width:1102px;
         padding-left:40px;
@@ -740,7 +740,7 @@ th + td{
     
     .tablet{
         margin:0 auto 8em;
-        background:url('/assets/bg-tablet.png') center bottom no-repeat;
+        background:image-url('bg-tablet.png') center bottom no-repeat;
         height:788px;
         width:1200px;
         padding-top:40px;
@@ -755,7 +755,7 @@ th + td{
     
     .phone{
         margin:0 auto 8em;
-        background:url('/assets/bg-phone.png') center bottom no-repeat;
+        background:image-url('bg-phone.png') center bottom no-repeat;
         height:1195px;
         width:684px;
         padding-top:135px;
