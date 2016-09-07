@@ -5,7 +5,7 @@
 <div class="row lead-img"data-equalizer data-equalize-on="medium">
     <div class="medium-3 columns arrows" data-equalizer-watch></div>
     <div class="medium-9 columns" data-equalizer-watch>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elementum augue sit amet urna gravida, interdum dictum augue ornare. Donec vitae eros et turpis semper condimentum. Nulla imperdiet nisl vel tincidunt maximus. Sed lacinia dictum tincidunt. Vestibulum interdum aliquet eros sed dignissim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. </p>
+        <p class="lead">In phase 3 we are going to dig even deeper, because nothing is more important to SEO than fresh website updates. Here we are going to make sure your site structure is easy to navigate and that potential customers can find you and contact you easily.</p>
     </div>
 </div>
 
@@ -97,6 +97,40 @@
                 <td>
                     <h4>Is there a map on your website or a link to get directions?</h4>
                     <p>It is helpful to have a Google Map embedded on your contact us page, along with your address. This is known to improve your rankings and help in local search.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% fromScore += 1 %>
+                    <% if @phase3.favicon == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.favicon == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Does your website have a favicon?</h4>
+                    <p>A favicon is important for not only brand recognition but also for convenience and user friendliness. A major factor in SEO is useability. If a visitor can land on your website and know they arrived at the right place, your average time on site will increase, your bounce rate will decrease,  and in turn, search rankings will increase.</p>
+                </td>
+            </tr>
+            <tr>
+                <th class="narrow">
+                    <% fromScore += 1 %>
+                    <% if @phase3.flashFree == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.flashFree == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Is your website flash free?</h4>
+                    <p>Flash is an outdated technology that was once used to deliver rich multimedia content. Flash is not only difficult for crawlers, but it does not translate to mobile.</p>
                 </td>
             </tr>
     
