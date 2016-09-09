@@ -56,7 +56,7 @@ class Phase3sController < ApplicationController
     
     private
         def phase3_params
-            params.require(:phase3).permit(:xmlSitemap, :visitorSitemap,  :internalAudit, :contactForm, :map, :favicon, :flashFree)
+            params.require(:phase3).permit(:xmlSitemap, :visitorSitemap,  :internalAudit, :contactForm, :map, :favicon, :flashFree, :conversionOp)
         end
 end
     

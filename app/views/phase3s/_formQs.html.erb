@@ -77,5 +77,16 @@
                 <%= f.label :flashFree, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
+        <tr>
+            <th class="narrow"><%= f.label :conversionOp, "Conversion Opportunities" %></th>
+            <td>
+                <%= f.radio_button :conversionOp, 'no' %> 
+                <%= f.label :conversionOp, 'No', :value => 'no' %>
+                <%= f.radio_button :conversionOp, 'yes' %>
+                <%= f.label :conversionOp, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :conversionOp, 'n/a' %>
+                <%= f.label :conversionOp, 'N/A', :value => 'n/a' %>
+            </td>
+        </tr>
     </table>
 </div>

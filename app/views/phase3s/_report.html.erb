@@ -133,6 +133,23 @@
                     <p>Flash is an outdated technology that was once used to deliver rich multimedia content. Flash is not only difficult for crawlers, but it does not translate to mobile.</p>
                 </td>
             </tr>
+            <tr>
+                <th class="narrow">
+                    <% fromScore += 1 %>
+                    <% if @phase3.conversionOp == 'yes' %>
+                        <% positiveScore += 1 %>
+                        <div class="score positive"></div>
+                    <% elsif @phase3.conversionOp == 'no' %>
+                        <div class="score negative"></div>
+                    <% else %>
+                        <div class="score"></div>
+                    <% end %>
+                </th>
+                <td>
+                    <h4>Does your website have enough conversion opportunities above the fold?</h4>
+                    <p>A websites main function is to convert visitors to customers. Our job is to make sure it is easy for these potential customers to contact you by placing call to action buttons, a prominent phone number, a contact form, or a request appointment button in plain sight.</p>
+                </td>
+            </tr>
     
         </table>
         

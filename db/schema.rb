@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160907191134) do
+ActiveRecord::Schema.define(version: 20160909182211) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 20160907191134) do
     t.integer  "business_id"
     t.string   "favicon"
     t.string   "flashFree"
+    t.string   "conversionOp"
   end
 
   add_index "phase3s", ["business_id"], name: "index_phase3s_on_business_id"
