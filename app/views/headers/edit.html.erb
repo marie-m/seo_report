@@ -1,0 +1,39 @@
+<div class="callout card">
+    <div class="callout-header">
+        <h4><i class="fa fa-file-o fa-fw" aria-hidden="true"></i> Page Details</h4>
+    </div>
+    
+    
+    <div class="callout-table">
+        <%= form_for @header  do |f| %>
+                <table>
+                    <tr>
+                        <th class="narrow"><label>Page Name</label></th>
+                        <td><%= f.text_field :pageName %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow"><label>Page Title</label></th>
+                        <td><%= f.text_field :pageTitle %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow"><label>Description</label></th>
+                        <td><%= f.text_area :pageDescript %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow"><label>H1 Tags</label></th>
+                        <td><%= f.text_area :h1Tags %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow"><label>H2 Tags</label></th>
+                        <td><%= f.text_area :h2Tags %></td>
+                    </tr>
+                    
+                    
+                </table>
+            </div>
+        
+            <div class="callout-footer padded">
+                <%= f.submit 'Submit', class: "button secondary" %>
+            </div>
+        <% end %>
+</div>
