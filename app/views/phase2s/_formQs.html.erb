@@ -1,6 +1,17 @@
 <div class="callout-table">
     <table>
         <tr>
+            <th class="narrow"><%= f.label :titleHasKeywords, "Home page title tag and meta description contain keywords and locations?" %></th>
+            <td>
+                <%= f.radio_button :titleHasKeywords, 'no' %> 
+                <%= f.label :titleHasKeywords, 'No', :value => 'no' %>
+                <%= f.radio_button :titleHasKeywords, 'yes' %>
+                <%= f.label :titleHasKeywords, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :titleHasKeywords, 'n/a' %>
+                <%= f.label :titleHasKeywords, 'N/A', :value => 'n/a' %>
+            </td>
+        </tr>
+        <tr>
             <th class="narrow"><%= f.label :copyHasKeywords, "Home page content contains keywords and locations?" %></th>
             <td>
                 <%= f.radio_button :copyHasKeywords, 'no' %> 

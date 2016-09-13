@@ -21,7 +21,8 @@
                 <tr>
                     <th>Date</th>
                     <th>Business Name</th>
-                    <th>Keywords</th>
+                    <th>Title Keywords</th>
+                    <th>Copy Keywords</th>
                     <th>Fresh Content</th>
                     <th>Images Named</th>
                     <th>Social Media</th>
@@ -39,6 +40,7 @@
                             <% @business = Business.where(:id => phase2.business_id).first %>
                             <%= @business.name %>
                         </td>
+                        <td><%= phase2.titleHasKeywords %></td>
                         <td><%= phase2.copyHasKeywords %></td>
                         <td><%= phase2.freshContent %></td>
                         <td><%= phase2.imagesNamed %></td>

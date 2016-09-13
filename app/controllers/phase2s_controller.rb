@@ -57,6 +57,6 @@ class Phase2sController < ApplicationController
     
     private
         def phase2_params
-            params.require(:phase2).permit(:copyHasKeywords, :freshContent, :imagesNamed, :socialMedia, :googleAnalytics, :webmasterTools, :localBusiness, :optimized, :shortURL, :blackHatFree)
+            params.require(:phase2).permit(:copyHasKeywords, :freshContent, :imagesNamed, :socialMedia, :googleAnalytics, :webmasterTools, :localBusiness, :optimized, :shortURL, :blackHatFree, :titleHasKeywords)
         end
 end
