@@ -467,7 +467,7 @@ th + td{
 .splash{
     padding-top:6em;
     
-     background-image: image-url('bg-login.jpg');
+     background-image: url(asset_path('bg-login.jpg'));
      background-size:cover;
      
     .callout-header{
@@ -518,7 +518,7 @@ th + td{
      .callout-body{
          padding-top:4em;
          padding-bottom:4em;
-         background: image-url('bg-hex.png') right bottom no-repeat;
+         background: asset_path('bg-hex.png') right bottom no-repeat;
          background-position: right 15px bottom 15px;
      }
      
@@ -606,22 +606,22 @@ th + td{
         }
         
         .arrows{
-            background:image-url('bg-arrows.png') center center no-repeat;
+            background:asset_path('bg-arrows.png') center center no-repeat;
             background-size:contain;
         }
         
         .burst{
-            background:image-url('bg-burst.png') center center no-repeat;
+            background:asset_path('bg-burst.png') center center no-repeat;
             background-size:contain;
         }
         
         .chart{
-            background:image-url('bg-chart.png') center center no-repeat;
+            background:asset_path('bg-chart.png') center center no-repeat;
             background-size:contain;
         }
         
         .hex{
-            background:image-url('bg-hex2.png') center center no-repeat;
+            background:asset_path('bg-hex2.png') center center no-repeat;
             background-size:contain;
         }
         
@@ -678,7 +678,7 @@ th + td{
         height:55px;
         width:55px;
         background-color:$grey;
-        background-image:image-url('bg-neutral.png');
+        background-image:asset_path('bg-neutral.png');
         background-position:center center;
         background-repeat:none;
         
@@ -686,12 +686,12 @@ th + td{
         
         &.positive{
             background-color:$green;
-            background-image:image-url('bg-positive.png');
+            background-image:asset_path('bg-positive.png');
         }
         
         &.negative{
             background-color:$blue;
-            background-image:image-url('bg-negative.png');
+            background-image:asset_path('bg-negative.png');
         }
         
     }
@@ -732,7 +732,7 @@ th + td{
     
     .desktop{
         margin:0 auto 8em;
-        background:image-url('bg-desktop.png') center bottom no-repeat;
+        background:asset_path('bg-desktop.png') center bottom no-repeat;
         height:908px;
         width:1102px;
         padding-left:40px;
@@ -761,7 +761,7 @@ th + td{
     
     .phone{
         margin:0 auto 8em;
-        background:image-url('bg-phone.png') center bottom no-repeat;
+        background:url(asset_path('bg-phone.png')) center bottom no-repeat;
         height:1195px;
         width:684px;
         padding-top:135px;
