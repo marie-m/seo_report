@@ -4,8 +4,8 @@
     </div>
     
     
-    <div class="callout-table">
-        <%= form_for @header  do |f| %>
+        <%= form_for @header, url: header_path(@header.id), method: :patch do |f| %>
+            <div class="callout-table">
                 <table>
                     <tr>
                         <th class="narrow"><label>Page Name</label></th>
@@ -27,8 +27,6 @@
                         <th class="narrow"><label>H2 Tags</label></th>
                         <td><%= f.text_area :h2Tags %></td>
                     </tr>
-                    
-                    
                 </table>
             </div>
         

@@ -19,7 +19,7 @@
     
     <div class="callout-table">
        
-            <%= form_for @business do |f| %>
+            <%= form_for @business, method: :patch do |f| %>
                 <table>
                     <tr>
                         <th><%= f.label :name %></th>

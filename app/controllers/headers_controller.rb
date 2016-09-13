@@ -60,7 +60,7 @@ class HeadersController < ApplicationController
             flash[:alert] = "Page not updated"
         end
         
-        redirect_to  business_phase1_path(@business, @phase1)
+        redirect_to business_phase1_path(@business, @phase1)
     end
     
     def destroy
