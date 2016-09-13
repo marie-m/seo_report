@@ -518,7 +518,8 @@ th + td{
      .callout-body{
          padding-top:4em;
          padding-bottom:4em;
-         background:image-url('bg-hex.png') right bottom no-repeat;
+         background-image: asset-data-url('bg-hex.png');
+         background-repeat:no-repeat;
          background-position: right 15px bottom 15px;
      }
      
@@ -606,22 +607,30 @@ th + td{
         }
         
         .arrows{
-            background:image-url('bg-arrows.png') center center no-repeat;
+            background-image: asset-data-url('bg-arrows.png');
+            background-position:center center;
+            background-repeat:no-repeat;
             background-size:contain;
         }
         
         .burst{
-            background:image-url('bg-burst.png') center center no-repeat;
+            background-image: asset-data-url('bg-burst.png');
+            background-position:center center;
+            background-repeat:no-repeat;
             background-size:contain;
         }
         
         .chart{
-            background:image-url('bg-chart.png') center center no-repeat;
+            background-image: asset-data-url('bg-chart.png');
+            background-position:center center;
+            background-repeat:no-repeat;
             background-size:contain;
         }
         
         .hex{
-            background:image-url('bg-hex2.png') center center no-repeat;
+            background-image: asset-data-url('bg-hex2.png');
+            background-position:center center;
+            background-repeat:no-repeat;
             background-size:contain;
         }
         
@@ -678,7 +687,7 @@ th + td{
         height:55px;
         width:55px;
         background-color:$grey;
-        background-image:image-url('bg-neutral.png');
+        background-image: asset-data-url('bg-neutral.png');
         background-position:center center;
         background-repeat:none;
         
@@ -686,18 +695,20 @@ th + td{
         
         &.positive{
             background-color:$green;
-            background-image:image-url('bg-positive.png');
+            background-image: asset-data-url('bg-positive.png');
         }
         
         &.negative{
             background-color:$blue;
-            background-image:image-url('bg-negative.png');
+            background-image: asset-data-url('bg-negative.png');
         }
         
     }
     
     .trailing-arrows{
-        background:image-url('bg-trailing-arrows.png') center bottom no-repeat;
+        background-image: asset-data-url('bg-trailing-arrows.png');
+        background-position: center bottom;
+        background-repeat: no-repeat;
         padding-bottom:150px;
         margin-bottom:3em;
         
@@ -732,7 +743,9 @@ th + td{
     
     .desktop{
         margin:0 auto 8em;
-        background:asset_path('bg-desktop.png') center bottom no-repeat;
+        background-image: asset-data-url('bg-desktop.png');
+        background-position: center bottom;
+        background-repeat: no-repeat;
         height:908px;
         width:1102px;
         padding-left:40px;
@@ -746,7 +759,9 @@ th + td{
     
     .tablet{
         margin:0 auto 8em;
-        background:image-url('bg-tablet.png') center bottom no-repeat;
+        background-image: asset-data-url('bg-tablet.png');
+        background-position: center bottom;
+        background-repeat: no-repeat;
         height:788px;
         width:1200px;
         padding-top:40px;
@@ -761,7 +776,9 @@ th + td{
     
     .phone{
         margin:0 auto 8em;
-        background:url(asset_path('bg-phone.png')) center bottom no-repeat;
+        background-image: asset-data-url('bg-phone.png');
+        background-position: center bottom;
+        background-repeat: no-repeat;
         height:1195px;
         width:684px;
         padding-top:135px;
