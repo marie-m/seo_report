@@ -467,7 +467,7 @@ th + td{
 .splash{
     padding-top:6em;
     
-     background-image:image-url('bg-login.jpg');
+     background-image: asset-data-url('bg-login.jpg');
      background-size:cover;
      
     .callout-header{
