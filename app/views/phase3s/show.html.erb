@@ -1,4 +1,4 @@
-<%= link_to '<i class="fa fa-file fa-fw" aria-hidden="true"></i> Online Report'.html_safe,  display_path(phase: "3", id: @phase3.id ), class: "button secondary float-right" %>
+<%= link_to '<i class="fa fa-file fa-fw" aria-hidden="true"></i> Online Report'.html_safe,  display_path(phase: "3", id: @phase3.id ), class: "button secondary float-right", :target => '_blank' %>
 
 <div class="page-title">
     <h1><%= @phase3.created_at.to_formatted_s(:long)  %></h1>
