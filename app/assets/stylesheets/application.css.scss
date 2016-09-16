@@ -570,7 +570,9 @@ th + td{
         margin-bottom:4.5em;
     }
     
-   
+   .header-report + .header-report{
+       margin-top:2em;
+   }
     
     .report-header{
         background:$light-grey;

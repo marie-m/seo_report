@@ -46,6 +46,10 @@
                     <th class="narrow">robot.txt?</th>
                     <td><%= @phase1.robotsTXT %></td>
                 </tr>
+                <tr>
+                    <th class="narrow">Google Trends link</th>
+                    <td><%= @phase1.googleTrends %></td>
+                </tr>
                 </table>
             </div>
         </div>
@@ -55,6 +59,8 @@
     </div>
     
     <div class="medium-4 columns">
+        <%= render 'scoreCard' %>
+        
         <%= render 'headers/addHeaders' %>
     </div>
 </div>

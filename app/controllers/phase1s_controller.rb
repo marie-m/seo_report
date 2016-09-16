@@ -57,6 +57,6 @@ class Phase1sController < ApplicationController
     
     private
         def phase1_params
-            params.require(:phase1).permit(:mobileFriendly, :wwwOrNot, :napFormat, :robotsTXT, :business_id)
+            params.require(:phase1).permit(:mobileFriendly, :wwwOrNot, :napFormat, :robotsTXT, :business_id, :googleTrends)
         end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160913192413) do
+ActiveRecord::Schema.define(version: 20160916161022) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20160913192413) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "business_id"
+    t.text     "googleTrends"
   end
 
   add_index "phase1s", ["business_id"], name: "index_phase1s_on_business_id"
