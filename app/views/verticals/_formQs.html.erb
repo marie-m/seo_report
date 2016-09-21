@@ -469,7 +469,7 @@
         </tr>
         <tr>
         <th class="narrow"><%= f.label :icon %></th>
-            <td><%= f.select(:icon, grouped_options_for_select(grouped_options), {}, { :class => 'icon-dropdown' }) %></td>
+            <td><%= f.select(:icon, grouped_options_for_select(grouped_options,selected_key = @vertical.icon), {}, { :class => 'icon-dropdown' }) %></td>
         </tr>
     </table>
 </div>

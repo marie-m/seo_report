@@ -38,7 +38,7 @@
             <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Date</th>
+                    <th>Vertical</th>
                     <th>Address</th>
                     <th>Url</th>
                     <th>&nbsp;</th>
@@ -50,7 +50,7 @@
                 <% @businesses.each do |business| %>
                     <tr>
                         <td><%= link_to business.name, business %></td>
-                        <td><%= business.created_at.to_formatted_s(:short)  %></td>
+                        <td><%= business.vertical  %></td>
                         <td><%= business.address %></td>
                         <td><%= business.url %></td>
                         <td><%= link_to 'Edit', {:action => "edit", :id => business.id} %></td>

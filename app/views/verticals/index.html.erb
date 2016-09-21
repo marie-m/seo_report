@@ -1,0 +1,45 @@
+<div class="page-title">
+    <h1>Verticals</h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Verticals',  verticals_path %></li>
+        <li>
+          <span class="show-for-sr">Current: </span>All
+        </li>
+      </ul>
+    </nav>
+</div>
+
+
+ <div class="callout card">
+            
+    <div class="callout-header">
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe, new_vertical_path, class: "button secondary small float-right" %>
+        <h4><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Verticals</h4>
+    </div>
+    <div class="callout-table">
+        <table>
+            
+            <tr>
+                <th class="narrow">Icon</th>
+                <th>Type</th>
+                <th>Used</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>
+            
+            <% @verticals.each do |vertical| %>
+            
+                <tr>
+                    <td class="narrow"><div class="icon-circle"><i class="fa <%= vertical.icon %> fa-fw"></i></div></td>
+                    <td><%= vertical.name %></td>
+                    <td class="narrow text-center">0</td>
+                    <th class="narrow"><%= link_to 'Edit', {:action => "edit", :id => vertical.id} %></th>
+                    <td class="narrow"><%= link_to "Delete", vertical, method: :delete,
+                                  data: { confirm: "You sure?" } %></td>
+                </tr>
+            
+            <% end %>
+        </table>
+    </div>
+</div>

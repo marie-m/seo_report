@@ -16,7 +16,6 @@
         <h4>Edit Business Stats</h4>
     </div>
     
-    
     <div class="callout-table">
        
             <%= form_for @business, method: :patch do |f| %>
@@ -24,6 +23,10 @@
                     <tr>
                         <th><%= f.label :name %></th>
                         <td><%= f.text_field :name %></td>
+                    </tr>
+                    <tr>
+                        <th><%= f.label :vertical %></th>
+                        <td><%= f.select(:vertical, options_from_collection_for_select(Vertical.all, "name", "name", @business.vertical)) %></td>
                     </tr>
                     <tr>
                         <th><%= f.label :address %></th>

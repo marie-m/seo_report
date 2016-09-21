@@ -19,7 +19,7 @@
                 <tr>
                     <td class="narrow"><div class="icon-circle"><i class="fa <%= vertical.icon %> fa-fw"></i></div></td>
                     <td><%= vertical.name %></td>
-                    <td class="narrow text-center">0</td>
+                    <td class="narrow text-center"><%= Business.where(vertical: vertical.name).count %></td>
                 </tr>
             
             <% end %>
