@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   # resources :headers
   # resources :details
   
+  resources :verticals
+  
   resources :businesses do
     
     resources :phase1s do
@@ -14,6 +16,7 @@ Rails.application.routes.draw do
   end
   
   get '/dashboard' => 'pages#dashboard'
+  get '/settings' => 'pages#settings'
   get '/help' => 'pages#help'
   get '/display' => 'pages#display'
   get '/phase1' => 'phase1s#index'

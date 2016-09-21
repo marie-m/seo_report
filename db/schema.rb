@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160916161022) do
+ActiveRecord::Schema.define(version: 20160921193240) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -113,5 +113,12 @@ ActiveRecord::Schema.define(version: 20160916161022) do
   end
 
   add_index "phase3s", ["business_id"], name: "index_phase3s_on_business_id"
+
+  create_table "verticals", force: true do |t|
+    t.string   "name"
+    t.string   "icon"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

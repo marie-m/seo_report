@@ -97,6 +97,21 @@ h4{ font-size: 1.15rem; }
 h5{ font-size: 1.1rem; }
 h6{ font-size: 1rem; }
 
+.icon-dropdown{
+    font-family: 'FontAwesome','Roboto', sans-serif;
+    
+    optgroup{
+            margin:0 .5em;
+        
+        & + optgroup{
+            border-top:1px solid $light-grey;
+            margin-top:.7em;
+            padding-top:.5em;
+        }
+    }
+}
+
+
 .page-title{
     line-height: 1;
     margin-bottom:15px;

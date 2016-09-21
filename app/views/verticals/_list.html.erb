@@ -1,0 +1,31 @@
+ <div class="callout card">
+            
+    <div class="callout-header">
+        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe, new_vertical_path, class: "button secondary small float-right" %>
+        <h4><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Verticals</h4>
+    </div>
+    <div class="callout-table">
+        <table>
+            
+            <tr>
+                <th class="narrow">Icon</th>
+                <th>Type</th>
+                <th class="narrow text-center">Used</th>
+            </tr>
+            
+            <% @verticals = Vertical.all.order('name ASC') %>
+            <% @verticals.each do |vertical| %>
+            
+                <tr>
+                    <td class="narrow"><div class="icon-circle"><i class="fa <%= vertical.icon %> fa-fw"></i></div></td>
+                    <td><%= vertical.name %></td>
+                    <td class="narrow text-center">0</td>
+                </tr>
+            
+            <% end %>
+        </table>
+    </div>
+    <div class="callout-footer">
+        <%= link_to 'Edit Verticals', verticals_path, class: 'card expanded link' %>
+    </div>
+</div>
