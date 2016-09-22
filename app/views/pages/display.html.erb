@@ -2,7 +2,9 @@
 <% if params[:phase] == '1' %>
     <% branding  = Business.find(Phase1.where(:id => params[:id]).first.business_id).branding; %>
 <% elsif params[:phase] == '2' %>
+    <% branding  = Business.find(Phase2.where(:id => params[:id]).first.business_id).branding; %>
 <% elsif params[:phase] == '3' %>
+    <% branding  = Business.find(Phase3.where(:id => params[:id]).first.business_id).branding; %>
 <% else %>
 <% end %>
 
