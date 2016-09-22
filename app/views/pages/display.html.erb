@@ -1,4 +1,12 @@
-<div class="report-header">
+<% branding = "" %>
+<% if params[:phase] == '1' %>
+    <% branding  = Business.find(Phase1.where(:id => params[:id]).first.business_id).branding; %>
+<% elsif params[:phase] == '2' %>
+<% elsif params[:phase] == '3' %>
+<% else %>
+<% end %>
+
+<div class="report-header <%= branding %>">
     <h1>Phase <%= params[:phase] %></h1>
 </div>
 

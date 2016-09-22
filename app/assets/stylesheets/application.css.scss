@@ -596,6 +596,20 @@ th + td{
         position:relative;
         margin-bottom:2.5em;
         
+        &.Next{
+            background-image: asset-data-url('brand-next.png');
+        background-position:left top;
+        background-repeat: no-repeat;
+        background-size:contain;
+        }
+        
+        &.CGI{
+            background-image: asset-data-url('brand-CGI.png');
+        background-position:left top;
+        background-repeat: no-repeat;
+        background-size:contain;
+        }
+        
         h1{
             color:#fff;
             position:relative;

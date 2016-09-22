@@ -16,6 +16,10 @@
                     <th><%= f.label :name %></th>
                     <td><%= f.text_field :name %></td>
                 </tr>
+                    <tr>
+                        <th><%= f.label :vertical %></th>
+                        <td><%= f.select(:vertical, options_from_collection_for_select(Vertical.all, "name", "name", @business.vertical)) %></td>
+                    </tr>
                 <tr>
                     <th><%= f.label :address %></th>
                     <td><%= f.text_field :address %></td>
@@ -23,6 +27,15 @@
                 <tr>
                     <th><%= f.label :url %></th>
                     <td><%= f.text_field :url %></td>
+                </tr>
+                <tr>
+                    <th class="narrow"><%= f.label "Client" %></th>
+                    <td>
+                        <%= f.radio_button :branding, 'Next' %> 
+                        <%= f.label :branding, 'Next', :value => 'Next' %>
+                        <%= f.radio_button :branding, 'CGI' %>
+                        <%= f.label :branding, 'CGI', :value => 'CGI' %>
+                    </td>
                 </tr>
                 <tr>
                     <td><%= f.submit 'Submit', class: "button secondary" %></td>
