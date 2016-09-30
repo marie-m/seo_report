@@ -45,6 +45,18 @@
             </td>
         </tr>
         <tr>
+            <th class="narrow"><%= f.label :currentHomeTitle, "Current Home Page Title Tag" %></th>
+            <td>
+                <%= f.text_area :currentHomeTitle %>
+            </td>
+        </tr>
+        <tr>
+            <th class="narrow"><%= f.label :currentHomeMeta, "Current Home Page Meta Description" %></th>
+            <td>
+                <%= f.text_area :currentHomeMeta %>
+            </td>
+        </tr>
+        <tr>
             <th class="narrow"><%= f.label :googleTrends, "Google Trends Link" %></th>
             <td>
                 <%= f.text_area :googleTrends %>

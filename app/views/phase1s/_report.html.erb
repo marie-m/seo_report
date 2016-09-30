@@ -28,11 +28,24 @@
     </div>
 </div>
 
-<div class="row lead-img flip"data-equalizer data-equalize-on="medium">
+<div class="row lead-img flip imgspace" data-equalizer data-equalize-on="medium">
     <h3 class="text-center">Why are Tags Important?</h3>
     <div class="medium-3 columns hex medium-push-9" data-equalizer-watch></div>
     <div class="medium-9 columns medium-pull-3" data-equalizer-watch>
         <p class="lead dark-grey">The search engines send “web spiders” out to crawl the web and report back website information. Google has thousands of these bots constantly searching through the internet, rebuilding and updating their index. The spiders look at the way in which the code for your website was written and use that information to help rank your website for certain phrases and keywords. What we do is read the code and make sure it is written properly for the spiders (and your clients!).</p>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="small-12 columns">
+        <h2 class="text-center">Current Title and Meta</h2>
+        
+        <div class="imgspace">
+            <p class="lead"><strong class="blue">Current Home Page Title Tag:</strong><br> <%= @phase1.currentHomeTitle %></p>
+            
+            <p class="lead"><strong class="blue">Current Home Page Meta Description:</strong><br> <%= @phase1.currentHomeMeta %></p>
+        </div>
     </div>
 </div>
 
