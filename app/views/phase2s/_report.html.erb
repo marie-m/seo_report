@@ -2,15 +2,11 @@
 <% fromScore = 0 %>
 <% @phase2 = Phase2.where(:id => params[:id]).first %>
 
-<div class="row imgspace">
-    <div class="small-12 columns">
-        <h1 class="text-center business-name"><%= Business.find(@phase2.business_id).name %></h1>
-    </div>
-</div>
 
 <div class="row lead-img"data-equalizer data-equalize-on="medium">
     <div class="medium-3 columns burst" data-equalizer-watch></div>
     <div class="medium-9 columns" data-equalizer-watch>
+        <h1 class="business-name"><%= Business.find(@phase2.business_id).name %></h1>
         <p class="lead">Now that your title tags and meta descriptions are complete and the web crawlers have begun associating your website with your keywords, we will be digging a little bit deeper. Making sure the content of your website is up to date and rich in valuable information can greatly assist in how well your website ranks. We will also look at your website from a technical standpoint.</p>
     </div>
 </div>

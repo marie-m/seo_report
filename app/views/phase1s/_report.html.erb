@@ -1,15 +1,10 @@
 <% @phase1 = Phase1.where(:id => params[:id]).first %>
 
-<div class="row imgspace">
-    <div class="small-12 columns">
-        <h1 class="text-center business-name"><%= Business.find(@phase1.business_id).name %></h1>
-    </div>
-</div>
-
 
 <div class="row lead-img"data-equalizer data-equalize-on="medium">
     <div class="medium-3 columns chart" data-equalizer-watch></div>
     <div class="medium-9 columns" data-equalizer-watch>
+        <h1 class="business-name"><%= Business.find(@phase1.business_id).name %></h1>
         <p class="lead">Your website plays a major role in how you rank on various search engines. We reviewed your website to ensure it is optimized and that the keywords selected represent your business and your geographic location. Below you will find our recommendations and why we suggest them.</p>
     </div>
 </div>
