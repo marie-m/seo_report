@@ -563,11 +563,12 @@ th + td{
         letter-spacing:.175em;
     }
     
-    h1{
+    h1.business-name{
         font-size:65px;
-        letter-spacing:.125em;
+        letter-spacing:0;
         color:$dark-grey;
         line-height:1;
+        margin-top:.5em;
     }
     
     h2{
@@ -601,7 +602,7 @@ th + td{
         color:#fff;
         text-align:center;
         position:relative;
-        margin-bottom:2.5em;
+        // margin-bottom:2.5em;
         
         &.Next{
             background-image: asset-data-url('brand-next.png');
