@@ -71,7 +71,7 @@ $global-weight-bold: bold;
 $global-radius: 0;
 $global-text-direction: ltr;
 $global-flexbox: false;
-$print-transparent-backgrounds: true;
+$print-transparent-backgrounds: false;
 
 @include add-foundation-colors;
 

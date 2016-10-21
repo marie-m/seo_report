@@ -554,17 +554,17 @@ th + td{
 
 .report{
     background:#fff;
-    color:$grey;
+    color:$grey !important;
     
     h1, h2, h3{
         font-family:"Oswald", sans-serif;
         text-transform:uppercase;
-        color:$green;
+        color:$green !important;
         letter-spacing:.175em;
     }
     
     h1.business-name{
-        color: darken( $blue, 15% );
+        color: darken( $blue, 15% ) !important;
         font-size:2.5em;
         letter-spacing:.1em;
         margin-bottom:.5em;
@@ -584,7 +584,7 @@ th + td{
     
     .blue{
         letter-spacing:normal;
-        color:$blue;
+        color:$blue !important;
     }
     
     .imgspace{
@@ -605,20 +605,20 @@ th + td{
         
         &.Next{
             background-image: asset-data-url('brand-next.png');
-        background-position:left top;
-        background-repeat: no-repeat;
-        background-size:contain;
+            background-position:left top;
+            background-repeat: no-repeat;
+            background-size:contain;
         }
         
         &.CGI{
             background-image: asset-data-url('brand-CGI.png');
-        background-position:left top;
-        background-repeat: no-repeat;
-        background-size:contain;
+            background-position:left top;
+            background-repeat: no-repeat;
+            background-size:contain;
         }
         
         h1{
-            color:#fff;
+            color:#fff !important;
             position:relative;
             left:0;
             right:0;
@@ -636,11 +636,11 @@ th + td{
         text-transform:uppercase;
         
         p{
-            color:$blue;
+            color:$blue !important;
         }
         
          p.dark-grey{
-            color:$dark-grey;
+            color:$dark-grey !important;
             text-transform:none;
         }
         
@@ -673,15 +673,15 @@ th + td{
         }
         
         .columns + .columns{
-            border-left:2px solid $dark-grey;
+            border-left:2px solid $dark-grey !important;
             padding-left:2em;
             padding-top:2em;
             padding-bottom:1.5em;
         }
         
         &.flip .columns + .columns{
-            border-left:0;
-            border-right:2px solid $dark-grey;
+            border-left:0 !important;
+            border-right:2px solid $dark-grey !important;
             padding-right:2em;
         }
     }
@@ -706,7 +706,7 @@ th + td{
         
         
         h4{
-            color:$dark-grey;
+            color:$dark-grey !important;
             font-variant:small-caps;
             text-transform:none;
             font-weight:900;
@@ -716,7 +716,7 @@ th + td{
         }
         
         p{
-            color:$grey;
+            color:$grey !important;
         }
     }
     
@@ -766,7 +766,7 @@ th + td{
     @include linearGradient($blue, #67D8E6);
     
     h1{
-        color:rgba(255,255,255,.35);
+        color:rgba(255,255,255,.35) !important;
         font-size:75px;
         letter-spacing:.175em;
         margin:1em auto 2em;
@@ -828,6 +828,265 @@ th + td{
         }
         
     }
+}
+
+@media print {
+    *{
+        color: inherit !important;
+    }
+    
+    /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-1 {
+    width: 8.33333%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-1 {
+    position: relative;
+    left: 8.33333%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-1 {
+    position: relative;
+    left: -8.33333%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-0 {
+    margin-left: 0%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-2 {
+    width: 16.66667%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-2 {
+    position: relative;
+    left: 16.66667%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-2 {
+    position: relative;
+    left: -16.66667%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-1 {
+    margin-left: 8.33333%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-3 {
+    width: 25%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-3 {
+    position: relative;
+    left: 25%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-3 {
+    position: relative;
+    left: -25%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-2 {
+    margin-left: 16.66667%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-4 {
+    width: 33.33333%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-4 {
+    position: relative;
+    left: 33.33333%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-4 {
+    position: relative;
+    left: -33.33333%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-3 {
+    margin-left: 25%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-5 {
+    width: 41.66667%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-5 {
+    position: relative;
+    left: 41.66667%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-5 {
+    position: relative;
+    left: -41.66667%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-4 {
+    margin-left: 33.33333%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-6 {
+    width: 50%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-6 {
+    position: relative;
+    left: 50%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-6 {
+    position: relative;
+    left: -50%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-5 {
+    margin-left: 41.66667%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-7 {
+    width: 58.33333%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-7 {
+    position: relative;
+    left: 58.33333%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-7 {
+    position: relative;
+    left: -58.33333%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-6 {
+    margin-left: 50%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-8 {
+    width: 66.66667%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-8 {
+    position: relative;
+    left: 66.66667%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-8 {
+    position: relative;
+    left: -66.66667%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-7 {
+    margin-left: 58.33333%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-9 {
+    width: 75%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-9 {
+    position: relative;
+    left: 75%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-9 {
+    position: relative;
+    left: -75%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-8 {
+    margin-left: 66.66667%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-10 {
+    width: 83.33333%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-10 {
+    position: relative;
+    left: 83.33333%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-10 {
+    position: relative;
+    left: -83.33333%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-9 {
+    margin-left: 75%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-11 {
+    width: 91.66667%;
+  }
+
+  /* line 91, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-push-11 {
+    position: relative;
+    left: 91.66667%;
+  }
+
+  /* line 95, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-pull-11 {
+    position: relative;
+    left: -91.66667%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-10 {
+    margin-left: 83.33333%;
+  }
+
+  /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-12 {
+    width: 100%;
+  }
+
+  /* line 103, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
+  .medium-offset-11 {
+    margin-left: 91.66667%;
+  }
+    
 }
 
 .login-form{
