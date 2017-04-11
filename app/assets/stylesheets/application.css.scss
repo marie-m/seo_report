@@ -383,6 +383,7 @@ h6{ font-size: 1rem; }
     
     .callout-table{
         padding:0;
+        overflow-x:auto;
         
         table{
             margin:0;
@@ -489,6 +490,19 @@ h6{ font-size: 1rem; }
 
 th + td{
      border-left:1px solid $light-grey;
+     position:relative;
+}
+
+.meta-count{
+    position:absolute;
+    right:.75em;
+    top:.9em;
+    color:#fff;
+    background:$grey;
+    height: 3.1em;
+    line-height:3em;
+    padding:0 1em;
+    border:1px solid $grey;
 }
 
 .count{

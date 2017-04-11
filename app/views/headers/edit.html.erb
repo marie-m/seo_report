@@ -17,7 +17,7 @@
                     </tr>
                     <tr>
                         <th class="narrow"><label>Description</label></th>
-                        <td><%= f.text_area :pageDescript %></td>
+                        <td><%= f.text_area :pageDescript , class: "count-watch" %><span class="meta-count"></span></td>
                     </tr>
                     <tr>
                         <th class="narrow"><label>H1 Tags</label></th>
@@ -35,3 +35,13 @@
             </div>
         <% end %>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.count-watch').on('keyup', function(event) {
+            $(this).siblings( ".meta-count" ).text($(this).val().length);
+        });
+        
+        $(".meta-count").text($( ".count-watch" ).val().length);
+    });
+</script>
