@@ -393,6 +393,54 @@ h6{ font-size: 1rem; }
             [type="file"], [type="checkbox"], [type="radio"]{
                 margin-bottom:0;
             }
+            
+            &.dataTable{
+                border:1px solid $light-grey;
+                border-width:2px 0;
+                
+                thead th, thead td{
+                    border-bottom:1px solid $light-grey;
+                }
+                
+                td{
+                    border-top:1px solid $light-grey;
+                }
+            }
+        }
+        
+        .dataTables_info{
+            padding:.85em .625em;
+            font-size:.9em;
+            color:$dark-grey;
+        }
+        
+        .dataTables_length{
+            margin:.625em .625em 0;
+        }
+        
+        .dataTables_filter{
+            margin:.625em .625em 0;
+        
+            input{
+                margin-left: auto;
+            }
+        }
+        
+        .dataTables_wrapper .dataTables_paginate{
+        
+            padding-right:.625em;
+        
+            .paginate_button{
+                border:0;
+                background:none;
+                color: $mid-grey;
+                padding:0.5em;
+                
+                &.current{
+                    color:$blue;
+                    }
+                    
+            }
         }
         
         thead, tfoot,
@@ -478,6 +526,7 @@ th + td{
         font-size:33px;
     }
 }
+
 
 .splash{
     padding-top:6em;
