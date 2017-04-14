@@ -1,0 +1,111 @@
+<%= link_to '<i class="fa fa-file fa-fw" aria-hidden="true"></i> Online Report'.html_safe,  display_path(phase: "4", id: @phase4.id ), class: "button secondary float-right", :target => '_blank' %>
+
+<div class="page-title">
+    <h1><%= @phase4.created_at.to_formatted_s(:long)  %></h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Businesses',  businesses_path %></li>
+        <li>
+            <%= link_to @business.name, business_path(@business) %>
+        </li>
+        <li>
+          <span class="show-for-sr">Current: </span> Phase 4
+        </li>
+      </ul>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="medium-8 columns">
+        <div class="callout card">
+            <div class="callout-header">
+                <div class ="float-right">
+                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_business_phase4_path(@business, @phase4.id), class: "button secondary small" %>
+                    <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
+                </div>
+                
+                <h4><i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i> Phase 4</h4>
+            </div>
+            <div class="callout-table">
+                
+                <table>
+                    <tr>
+                        <th class="narrow">Home page title tag and meta description contain keywords and locations?</th>
+                        <td><%= @phase4.titleHasKeywords %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Home page content contains keywords and locations?</th>
+                        <td><%= @phase4.copyHasKeywords %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Landing pages/service pages optimized?</th>
+                        <td><%= @phase4.optimized %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Fresh content? Pages need to be updated?</th>
+                        <td><%= @phase4.freshContent %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Images named and tagged?</th>
+                        <td><%= @phase4.imagesNamed %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Social media profile integrated?</th>
+                        <td><%= @phase4.socialMedia %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Google Analytics?</th>
+                        <td><%= @phase4.googleAnalytics %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Search Console?</th>
+                        <td><%= @phase4.webmasterTools %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">URLs short and user friendly?</th>
+                        <td><%= @phase4.shortURL %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Black Hat Free?</th>
+                        <td><%= @phase4.blackHatFree %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">XML Sitemap?</th>
+                        <td><%= @phase4.xmlSitemap %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Visitor Facing Sitemap?</th>
+                        <td><%= @phase4.visitorSitemap %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Internal Link Audit?</th>
+                        <td><%= @phase4.internalAudit %></td>
+                    </tr>
+                        <th class="narrow">Contact Form?</th>
+                        <td><%= @phase4.contactForm %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Map?</th>
+                        <td><%= @phase4.map %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Favicon?</th>
+                        <td><%= @phase4.favicon %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Flash Free?</th>
+                        <td><%= @phase4.flashFree %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow">Conversion Opportunities?</th>
+                        <td><%= @phase4.conversionOp %></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="medium-4 columns">
+        <%= render 'scoreCard' %>
+    </div>
+</div>

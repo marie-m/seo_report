@@ -1,0 +1,28 @@
+<div class="page-title">
+    <h1><%= @business.name %></h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Businesses',  businesses_path %></li>
+        <li>
+            <%= link_to @business.name, business_path(@business) %>
+        </li>
+        <li>
+          <span class="show-for-sr">Current: </span> New Phase 4
+        </li>
+      </ul>
+    </nav>
+</div>
+
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Phase 4 Details</h4>
+    </div>
+    
+    <%= form_for([@business, @business.phase4s.build]) do |f| %>
+        <%= render :partial => "formQs", :locals=>{:f=>f} %>
+        
+        <div class="callout-footer padded">
+            <%= f.submit 'Submit', class: "button secondary" %>
+        </div>
+    <% end %>
+</div>

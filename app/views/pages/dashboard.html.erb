@@ -11,9 +11,6 @@
 
 <div class="row">
     <div class="medium-6 large-3 columns">
-        <%= render 'businesses/count' %>
-    </div>
-    <div class="medium-6 large-3 columns">
         <%= render 'phase1s/count' %>
     </div>
     <div class="medium-6 large-3 columns">
@@ -22,24 +19,25 @@
     <div class="medium-6 large-3 columns">
         <%= render 'phase3s/count' %>
     </div>
+    <div class="medium-6 large-3 columns">
+        <%= render 'phase4s/count' %>
+    </div>
     
 </div>
 
 
 <div class="row">
-    <div class="medium-7 columns">
-        <%= render 'businesses/latest' %>
-    </div>
     <div class="medium-5 columns">
+        <%= render 'businesses/count' %>
+        
+        <%= render 'businesses/latest' %>
         <%= render 'contacts/latest' %>
     </div>
-</div>
-
-<div class="row">
       <div class="medium-7 columns">
         <%= render 'phase1s/latest' %>
         <%= render 'phase2s/latest' %>
         <%= render 'phase3s/latest' %>
+        <%= render 'phase4s/latest' %>
     </div>  
     
 </div>

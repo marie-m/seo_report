@@ -34,10 +34,11 @@
             
             <tbody>
                 <% @phase2s.each do |phase2| %>
+                    <% @business = Business.where(:id => phase2.business_id).first %>
+                
                     <tr>
-                        <td><%= link_to phase2.created_at.to_formatted_s(:short), phase2_url(phase2)  %></td>
+                        <td><%= link_to phase2.created_at.to_formatted_s(:short), business_phase2_path(@business, phase2)  %></td>
                         <td>
-                            <% @business = Business.where(:id => phase2.business_id).first %>
                             <%= @business.name %>
                         </td>
                         <td><%= phase2.titleHasKeywords %></td>

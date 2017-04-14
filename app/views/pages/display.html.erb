@@ -5,6 +5,8 @@
     <% branding  = Business.find(Phase2.where(:id => params[:id]).first.business_id).branding; %>
 <% elsif params[:phase] == '3' %>
     <% branding  = Business.find(Phase3.where(:id => params[:id]).first.business_id).branding; %>
+<% elsif params[:phase] == '4' %>
+    <% branding  = Business.find(Phase4.where(:id => params[:id]).first.business_id).branding; %>
 <% else %>
 <% end %>
 
@@ -18,6 +20,8 @@
     <%= render 'phase2s/report' %>
 <% elsif params[:phase] == '3' %>
     <%= render 'phase3s/report' %>
+<% elsif params[:phase] == '4' %>
+    <%= render 'phase4s/report' %>
 <% else %>
 
 Woah there! You're not supposed to be here!

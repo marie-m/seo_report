@@ -31,10 +31,11 @@
             
             <tbody>
                 <% @phase3s.each do |phase3| %>
+                    <% @business = Business.where(:id => phase3.business_id).first %>
+                    
                     <tr>
-                        <td><%= link_to phase3.created_at.to_formatted_s(:short), phase3_url(phase3)  %></td>
+                        <td><%= link_to phase3.created_at.to_formatted_s(:short), business_phase3_path(@business, phase3)  %></td>
                         <td>
-                            <% @business = Business.where(:id => phase3.business_id).first %>
                             <%= @business.name %>
                         </td>
                         <td><%= phase3.xmlSitemap %></td>

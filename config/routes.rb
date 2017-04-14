@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     
     resources :phase2s
     resources :phase3s
+    resources :phase4s
   end
   
   get '/dashboard' => 'pages#dashboard'
@@ -22,6 +23,7 @@ Rails.application.routes.draw do
   get '/phase1' => 'phase1s#index'
   get '/phase2' => 'phase2s#index'
   get '/phase3' => 'phase3s#index'
+  get '/phase4' => 'phase4s#index'
   
   root 'pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
