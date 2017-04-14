@@ -21,7 +21,13 @@ class BusinessesController < ApplicationController
             flash[:success] = "Business added."
             redirect_to @business
         else
-            flash[:alert] = "Error occured, business not added."
+            errorString = "Error occured, business not added."
+            
+            @business.errors.each do |attribute, error|
+                errorString = "#{errorString}" + " #{attribute}" + " #{error}"
+            end
+            
+            flash[:alert] = errorString.html_safe
             redirect_to businesses_url
         end
     end

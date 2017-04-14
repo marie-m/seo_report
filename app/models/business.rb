@@ -1,4 +1,6 @@
 class Business < ActiveRecord::Base
+    validates :name, uniqueness: true
+  
     has_many :phase1s, dependent: :destroy
     accepts_nested_attributes_for :phase1s
     
