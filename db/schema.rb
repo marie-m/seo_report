@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160930122027) do
+ActiveRecord::Schema.define(version: 20170414134749) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -116,6 +116,31 @@ ActiveRecord::Schema.define(version: 20160930122027) do
   end
 
   add_index "phase3s", ["business_id"], name: "index_phase3s_on_business_id"
+
+  create_table "phase4s", force: true do |t|
+    t.string   "copyHasKeywords"
+    t.string   "freshContent"
+    t.string   "imagesNamed"
+    t.string   "socialMedia"
+    t.string   "googleAnalytics"
+    t.string   "webmasterTools"
+    t.string   "localBusiness"
+    t.string   "optimized"
+    t.string   "shortURL"
+    t.string   "blackHatFree"
+    t.string   "titleHasKeywords"
+    t.string   "xmlSitemap"
+    t.string   "visitorSitemap"
+    t.string   "internalAudit"
+    t.string   "contactForm"
+    t.string   "map"
+    t.string   "favicon"
+    t.string   "flashFree"
+    t.string   "conversionOp"
+    t.integer  "business_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "verticals", force: true do |t|
     t.string   "name"
