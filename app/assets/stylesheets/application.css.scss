@@ -163,7 +163,7 @@ h6{ font-size: 1rem; }
     }
 }
 
-.button.secondary{
+.button.secondary,.printBtn{
     background: $blue;
     text-transform:uppercase;
     margin-bottom:0;
@@ -174,6 +174,21 @@ h6{ font-size: 1rem; }
     
     &:active, &:focus{
         background: darken( $blue, 15% );
+    }
+    
+    
+}
+
+.printBtn{
+    position:fixed;
+    right:0;
+    top:0;
+    z-index:900;
+    color:#fff;
+    padding:.5em 1em;
+    
+    &:hover, &:active, &:focus{
+        color:#fff;
     }
 }
 
@@ -897,6 +912,19 @@ th + td{
     *{
         color: inherit !important;
     }
+    
+    .medium-9.columns{
+        height:auto !important;
+    }
+    
+    .printBtn{
+        display:none;
+    }
+    
+    .row.trailing-arrows{
+        margin-top:150px;
+    }
+    
     
     /* line 85, /usr/local/rvm/gems/ruby-2.3.0/gems/foundation-rails-6.2.3.0/vendor/assets/scss/grid/_classes.scss */
   .medium-1 {

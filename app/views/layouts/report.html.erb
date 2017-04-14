@@ -15,9 +15,17 @@
   </head>
 
   <body class="report">
+        
+        <a class="printBtn" onclick="printFunct()">Print this Report</a>
       
         <!-- Page content -->
         <%= yield %>
+        
+        <script>
+        function printFunct() {
+            window.print();
+        }
+        </script>
       
   </body>
 </html>
