@@ -56,6 +56,6 @@ class Phase4sController < ApplicationController
     
     private
         def phase4_params
-            params.require(:phase4).permit(:copyHasKeywords,  :freshContent, :imagesNamed, :socialMedia, :googleAnalytics, :webmasterTools, :localBusiness, :optimized, :shortURL, :blackHatFree, :titleHasKeywords, :xmlSitemap, :visitorSitemap, :internalAudit, :contactForm, :map, :favicon, :flashFree, :conversionOp)
+            params.require(:phase4).permit(:blog, :video, :sslcertificate, :duplicateSites, :friendlyNav, :metaKeywords, :clickToCall)
         end
 end

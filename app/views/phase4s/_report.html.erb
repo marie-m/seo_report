@@ -6,17 +6,10 @@
     <div class="medium-3 columns burst" data-equalizer-watch></div>
     <div class="medium-9 columns" data-equalizer-watch>
         <h1 class="business-name"><%= Business.find(@phase4.business_id).name %></h1>
-        <p class="lead">Now that your title tags and meta descriptions are complete and the web crawlers have begun associating your website with your keywords, we will be digging a little bit deeper. Making sure the content of your website is up to date and rich in valuable information can greatly assist in how well your website ranks. We will also look at your website from a technical standpoint.</p>
+        <p class="lead">Allow us to dig even deeper! During Phase 4 we will be looking for fresh content opportunities and ways to improve user experience.</p>
     </div>
 </div>
 
-<div class="row lead-img"data-equalizer data-equalize-on="medium">
-    <div class="medium-3 columns arrows" data-equalizer-watch></div>
-    <div class="medium-9 columns" data-equalizer-watch>
-        <h1 class="business-name"><%= Business.find(@phase4.business_id).name %></h1>
-        <p class="lead">In phase 4 we are going to dig even deeper, because nothing is more important to SEO than fresh website updates. Here we are going to make sure your site structure is easy to navigate and that potential customers can find you and contact you easily.</p>
-    </div>
-</div>
 
 <div class="row">
     <div class="small-12 columns">
@@ -26,326 +19,123 @@
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.titleHasKeywords == 'yes' %>
+                    <% if @phase4.blog == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.titleHasKeywords == 'no' %>
+                    <% elsif @phase4.blog == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Does your home page title tag and meta description contain keywords and locations?</h4>
-                    <p>As we discussed during phase 1, title tags and meta descriptions are the most important aspect of SEO. These help the search engines identify what your website and business are all about. Your home page is always going to have the most credibility to the search engines, so it is crucial that the tags are optimized with your keywords, location(s) and business name. </p>
+                    <h4>Does your website have a blog?</h4>
+                    <p>A blog is a great way to produce fresh content on a consistent basis. You can use your blog as a way to increase rankings for keywords that are not performing well, or as a way to engage visitors and provide educational content. Either way, if they are reading your blog, they are spending more time on our site which leads to better performance in the search engines. Also, if you can get people to share your blog, you become more credible through backlinks.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.copyHasKeywords == 'yes' %>
+                    <% if @phase4.video == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.copyHasKeywords == 'no' %>
+                    <% elsif @phase4.video == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Does your home page content contain keywords and locations?</h4>
-                    <p>When a search is made, Google looks for keywords within your coding, as well as your content, that is relevant to the user's search. The search engines are looking for fresh, engaging and informative content that is also relative to the search. The services offered and the locations you service should always be easy to find within your content and a home page should never have less than 150 characters.</p>
+                    <h4>Does your website have a video?</h4>
+                    <p>Much like a blog, a video is a great way to engage your visitors, which relates to more time spent on your website, which equals better rankings! Videos also have a much higher click through rate than plain text and carry a heavy weight in Google's algorithm. And again, if someone shares your video, more backlinks!</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.optimized == 'yes' %>
+                    <% if @phase4.sslcertificate == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.optimized == 'no' %>
+                    <% elsif @phase4.sslcertificate == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Are your landing pages/service pages optimized?</h4>
-                    <p>In order for Google to associate your website with the services you offer, it is important that those landing pages are optimized for the specific service. This should include your title tag, meta description, heading tags, images, content and URL.</p>
+                    <h4>Does your website have an SSL certificate?</h4>
+                    <p>This is the difference between HTTP and HTTPS, which provides a mechanism to guarantee authenticity and protect any information being transferred over the internet. As of late, Google considers this to be a ranking factor. </p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.freshContent == 'yes' %>
+                    <% if @phase4.duplicateSites == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.freshContent == 'no' %>
+                    <% elsif @phase4.duplicateSites == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Is your content fresh? Do any pages need to be updated?</h4>
-                    <p>Visitors come to your website to learn more about your business and products. Fresh content helps the visitors stay updated, and also lets Google know that you are an active and legitimate business. Keeping your website consistently fresh will keep you towards the top of the rankings.</p>
+                    <h4>Do you have any duplicate sites or URLs being indexed by the search engines?</h4>
+                    <p>If your business has more than one website, there is a good chance you will not perform well in the search engines. Google likes to see consistency, and anything that may confuse them becomes spam. Best practice is to have one website, that is well optimized, and any other domains should have a 301 redirect to your main website.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.imagesNamed == 'yes' %>
+                    <% if @phase4.friendlyNav == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.imagesNamed == 'no' %>
+                    <% elsif @phase4.friendlyNav == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Are your images properly tagged?</h4>
-                    <p>Because search engines cannot see images the same way humans do, it is important to add image alt tags to your photos. This line of code helps the web crawlers identify what your image is and also provides text for a visitor if the image will not load.<br>
+                    <h4>Is your navigation user friendly?</h4>
+                    <p>Over the years SEO has become more about user experience, and less about a checklist of qualifications. This holds true when it comes to your website's navigation. All of your pages should be accessible through your navigation bar, it should be easy to find, it should have crawlable text and not images, and it should flow in an order that makes sense.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.socialMedia == 'yes' %>
+                    <% if @phase4.metaKeywords == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.socialMedia == 'no' %>
+                    <% elsif @phase4.metaKeywords == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Are links to your social media profiles integrated into your website?</h4>
-                    <p>Having your social media links on your website is important in developing customer relationships. It also enhances your rankings due to the outbound links to credible sources like Facebook, Twitter, Google+, and LinkedIn. These websites are viewed as trusted sites and will enhance your site's credibility to search engines.</p>
+                    <h4>Does your website have meta keywords?</h4>
+                    <p>Meta keywords are an outdated tactic that was once used to help the search engines identify your keyphrases. This no longer has any value and can be considered spam.</p>
                 </td>
             </tr>
             <tr>
                 <th class="narrow">
                     <% fromScore += 1 %>
-                    <% if @phase4.googleAnalytics == 'yes' %>
+                    <% if @phase4.clickToCall == 'yes' %>
                         <% positiveScore += 1 %>
                         <div class="score positive"></div>
-                    <% elsif @phase4.googleAnalytics == 'no' %>
+                    <% elsif @phase4.clickToCall == 'no' %>
                         <div class="score negative"></div>
                     <% else %>
                         <div class="score"></div>
                     <% end %>
                 </th>
                 <td>
-                    <h4>Is Google Analytics installed on your website?</h4>
-                    <p>Google Analytics is crucial in gathering data relating to your website traffic. This allows you to understand your audience's location, how they found your site, what pages they viewed, and more. Having this knowledge allows you to target them more effectively to get more relevant users to visit your site.</p>
+                    <h4>Does your website have a click to call button on a mobile device?</h4>
+                    <p>It is important to create a positive experience for your visitors no matter the device they are using. One way to do this is to provide them with one click options! A click to call button allows your visitors to call you with the touch of a button.</p>
                 </td>
             </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.webmasterTools == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.webmasterTools == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Is Search Console installed on your website?</h4>
-                    <p>Search Console offers valuable insight by finding errors on your site and also viewing what keywords users searched to get to your site. This, along with Google Analytics, is a powerful tool to increase your SEO rankings, better understand your audience and keep your site secure.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.localBusiness == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.localBusiness == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Is Local Business Schema Markup implemented on your website?</h4>
-                    <p>This is a tool in Google Webmaster Tools that adds coding around your name, address, phone number, hours of operation and other items that a local searcher would be looking for. This code is a signal to the search engines and is known to improve local search rankings.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.shortURL == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.shortURL == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Are your URLs short and user friendly?</h4>
-                    <p>Your page URL should be no more than 115 characters and should describe the corresponding content. name. If I am on the services page, the URL should be www.domain.com/services.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.blackHatFree == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.blackHatFree == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Is your website free of hidden text or other “black hat” tactics that can potentially hurt your rankings?</h4>
-                    <p>With SEO, it is important that we are staying inline with Google's standards and not implementing any tactics that they would consider black hat. This could be hidden text, spammy links or keyword stuffing.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.xmlSitemap == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.xmlSitemap == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Does your website have an XML sitemap?</h4>
-                    <p>XML sitemaps are used to help the web crawlers navigate throughout your website. They also help create a site structure and hierarchy. This is important for larger websites so that no pages are missed during a crawl.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.visitorSitemap == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.visitorSitemap == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Does your website have a visitor facing sitemap?</h4>
-                    <p>A visitor facing sitemap does all the same things as an XML, but is visible from your website. This is to help visitors find pages and navigate through the site. This also creates internal linking opportunities.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.internalAudit == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.internalAudit == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Are there any missing internal link opportunities?</h4>
-                    <p>Internal links are helpful in guiding visitors from one page to another. These are placed within your content when a keyword or phrase is linked to a corresponding page. Just like sitemaps, these help the web crawlers navigate your pages.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.contactForm == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.contactForm == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Does your website have a contact form?</h4>
-                    <p>Contact forms are a helpful way for visitors and potential customers to get in touch with you. They should include a field for Name, Phone Number, Email Address, and a Message/Question.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.map == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.map == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Is there a map on your website or a link to get directions?</h4>
-                    <p>It is helpful to have a Google Map embedded on your contact us page, along with your address. This is known to improve your rankings and help in local search.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.favicon == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.favicon == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Does your website have a favicon?</h4>
-                    <p>A favicon is the icon/image that appears in your browser's tab. It can be a shrunken down version of your logo, or just a symbol that represents your business. A favicon is important for not only brand recognition but also for convenience and user friendliness. A major factor in SEO is useability. If a visitor can land on your website and know they arrived at the right place, your average time on site will increase, your bounce rate will decrease,  and in turn, search rankings will increase.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.flashFree == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.flashFree == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Is your website flash free?</h4>
-                    <p>Flash is an outdated technology that was once used to deliver rich multimedia content. Flash is not only difficult for crawlers, but it does not translate to mobile.</p>
-                </td>
-            </tr>
-            <tr>
-                <th class="narrow">
-                    <% fromScore += 1 %>
-                    <% if @phase4.conversionOp == 'yes' %>
-                        <% positiveScore += 1 %>
-                        <div class="score positive"></div>
-                    <% elsif @phase4.conversionOp == 'no' %>
-                        <div class="score negative"></div>
-                    <% else %>
-                        <div class="score"></div>
-                    <% end %>
-                </th>
-                <td>
-                    <h4>Does your website have enough conversion opportunities above the fold?</h4>
-                    <p>A websites main function is to convert visitors to customers. Our job is to make sure it is easy for these potential customers to contact you by placing call to action buttons, a prominent phone number, a contact form, or a request appointment button in plain sight.</p>
-                </td>
-            </tr>
+           
     
         </table>
         

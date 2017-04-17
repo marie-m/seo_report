@@ -1,213 +1,82 @@
 <div class="callout-table">
     <table>
          <tr>
-            <th class="narrow"><%= f.label :titleHasKeywords, "Home page title tag and meta description contain keywords and locations?" %></th>
+            <th class="narrow"><%= f.label :blog, "Does your website have a blog?" %></th>
             <td>
-                <%= f.radio_button :titleHasKeywords, 'no' %> 
-                <%= f.label :titleHasKeywords, 'No', :value => 'no' %>
-                <%= f.radio_button :titleHasKeywords, 'yes' %>
-                <%= f.label :titleHasKeywords, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :titleHasKeywords, 'n/a' %>
-                <%= f.label :titleHasKeywords, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :blog, 'no' %> 
+                <%= f.label :blog, 'No', :value => 'no' %>
+                <%= f.radio_button :blog, 'yes' %>
+                <%= f.label :blog, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :blog, 'n/a' %>
+                <%= f.label :blog, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :copyHasKeywords, "Home page content contains keywords and locations?" %></th>
+         <tr>
+            <th class="narrow"><%= f.label :video, "Does your website have a video?" %></th>
             <td>
-                <%= f.radio_button :copyHasKeywords, 'no' %> 
-                <%= f.label :copyHasKeywords, 'No', :value => 'no' %>
-                <%= f.radio_button :copyHasKeywords, 'yes' %>
-                <%= f.label :copyHasKeywords, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :copyHasKeywords, 'n/a' %>
-                <%= f.label :copyHasKeywords, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :video, 'no' %> 
+                <%= f.label :video, 'No', :value => 'no' %>
+                <%= f.radio_button :video, 'yes' %>
+                <%= f.label :video, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :video, 'n/a' %>
+                <%= f.label :video, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :optimized, "Landing pages/service pages optimized?" %></th>
+         <tr>
+            <th class="narrow"><%= f.label :sslcertificate, "Does your website have an SSL certificate?" %></th>
             <td>
-                <%= f.radio_button :optimized, 'no' %> 
-                <%= f.label :optimized, 'No', :value => 'no' %>
-                <%= f.radio_button :optimized, 'yes' %>
-                <%= f.label :optimized, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :optimized, 'n/a' %>
-                <%= f.label :optimized, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :sslcertificate, 'no' %> 
+                <%= f.label :sslcertificate, 'No', :value => 'no' %>
+                <%= f.radio_button :sslcertificate, 'yes' %>
+                <%= f.label :sslcertificate, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :sslcertificate, 'n/a' %>
+                <%= f.label :sslcertificate, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :freshContent, "Fresh content? Pages need to be updated?" %></th>
+         <tr>
+            <th class="narrow"><%= f.label :duplicateSites, "Do you have any duplicate sites or URLs being indexed by the search engines?" %></th>
             <td>
-                <%= f.radio_button :freshContent, 'no' %> 
-                <%= f.label :freshContent, 'No', :value => 'no' %>
-                <%= f.radio_button :freshContent, 'yes' %>
-                <%= f.label :freshContent, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :freshContent, 'n/a' %>
-                <%= f.label :freshContent, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :duplicateSites, 'no' %> 
+                <%= f.label :duplicateSites, 'No', :value => 'no' %>
+                <%= f.radio_button :duplicateSites, 'yes' %>
+                <%= f.label :duplicateSites, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :duplicateSites, 'n/a' %>
+                <%= f.label :duplicateSites, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :imagesNamed, "Images named and tagged?" %></th>
+         <tr>
+            <th class="narrow"><%= f.label :friendlyNav, "Is your navigation user friendly?" %></th>
             <td>
-                <%= f.radio_button :imagesNamed, 'no' %> 
-                <%= f.label :imagesNamed, 'No', :value => 'no' %>
-                <%= f.radio_button :imagesNamed, 'yes' %>
-                <%= f.label :imagesNamed, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :imagesNamed, 'n/a' %>
-                <%= f.label :imagesNamed, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :friendlyNav, 'no' %> 
+                <%= f.label :friendlyNav, 'No', :value => 'no' %>
+                <%= f.radio_button :friendlyNav, 'yes' %>
+                <%= f.label :friendlyNav, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :friendlyNav, 'n/a' %>
+                <%= f.label :friendlyNav, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :socialMedia, "Social media profile integrated?" %></th>
+         <tr>
+            <th class="narrow"><%= f.label :metaKeywords, "Does your website have meta keywords?" %></th>
             <td>
-                <%= f.radio_button :socialMedia, 'no' %> 
-                <%= f.label :socialMedia, 'No', :value => 'no' %>
-                <%= f.radio_button :socialMedia, 'yes' %>
-                <%= f.label :socialMedia, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :socialMedia, 'n/a' %>
-                <%= f.label :socialMedia, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :metaKeywords, 'no' %> 
+                <%= f.label :metaKeywords, 'No', :value => 'no' %>
+                <%= f.radio_button :metaKeywords, 'yes' %>
+                <%= f.label :metaKeywords, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :metaKeywords, 'n/a' %>
+                <%= f.label :metaKeywords, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :googleAnalytics, "Google Analytics?" %></th>
+         <tr>
+            <th class="narrow"><%= f.label :clickToCall, "Does your website have a click to call button on a mobile device?" %></th>
             <td>
-                <%= f.radio_button :googleAnalytics, 'no' %> 
-                <%= f.label :googleAnalytics, 'No', :value => 'no' %>
-                <%= f.radio_button :googleAnalytics, 'yes' %>
-                <%= f.label :googleAnalytics, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :googleAnalytics, 'n/a' %>
-                <%= f.label :googleAnalytics, 'N/A', :value => 'n/a' %>
+                <%= f.radio_button :clickToCall, 'no' %> 
+                <%= f.label :clickToCall, 'No', :value => 'no' %>
+                <%= f.radio_button :clickToCall, 'yes' %>
+                <%= f.label :clickToCall, 'Yes', :value => 'yes' %>
+                <%= f.radio_button :clickToCall, 'n/a' %>
+                <%= f.label :clickToCall, 'N/A', :value => 'n/a' %>
             </td>
         </tr>
-        <tr>
-            <th class="narrow"><%= f.label :webmasterTools, "Search Console?" %></th>
-            <td>
-                <%= f.radio_button :webmasterTools, 'no' %> 
-                <%= f.label :webmasterTools, 'No', :value => 'no' %>
-                <%= f.radio_button :webmasterTools, 'yes' %>
-                <%= f.label :webmasterTools, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :webmasterTools, 'n/a' %>
-                <%= f.label :webmasterTools, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :localBusiness, "Local business schema markup?" %></th>
-            <td>
-                <%= f.radio_button :localBusiness, 'no' %> 
-                <%= f.label :localBusiness, 'No', :value => 'no' %>
-                <%= f.radio_button :localBusiness, 'yes' %>
-                <%= f.label :localBusiness, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :localBusiness, 'n/a' %>
-                <%= f.label :localBusiness, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :shortURL, "URLs short and user friendly?" %></th>
-            <td>
-                <%= f.radio_button :shortURL, 'no' %> 
-                <%= f.label :shortURL, 'No', :value => 'no' %>
-                <%= f.radio_button :shortURL, 'yes' %>
-                <%= f.label :shortURL, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :shortURL, 'n/a' %>
-                <%= f.label :shortURL, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :localBusiness, "Black Hat Free?" %></th>
-            <td>
-                <%= f.radio_button :blackHatFree, 'no' %> 
-                <%= f.label :blackHatFree, 'No', :value => 'no' %>
-                <%= f.radio_button :blackHatFree, 'yes' %>
-                <%= f.label :blackHatFree, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :blackHatFree, 'n/a' %>
-                <%= f.label :blackHatFree, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :xmlSitemap, "XML Sitemap" %></th>
-            <td>
-                <%= f.radio_button :xmlSitemap, 'no' %> 
-                <%= f.label :xmlSitemap, 'No', :value => 'no' %>
-                <%= f.radio_button :xmlSitemap, 'yes' %>
-                <%= f.label :xmlSitemap, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :xmlSitemap, 'n/a' %>
-                <%= f.label :xmlSitemap, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :visitorSitemap, "Visitor Sitemap" %></th>
-            <td>
-                <%= f.radio_button :visitorSitemap, 'no' %> 
-                <%= f.label :visitorSitemap, 'No', :value => 'no' %>
-                <%= f.radio_button :visitorSitemap, 'yes' %>
-                <%= f.label :visitorSitemap, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :visitorSitemap, 'n/a' %>
-                <%= f.label :visitorSitemap, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :internalAudit, "Internal Link Audit" %></th>
-            <td>
-                <%= f.radio_button :internalAudit, 'no' %> 
-                <%= f.label :internalAudit, 'No', :value => 'no' %>
-                <%= f.radio_button :internalAudit, 'yes' %>
-                <%= f.label :internalAudit, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :internalAudit, 'n/a' %>
-                <%= f.label :internalAudit, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :contactForm, "Contact Form" %></th>
-            <td>
-                <%= f.radio_button :contactForm, 'no' %> 
-                <%= f.label :contactForm, 'No', :value => 'no' %>
-                <%= f.radio_button :contactForm, 'yes' %>
-                <%= f.label :contactForm, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :contactForm, 'n/a' %>
-                <%= f.label :contactForm, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :map, "Map" %></th>
-            <td>
-                <%= f.radio_button :map, 'no' %> 
-                <%= f.label :map, 'No', :value => 'no' %>
-                <%= f.radio_button :map, 'yes' %>
-                <%= f.label :map, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :map, 'n/a' %>
-                <%= f.label :map, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :favicon, "Favicon" %></th>
-            <td>
-                <%= f.radio_button :favicon, 'no' %> 
-                <%= f.label :favicon, 'No', :value => 'no' %>
-                <%= f.radio_button :favicon, 'yes' %>
-                <%= f.label :favicon, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :favicon, 'n/a' %>
-                <%= f.label :favicon, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :flashFree, "Flash Free" %></th>
-            <td>
-                <%= f.radio_button :flashFree, 'no' %> 
-                <%= f.label :flashFree, 'No', :value => 'no' %>
-                <%= f.radio_button :flashFree, 'yes' %>
-                <%= f.label :flashFree, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :flashFree, 'n/a' %>
-                <%= f.label :flashFree, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
-        <tr>
-            <th class="narrow"><%= f.label :conversionOp, "Conversion Opportunities" %></th>
-            <td>
-                <%= f.radio_button :conversionOp, 'no' %> 
-                <%= f.label :conversionOp, 'No', :value => 'no' %>
-                <%= f.radio_button :conversionOp, 'yes' %>
-                <%= f.label :conversionOp, 'Yes', :value => 'yes' %>
-                <%= f.radio_button :conversionOp, 'n/a' %>
-                <%= f.label :conversionOp, 'N/A', :value => 'n/a' %>
-            </td>
-        </tr>
+        
     </table>
 </div>
