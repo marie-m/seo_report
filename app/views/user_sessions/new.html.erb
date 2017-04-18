@@ -1,5 +1,31 @@
-<h1>Login</h1>
+<div class="callout card">
+  <div class="callout-header">
+    <div class="row">
+        <div class="small-6 columns">
+          <%= link_to(image_tag("logo-dark.png", :alt => "logo", :title => "Home"), "/") %>
+        </div>
+        
+        <div class="small-6 columns">
+          <ul class="menu align-right">
+            <li><a class="active" href="#">Log In</a></li>
+            <li><a href="#">Register</a></li>
+          </ul>
+        </div>
+      
+    </div>
+  </div>
+  <div class="callout-body text-center">
+    <h3>Welcome Back</h3>
+    
+    <div class="row login-form">
+      <div class="small-10 medium-6 small-offset-1 medium-offset-3 columns">
+            
+           <%= render 'form' %>
+        
+      </div>
+    </div>
 
-<%= render 'form' %>
-
-<%= link_to 'Back', user_sessions_path %>
+  </div>
+</div>
+         
+           

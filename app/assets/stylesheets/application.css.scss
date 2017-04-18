@@ -72,6 +72,11 @@ $mid-grey: #83878c;
 $dark-grey: #414b57;
 $half-white: rgba(255,255,255,.5);
 
+
+html,body{
+    height:100%;
+}
+
 body{
     background: $dark-grey;
     font-family: 'Roboto', sans-serif;
@@ -208,8 +213,16 @@ h6{ font-size: 1rem; }
 }
 
 .off-canvas-wrapper, .off-canvas-wrapper-inner{
-    height: 100%;
+    width:100%;
+    
+overflow-x: hidden;
+position: relative;
 }
+
+.off-canvas-wrapper{height:100%;}
+
+.off-canvas-wrapper-inner{height:100%;}
+
 
 .off-canvas-content, .off-canvas-content{
     background: $light-grey;
@@ -1190,6 +1203,10 @@ th + td{
     .wrap-pass{
         border-bottom:1px solid $dark-grey;
         margin-bottom:2em;
+        
+         input, [type="text"]:focus, [type="password"]:focus, [type="date"]:focus, [type="datetime"]:focus, [type="datetime-local"]:focus, [type="month"]:focus, [type="week"]:focus, [type="email"]:focus, [type="number"]:focus, [type="search"]:focus, [type="tel"]:focus, [type="time"]:focus, [type="url"]:focus, [type="color"]:focus, textarea:focus{
+            width:90%;
+        }
     }
     
     .wrap .fa{
