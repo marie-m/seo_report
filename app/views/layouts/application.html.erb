@@ -80,8 +80,10 @@
           <div class="title-bar-right">
             <ul class="menu">
               <li><%= link_to '<i class="fa fa-area-chart fa-fw"></i>'.html_safe, '#' %></li>
-              <li><%= link_to 'User Name', '#' %></li>
-              <li><%= link_to '<i class="fa fa-sign-out fa-fw"></i>'.html_safe, '#' %></li>
+              <% if current_user %>
+                <li><%= link_to current_user.username, edit_user_path(current_user.id) %></li>
+                <li><%= link_to '<i class="fa fa-sign-out fa-fw"></i>'.html_safe, :logout, method: :post %></li>
+              <% end %>
             </ul>
           </div>
         </div>
