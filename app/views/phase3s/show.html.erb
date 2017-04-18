@@ -19,10 +19,12 @@
     <div class="medium-8 columns">
         <div class="callout card">
             <div class="callout-header">
-                <div class ="float-right">
-                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_business_phase3_path(@business, @phase3.id), class: "button secondary small" %>
-                    <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
-                </div>
+                <% if (current_user.userrank == 'admin') || (current_user.userrank == 'seo')  %>
+                    <div class ="float-right">
+                        <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_business_phase3_path(@business, @phase3.id), class: "button secondary small" %>
+                        <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, "#", method: :delete, class: "button secondary small",  data: { confirm: "You sure?" } %>
+                    </div>
+                <% end %>
                 
                 <h4><i class="fa fa-puzzle-piece fa-fw" aria-hidden="true"></i> Phase 3</h4>
             </div>

@@ -1,7 +1,9 @@
  <div class="callout card">
             
     <div class="callout-header">
-        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_business_path, class: "button secondary small float-right" %>
+        <% if (current_user.userrank == 'admin') || (current_user.userrank == 'seo')  %>
+            <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe,  new_business_path, class: "button secondary small float-right" %>
+        <% end %>
         <h4>Latest Businesses</h4>
     </div>
     <div class="callout-table">
@@ -17,7 +19,9 @@
                         <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(business.created_at) %> ago</small>
                     </td>
                     <td class="text-right">
+                       
                         <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, business %>
+                       
                     </td>
                 </tr>
             <% end %>

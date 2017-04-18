@@ -1,5 +1,28 @@
-<h1>New user</h1>
+<div class="page-title">
+    <h1>New User</h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <li><%= link_to 'Users',  users_path %></li>
+        <li>
+          <span class="show-for-sr">Current: </span> New User
+        </li>
+      </ul>
+    </nav>
+</div>
 
-<%= render 'form' %>
+<div class="callout card">
+    <div class="callout-header">
+        <h4>User Details</h4>
+    </div>
 
-<%= link_to 'Back', users_path %>
+
+        <%= form_for(@user) do |f| %>
+            <%= render :partial => "formQs", :locals=>{:f=>f} %>
+        
+            <div class="callout-footer padded">
+                <%= f.submit 'Submit', class: "button secondary" %>
+            </div>
+        <% end %>
+    
+</div>
+

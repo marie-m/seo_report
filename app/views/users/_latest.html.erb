@@ -1,0 +1,35 @@
+ <div class="callout card">
+            
+    <div class="callout-header">
+        <% if (current_user.userrank == 'admin') %>
+            <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe, new_user_path, class: "button secondary small float-right" %>
+        <% end %>
+        <h4><i class="fa fa-user fa-fw" aria-hidden="true"></i>Latest Users</h4>
+    </div>
+    <div class="callout-table">
+        <table>
+            
+            <% @users = User.last(5).reverse %>
+            
+            <% @users.each do |user| %>
+                <tr>
+                    <td class="narrow"><div class="icon-circle"><i class="fa fa-user fa-fw"></i></div></td>
+                    <td>
+                        <%= user.username %><br>
+                        <small class="time-ago"><i class="fa fa-clock-o" aria-hidden="true"></i> <%= time_ago_in_words(user.created_at) %> ago</small>
+                    </td>
+                    <td>
+                        <%= user.userrank %><br>
+                    </td>
+                    <td class="text-right">
+                        <%= link_to '<i class="fa fa-ellipsis-v fa-fw"></i>'.html_safe, user_path(user.id) %>
+                    </td>
+                </tr>
+            <% end %>
+          
+        </table>
+    </div>
+    <div class="callout-footer">
+        <%= link_to 'See all Users', users_path, class: 'card expanded link' %>
+    </div>
+</div>

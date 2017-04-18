@@ -36,15 +36,6 @@
                         <th><%= f.label :url %></th>
                         <td><%= f.text_field :url %></td>
                     </tr>
-                <tr>
-                    <th class="narrow"><%= f.label "Client" %></th>
-                    <td>
-                        <%= f.radio_button :branding, 'Next' %> 
-                        <%= f.label :branding, 'Next', :value => 'Next' %>
-                        <%= f.radio_button :branding, 'CGI' %>
-                        <%= f.label :branding, 'CGI', :value => 'CGI' %>
-                    </td>
-                </tr>
                     <tr>
                         <td><%= f.submit 'Submit', class: "button secondary" %></td>
                     </tr>

@@ -1,7 +1,9 @@
  <div class="callout card">
             
     <div class="callout-header">
-        <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe, new_business_phase1_path(@business), class: "button secondary small float-right" %>
+        <% if (current_user.userrank == 'admin') || (current_user.userrank == 'seo')  %>
+            <%= link_to '<i class="fa fa-plus-circle fa-fw" aria-hidden="true"></i> New'.html_safe, new_business_phase1_path(@business), class: "button secondary small float-right" %>
+        <% end %>
         <h4><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Phase 1</h4>
     </div>
     <div class="callout-table">

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-root :to => 'users#index'
+#root :to => 'users#index'
 resources :user_sessions
 resources :users
 
@@ -32,7 +32,7 @@ post 'logout' => 'user_sessions#destroy', :as => :logout
   get '/phase3' => 'phase3s#index'
   get '/phase4' => 'phase4s#index'
   
-  #root 'pages#home'
+  root 'pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

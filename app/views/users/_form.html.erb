@@ -19,6 +19,13 @@
     <%= f.label :email %><br>
     <%= f.text_field :email %>
   </div>
+  
+  
+  <div class="field">
+    <%= f.label :userrank %><br>
+    <%= f.select :userrank, options_for_select([['sales'],['seo'],['admin']])  %>
+  </div>
+  
 <div class="field">
    <%= f.label :password %><br />
    <%= f.password_field :password %>
@@ -26,11 +33,7 @@
 <div class="field">
    <%= f.label :password_confirmation %><br />
    <%= f.password_field :password_confirmation %>
-</div>
-  <div class="field">
-    <%= f.label :salt %><br>
-    <%= f.text_field :salt %>
-  </div>
+
   <div class="actions">
     <%= f.submit %>
   </div>

@@ -8,11 +8,12 @@
 
  <div class="callout card">
     <div class="callout-header">
-        <div class ="float-right">
-            <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_header_path(header.id), class: "button secondary small" %>
-            <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, header, method: :delete, class: "button secondary small" %>
-
-        </div>
+        <% if (current_user.userrank == 'admin') || (current_user.userrank == 'seo')  %>
+            <div class ="float-right">
+                <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Edit'.html_safe,  edit_header_path(header.id), class: "button secondary small" %>
+                <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, header, method: :delete, class: "button secondary small" %>
+            </div>
+        <% end %>
         
         <h4><i class="fa fa-file-o fa-fw" aria-hidden="true"></i> Page: <%= header.pageName %></h4>
     </div>

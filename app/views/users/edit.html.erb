@@ -1,6 +1,61 @@
-<h1>Editing user</h1>
+<div class="page-title">
+    <h1><%= @user.username %></h1>
+    <nav aria-label="You are here:" role="navigation">
+      <ul class="breadcrumbs">
+        <% if (current_user.userrank == 'admin') || (current_user.userrank == 'seo') %>
+            <li><%= link_to 'Users',  users_path %></li>
+        <% else %>
+            <li>Users</li>
+        <% end %>
+        <li><%= link_to @user.username, @user %></li>
+        <li>
+          <span class="show-for-sr">Current: </span> Editing
+        </li>
+      </ul>
+    </nav>
+</div>
 
-<%= render 'form' %>
+<div class="callout card">
+    <div class="callout-header">
+        <h4>Edit User</h4>
+    </div>
+            <%= form_for @user, method: :patch do |f| %>
+                <div class="callout-table">
+                <table>
+                    <tr>
+                        <th class="narrow"><%= f.label :username %></th>
+                        <td><%= f.text_field :username %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow"><%= f.label :userrank %></th>
+                        <td>
+                            <% if (current_user.userrank == 'admin')  %>
+                                <%= f.select :userrank, options_for_select([['sales'],['seo'],['admin']])  %>
+                            <% else %>
+                                <%= @user.userrank %>
+                            <% end %>
+                        </td>
+                    </tr>
+                    <% if (current_user.id == @user.id) %>
+                    <tr>
+                        <th class="narrow"><%= f.label :password %></th>
+                        <td><%= f.password_field :password %></td>
+                    </tr>
+                    <tr>
+                        <th class="narrow"><%= f.label :password_confirmation %></th>
+                        <td><%= f.password_field :password_confirmation %></td>
+                    </tr>
+                    <% end %>
+                </table>
+            </div>
+                
+            <div class="callout-footer padded">
+                <%= f.submit 'Submit', class: "button secondary" %>
+            </div>
+            <% end %>
+</div>
 
-<%= link_to 'Show', @user %> |
-<%= link_to 'Back', users_path %>
+
+
+
+

@@ -39,9 +39,11 @@
         
         <div class="user-info">
           <i class="fa fa-user fa-4x" aria-hidden="true"></i>
-
-          <h5>User Name</h5>
-          <h6 class="subheader">User Rank</h6>
+          
+          <% if current_user %>
+            <h5>Welcome <%= current_user.username %>!</h5>
+            <h6 class="subheader"><%= current_user.userrank %></h6>
+          <% end %>
           
         </div>
 
@@ -50,8 +52,8 @@
           <li><%= link_to '<i class="fa fa-tachometer fa-fw" aria-hidden="true"></i> Dashboard'.html_safe, dashboard_path, class: cp(dashboard_path) %></li>
           <li><%= link_to '<i class="fa fa-briefcase fa-fw" aria-hidden="true"></i> Businesses'.html_safe, businesses_path, class: cp(businesses_path)  %></li>
           <li><%= link_to '<i class="fa fa-cog fa-fw" aria-hidden="true"></i> Settings'.html_safe, settings_path, class: cp(settings_path) %></li>
+          <li><%= link_to '<i class="fa fa-user fa-fw" aria-hidden="true"></i> Profile'.html_safe,  user_path(current_user.id) %></li>
           <li><%= link_to '<i class="fa fa-question-circle fa-fw" aria-hidden="true"></i> Help'.html_safe, help_path, class: cp(help_path) %></li>
-          <li><%= link_to '<i class="fa fa-bug fa-fw" aria-hidden="true"></i> Found a bug?'.html_safe, '#' %></li>
           <li><%= link_to '<i class="fa fa-comments fa-fw" aria-hidden="true"></i> Contact'.html_safe,  new_contact_path, class: cp(new_contact_path) %></li>
         </ul>
 
@@ -79,9 +81,8 @@
           </div>
           <div class="title-bar-right">
             <ul class="menu">
-              <li><%= link_to '<i class="fa fa-area-chart fa-fw"></i>'.html_safe, '#' %></li>
               <% if current_user %>
-                <li><%= link_to current_user.username, edit_user_path(current_user.id) %></li>
+                <li><%= link_to current_user.username, user_path(current_user.id) %></li>
                 <li><%= link_to '<i class="fa fa-sign-out fa-fw"></i>'.html_safe, :logout, method: :post %></li>
               <% end %>
             </ul>
@@ -95,15 +96,7 @@
               <%= content_tag :div, value, class: "callout #{key}" %>
             <% end %>
             
-            <div id="nav">
-    <% if current_user %>
-      <%= link_to "Edit Profile", edit_user_path(current_user.id) %>
-      <%= link_to "Logout", :logout, method: :post %>
-    <% else %>
-      <%= link_to "Register", new_user_path %> |
-      <%= link_to "Login", :login %>
-    <% end %>
-  </div>
+
             
             <!-- Page content -->
             <%= yield %>
