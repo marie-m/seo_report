@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170417201700) do
+ActiveRecord::Schema.define(version: 20170418134056) do
 
   create_table "businesses", force: true do |t|
     t.string   "name"
@@ -129,6 +129,16 @@ ActiveRecord::Schema.define(version: 20170417201700) do
     t.string   "metaKeywords"
     t.string   "clickToCall"
   end
+
+  create_table "users", force: true do |t|
+    t.string   "email",            null: false
+    t.string   "crypted_password"
+    t.string   "salt"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
 
   create_table "verticals", force: true do |t|
     t.string   "name"
