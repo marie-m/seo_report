@@ -2,7 +2,7 @@
     <h1><%= @user.username %></h1>
     <nav aria-label="You are here:" role="navigation">
       <ul class="breadcrumbs">
-            <li>Users</li>
+            <li><%= link_to 'Users',  users_path %></li>
         <li>
           <span class="show-for-sr">Current: </span> <%= @user.username %>
         </li>
@@ -15,15 +15,18 @@
     <div class="small-12 columns">
         <div class="callout card">
             <div class="callout-header">
-                <div class ="float-right">
-                  <% if (current_user.userrank == 'admin') || (current_user.id == @user.id) %>
-                    <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_user_path, class: "button secondary small" %>
-                  <% end %>      
-                  <% if (current_user.userrank == 'admin')  %>
-                    <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, @user, class: "button secondary small", method: :delete,
-                      data: { confirm: "You sure?" } %>
-                  <% end %>
-                </div>
+                
+                <% if !(@user.email == 'websites@cgicommunications.com')%>
+                    <div class ="float-right">
+                      <% if (current_user.userrank == 'admin') || (current_user.id == @user.id) %>
+                        <%= link_to '<i class="fa fa-pencil fa-fw" aria-hidden="true"></i> Update'.html_safe,  edit_user_path, class: "button secondary small" %>
+                      <% end %>      
+                      <% if (current_user.userrank == 'admin')  %>
+                        <%= link_to '<i class="fa fa-trash fa-fw" aria-hidden="true"></i> Delete'.html_safe, @user, class: "button secondary small", method: :delete,
+                          data: { confirm: "You sure?" } %>
+                      <% end %>
+                    </div>
+                <% end %>
 
                 <h4>Stats</h4>
             </div>
