@@ -1,0 +1,18 @@
+<h3>Hello!</h3>
+<p>Please tell us a bit about yourself</p>
+
+<div class="row login-form">
+  <div class="small-10 medium-6 small-offset-1 medium-offset-3 columns">
+        
+        
+         <%= form_for(@user) do |f| %>
+            <%= render :partial => "users/formQshort", :locals=>{:f=>f} %>
+        
+            <div class="actions">
+                <%= f.submit 'Sign Up', class: "button fancy" %>
+            </div>
+        <% end %>
+        
+    
+  </div>
+</div>

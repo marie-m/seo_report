@@ -574,9 +574,11 @@ th + td{
 
 .splash{
     padding-top:6em;
+    padding-bottom:6em;
     
      background-image: asset-data-url('bg-login.jpg');
      background-size:cover;
+     background-attachment:fixed;
      
     .callout-header{
         background: $light-grey;

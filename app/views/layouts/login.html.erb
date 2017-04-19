@@ -24,12 +24,63 @@
               <%= content_tag :div, value, class: "callout #{key}" %>
             <% end %>
             
-            <!-- Page content -->
-            <%= yield %>
+            <div class="callout card">
+              <div class="callout-header">
+                <div class="row">
+                    <div class="small-6 columns">
+                      <%= link_to(image_tag("logo-dark.png", :alt => "logo", :title => "Home"), "/") %>
+                    </div>
+                    
+                    <div class="small-6 columns">
+                      <ul class="menu align-right">
+                        <li><a id="login" class="active">Log In</a></li>
+                        <li><a id="signup">Sign Up</a></li>
+                      </ul>
+                    </div>
+                  
+                </div>
+              </div>
+              <div class="callout-body text-center">
+            
+                <div class="login">
+                  <%= yield %>
+                </div>
+                
+                <div class="signup">
+                  <%= render 'users/signup' %>
+                </div>
+                
+                
+
+              </div>
+            </div>
+         
              
          
            </div>
          </div>
+         
+         <script>
+            $('.callout-body .signup').hide();
+              
+           $('.menu #login').click(function() {
+              $('.menu a').removeClass('active');
+              $('.menu #login').addClass('active');
+              
+              $('.callout-body .login').show();
+              $('.callout-body .signup').hide();
+              
+            });
+            
+           $('.menu #signup').click(function() {
+              $('.menu a').removeClass('active');
+              $('.menu #signup').addClass('active');
+              
+              $('.callout-body .login').hide();
+              $('.callout-body .signup').show();
+            });
+           
+         </script>
 
   </body>
 </html>
