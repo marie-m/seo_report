@@ -29,7 +29,7 @@
                     <tr>
                         <th class="narrow"><%= f.label :userrank %></th>
                         <td>
-                            <% if (current_user.userrank == 'admin')  %>
+                            <% if (current_user.userrank == 'admin') || (current_user.id == 1)  %>
                                 <%= f.select :userrank, options_for_select([['sales'],['seo'],['admin']])  %>
                             <% else %>
                                 <%= @user.userrank %>
