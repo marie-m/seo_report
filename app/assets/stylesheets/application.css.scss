@@ -928,7 +928,6 @@ th + td{
 @media print {
     *{
         color: inherit !important;
-        font-size:12pt;
         -webkit-print-color-adjust:exact;
     }
     
@@ -942,39 +941,7 @@ th + td{
     }
     
     .report{
-        background:#fff;
         color:$dark-grey !important;
-        
-        .row{
-            width:100%;
-        }
-        
-        h1.business-name{
-            font-size:1.5em;
-        }
-        
-        h1.business-name{
-            font-size:1.5em;
-        }
-        
-        h2{
-            font-size:1.5em;
-            margin-bottom:1em;
-        }
-        
-        h3{
-            font-size:25px;
-            line-height:1;
-        }
-        
-        .lead-img p{
-            font-size:1em;
-        }
-        
-        p.lead{
-            font-size:.85em;
-            margin-bottom:0;
-        }
         
         .report-header{
             background:$dark-grey;
@@ -995,77 +962,18 @@ th + td{
             }
         }
         
-        .row.trailing-arrows,
-        .row.trailing-burst{
-            margin-top:0;
-            // width:33%;
-            // float:left;
-            padding:0;
-            
-            span.blue{
-                display:block;
-                margin-top:.5em;
-                letter-spacing:5px;
-                font-size:1.5em;
-            }
+        .medium-9.columns{
+            height:auto !important;
         }
-        
-        .row.lead-img{
-            // width:33%;
-            // float:left;
-            margin-bottom:0;
             
-            .medium-3.columns.burst{
-                // display:block;
-                // width:100%;
-                border:0;
-            }
-            
-            .medium-9.columns{
-                // border-left:0 !important;
-                // border-top:2px solid #414b57 !important;
-                padding:.5em 1.5em;
-                height:auto !important;
-                
-                p{
-                    margin-bottom:0;
-                }
-            }
-        }
-        
         .row.lead-img + .row{
-            // width:65%;
-            // float:right;
             
             table,
             table.scores{
-                 display:block;  
-                 clear:both;
             
-                tr{
-                    width:49.5%;
-                    display:inline-block;
-                    padding-top:0;
-                    
-                    &:nth-child(even){
-                        margin-top:-55px;
-                    }
-                }
-                
-                td{
-                    vertical-align:top;
-                }
-                
                 &.scores{
-                    
-                    h4{
-                        margin-top:0;
-                        font-size:.85em;
-                    }
-                    
                     p{
                         color:$dark-grey !important;
-                        font-size:.75em;
                         font-weight:lighter;
                     }
                 }
