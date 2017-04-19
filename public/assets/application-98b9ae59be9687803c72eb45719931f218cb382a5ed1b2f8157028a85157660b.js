@@ -10782,7 +10782,7 @@ return jQuery;
 
   "use strict";
 
-  var FOUNDATION_VERSION = '6.2.2';
+  var FOUNDATION_VERSION = '6.3.0';
 
   // Global Foundation object
   // This is attached to the window, or used as a module for AMD/Browserify
@@ -11155,7 +11155,7 @@ return jQuery;
     }
   }
   function parseValue(str) {
-    if (/true/.test(str)) return true;else if (/false/.test(str)) return false;else if (!isNaN(str * 1)) return parseFloat(str);
+    if ('true' === str) return true;else if ('false' === str) return false;else if (!isNaN(str * 1)) return parseFloat(str);
     return str;
   }
   // Convert PascalCase to kebab-case
@@ -11239,6 +11239,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         if (this.options.liveValidate) {
           this.$inputs.off('input.zf.abide').on('input.zf.abide', function (e) {
+            _this2.validateInput($(e.target));
+          });
+        }
+
+        if (this.options.validateOnBlur) {
+          this.$inputs.off('blur.zf.abide').on('blur.zf.abide', function (e) {
             _this2.validateInput($(e.target));
           });
         }
@@ -11435,6 +11441,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'validateInput',
       value: function validateInput($el) {
+        var _this4 = this;
+
         var clearRequire = this.requiredCheck($el),
             validated = false,
             customValidator = true,
@@ -11475,6 +11483,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         var goodToGo = [clearRequire, validated, customValidator, equalTo].indexOf(false) === -1;
         var message = (goodToGo ? 'valid' : 'invalid') + '.zf.abide';
+
+        if (goodToGo) {
+          // Re-validate inputs that depend on this one with equalto
+          var dependentElements = this.$element.find('[data-equalto="' + $el.attr('id') + '"]');
+          if (dependentElements.length) {
+            (function () {
+              var _this = _this4;
+              dependentElements.each(function () {
+                if ($(this).val()) {
+                  _this.validateInput($(this));
+                }
+              });
+            })();
+          }
+        }
 
         this[goodToGo ? 'removeErrorClasses' : 'addErrorClasses']($el);
 
@@ -11598,12 +11621,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'matchValidation',
       value: function matchValidation($el, validators, required) {
-        var _this4 = this;
+        var _this5 = this;
 
         required = required ? true : false;
 
         var clear = validators.split(' ').map(function (v) {
-          return _this4.options.validators[v]($el, required, $el.parent());
+          return _this5.options.validators[v]($el, required, $el.parent());
         });
         return clear.indexOf(false) === -1;
       }
@@ -11696,6 +11719,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @example false
      */
     liveValidate: false,
+
+    /**
+     * Set to true to validate inputs on blur.
+     * @option
+     * @example false
+     */
+    validateOnBlur: false,
 
     patterns: {
       alpha: /^[a-zA-Z]+$/,
@@ -11797,7 +11827,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       key: '_init',
       value: function _init() {
         this.$element.attr('role', 'tablist');
-        this.$tabs = this.$element.children('li, [data-accordion-item]');
+        this.$tabs = this.$element.children('[data-accordion-item]');
 
         this.$tabs.each(function (idx, el) {
           var $el = $(el),
@@ -11836,15 +11866,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var $tabContent = $elem.children('[data-tab-content]');
           if ($tabContent.length) {
             $elem.children('a').off('click.zf.accordion keydown.zf.accordion').on('click.zf.accordion', function (e) {
-              // $(this).children('a').on('click.zf.accordion', function(e) {
               e.preventDefault();
-              if ($elem.hasClass('is-active')) {
-                if (_this.options.allowAllClosed || $elem.siblings().hasClass('is-active')) {
-                  _this.up($tabContent);
-                }
-              } else {
-                _this.down($tabContent);
-              }
+              _this.toggle($tabContent);
             }).on('keydown.zf.accordion', function (e) {
               Foundation.Keyboard.handleKey(e, 'Accordion', {
                 toggle: function toggle() {
@@ -11874,18 +11897,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       /**
        * Toggles the selected content pane's open/close state.
-       * @param {jQuery} $target - jQuery object of the pane to toggle.
+       * @param {jQuery} $target - jQuery object of the pane to toggle (`.accordion-content`).
        * @function
        */
     }, {
       key: 'toggle',
       value: function toggle($target) {
         if ($target.parent().hasClass('is-active')) {
-          if (this.options.allowAllClosed || $target.parent().siblings().hasClass('is-active')) {
-            this.up($target);
-          } else {
-            return;
-          }
+          this.up($target);
         } else {
           this.down($target);
         }
@@ -11893,7 +11912,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       /**
        * Opens the accordion tab defined by `$target`.
-       * @param {jQuery} $target - Accordion pane to open.
+       * @param {jQuery} $target - Accordion pane to open (`.accordion-content`).
        * @param {Boolean} firstTime - flag to determine if reflow should happen.
        * @fires Accordion#down
        * @function
@@ -11903,14 +11922,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function down($target, firstTime) {
         var _this2 = this;
 
+        $target.attr('aria-hidden', false).parent('[data-tab-content]').addBack().parent().addClass('is-active');
+
         if (!this.options.multiExpand && !firstTime) {
           var $currentActive = this.$element.children('.is-active').children('[data-tab-content]');
           if ($currentActive.length) {
-            this.up($currentActive);
+            this.up($currentActive.not($target));
           }
         }
-
-        $target.attr('aria-hidden', false).parent('[data-tab-content]').addBack().parent().addClass('is-active');
 
         $target.slideDown(this.options.slideSpeed, function () {
           /**
@@ -11928,7 +11947,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
       /**
        * Closes the tab defined by `$target`.
-       * @param {jQuery} $target - Accordion tab to close.
+       * @param {jQuery} $target - Accordion tab to close (`.accordion-content`).
        * @fires Accordion#up
        * @function
        */
@@ -11937,9 +11956,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function up($target) {
         var $aunts = $target.parent().siblings(),
             _this = this;
-        var canClose = this.options.multiExpand ? $aunts.hasClass('is-active') : $target.parent().hasClass('is-active');
 
-        if (!this.options.allowAllClosed && !canClose) {
+        if (!this.options.allowAllClosed && !$aunts.hasClass('is-active') || !$target.parent().hasClass('is-active')) {
           return;
         }
 
@@ -12046,9 +12064,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         'ARROW_UP': 'up',
         'ARROW_DOWN': 'down',
         'ARROW_LEFT': 'close',
-        'ESCAPE': 'closeAll',
-        'TAB': 'down',
-        'SHIFT_TAB': 'up'
+        'ESCAPE': 'closeAll'
       });
     }
 
@@ -12062,7 +12078,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function _init() {
         this.$element.find('[data-submenu]').not('.is-active').slideUp(0); //.find('a').css('padding-left', '1rem');
         this.$element.attr({
-          'role': 'tablist',
+          'role': 'menu',
           'aria-multiselectable': this.options.multiOpen
         });
 
@@ -12076,13 +12092,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           $elem.attr({
             'aria-controls': subId,
             'aria-expanded': isActive,
-            'role': 'tab',
+            'role': 'menuitem',
             'id': linkId
           });
           $sub.attr({
             'aria-labelledby': linkId,
             'aria-hidden': !isActive,
-            'role': 'tabpanel',
+            'role': 'menu',
             'id': subId
           });
         });
@@ -12134,9 +12150,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               if ($(this).is(':first-child')) {
                 // is first element of sub menu
                 $prevElement = $element.parents('li').first().find('a').first();
-              } else if ($prevElement.children('[data-submenu]:visible').length) {
+              } else if ($prevElement.parents('li').first().children('[data-submenu]:visible').length) {
                 // if previous element has open sub menu
-                $prevElement = $prevElement.find('li:last-child').find('a').first();
+                $prevElement = $prevElement.parents('li').find('li:last-child').find('a').first();
               }
               if ($(this).is(':last-child')) {
                 // is last element of sub menu
@@ -12146,6 +12162,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               return;
             }
           });
+
           Foundation.Keyboard.handleKey(e, 'AccordionMenu', {
             open: function open() {
               if ($target.is(':hidden')) {
@@ -12164,11 +12181,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               }
             },
             up: function up() {
-              $prevElement.attr('tabindex', -1).focus();
+              $prevElement.focus();
               return true;
             },
             down: function down() {
-              $nextElement.attr('tabindex', -1).focus();
+              $nextElement.focus();
               return true;
             },
             toggle: function toggle() {
@@ -12196,7 +12213,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'hideAll',
       value: function hideAll() {
-        this.$element.find('[data-submenu]').slideUp(this.options.slideSpeed);
+        this.up(this.$element.find('[data-submenu]'));
+      }
+
+      /**
+       * Opens all panes of the menu.
+       * @function
+       */
+    }, {
+      key: 'showAll',
+      value: function showAll() {
+        this.down(this.$element.find('[data-submenu]'));
       }
 
       /**
@@ -12362,8 +12389,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.$submenuAnchors = this.$element.find('li.is-drilldown-submenu-parent').children('a');
         this.$submenus = this.$submenuAnchors.parent('li').children('[data-submenu]');
         this.$menuItems = this.$element.find('li').not('.js-drilldown-back').attr('role', 'menuitem').find('a');
+        this.$element.attr('data-mutate', this.$element.attr('data-drilldown') || Foundation.GetYoDigits(6, 'drilldown'));
 
         this._prepareMenu();
+        this._registerEvents();
 
         this._keyboardEvents();
       }
@@ -12388,7 +12417,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           if (_this.options.parentLink) {
             $link.clone().prependTo($sub.children('[data-submenu]')).wrap('<li class="is-submenu-parent-item is-submenu-item is-drilldown-submenu-item" role="menu-item"></li>');
           }
-          $link.data('savedHref', $link.attr('href')).removeAttr('href');
+          $link.data('savedHref', $link.attr('href')).removeAttr('href').attr('tabindex', 0);
           $link.children('[data-submenu]').attr({
             'aria-hidden': true,
             'tabindex': 0,
@@ -12400,14 +12429,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var $menu = $(this),
               $back = $menu.find('.js-drilldown-back');
           if (!$back.length) {
-            $menu.prepend(_this.options.backButton);
+            switch (_this.options.backButtonPosition) {
+              case "bottom":
+                $menu.append(_this.options.backButton);
+                break;
+              case "top":
+                $menu.prepend(_this.options.backButton);
+                break;
+              default:
+                console.error("Unsupported backButtonPosition value '" + _this.options.backButtonPosition + "'");
+            }
           }
           _this._back($menu);
         });
+
+        if (!this.options.autoHeight) {
+          this.$submenus.addClass('drilldown-submenu-cover-previous');
+        }
+
         if (!this.$element.parent().hasClass('is-drilldown')) {
           this.$wrapper = $(this.options.wrapper).addClass('is-drilldown');
+          if (this.options.animateHeight) this.$wrapper.addClass('animate-height');
           this.$wrapper = this.$element.wrap(this.$wrapper).parent().css(this._getMaxDims());
         }
+      }
+    }, {
+      key: '_resize',
+      value: function _resize() {
+        this.$wrapper.css({ 'max-width': 'none', 'min-height': 'none' });
+        // _getMaxDims has side effects (boo) but calling it should update all other necessary heights & widths
+        this.$wrapper.css(this._getMaxDims());
       }
 
       /**
@@ -12444,6 +12495,41 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             });
           }
         });
+        this.$element.on('mutateme.zf.trigger', this._resize.bind(this));
+      }
+
+      /**
+       * Adds event handlers to the menu element.
+       * @function
+       * @private
+       */
+    }, {
+      key: '_registerEvents',
+      value: function _registerEvents() {
+        if (this.options.scrollTop) {
+          this._bindHandler = this._scrollTop.bind(this);
+          this.$element.on('open.zf.drilldown hide.zf.drilldown closed.zf.drilldown', this._bindHandler);
+        }
+      }
+
+      /**
+       * Scroll to Top of Element or data-scroll-top-element
+       * @function
+       * @fires Drilldown#scrollme
+       */
+    }, {
+      key: '_scrollTop',
+      value: function _scrollTop() {
+        var _this = this;
+        var $scrollTopElement = _this.options.scrollTopElement != '' ? $(_this.options.scrollTopElement) : _this.$element,
+            scrollPos = parseInt($scrollTopElement.offset().top + _this.options.scrollTopOffset);
+        $('html, body').stop(true).animate({ scrollTop: scrollPos }, _this.options.animationDuration, _this.options.animationEasing, function () {
+          /**
+            * Fires after the menu has scrolled
+            * @event Drilldown#scrollme
+            */
+          if (this === $('html')[0]) _this.$element.trigger('scrollme.zf.drilldown');
+        });
       }
 
       /**
@@ -12455,8 +12541,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function _keyboardEvents() {
         var _this = this;
 
-        this.$menuItems.add(this.$element.find('.js-drilldown-back > a')).on('keydown.zf.drilldown', function (e) {
-
+        this.$menuItems.add(this.$element.find('.js-drilldown-back > a, .is-submenu-parent-item > a')).on('keydown.zf.drilldown', function (e) {
           var $element = $(this),
               $elements = $element.parent('li').parent('ul').children('li').children('a'),
               $prevElement,
@@ -12510,13 +12595,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     $element.parent('li').parent('ul').parent('li').children('a').first().focus();
                   }, 1);
                 });
+                return true;
               } else if ($element.is(_this.$submenuAnchors)) {
                 _this._show($element.parent('li'));
                 $element.parent('li').one(Foundation.transitionend($element), function () {
                   $element.parent('li').find('ul li a').filter(_this.$menuItems).first().focus();
                 });
+                return true;
               }
-              return true;
             },
             handled: function handled(preventDefault) {
               if (preventDefault) {
@@ -12537,6 +12623,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       key: '_hideAll',
       value: function _hideAll() {
         var $elem = this.$element.find('.is-drilldown-submenu.is-active').addClass('is-closing');
+        if (this.options.autoHeight) this.$wrapper.css({ height: $elem.parent().closest('ul').data('calcHeight') });
         $elem.one(Foundation.transitionend($elem), function (e) {
           $elem.removeClass('is-active is-closing');
         });
@@ -12562,6 +12649,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           e.stopImmediatePropagation();
           // console.log('mouseup on back');
           _this._hide($elem);
+
+          // If there is a parent submenu, call show
+          var parentSubMenu = $elem.parent('li').parent('ul').parent('li');
+          if (parentSubMenu.length) {
+            _this._show(parentSubMenu);
+          }
         });
       }
 
@@ -12591,7 +12684,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_show',
       value: function _show($elem) {
-        $elem.children('[data-submenu]').addClass('is-active');
+        if (this.options.autoHeight) this.$wrapper.css({ height: $elem.children('[data-submenu]').data('calcHeight') });
+        $elem.attr('aria-expanded', true);
+        $elem.children('[data-submenu]').addClass('is-active').attr('aria-hidden', false);
         /**
          * Fires when the submenu has opened.
          * @event Drilldown#open
@@ -12608,7 +12703,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
        * @param {jQuery} $elem - the current sub-menu to hide, i.e. the `ul` tag.
        */
       value: function _hide($elem) {
+        if (this.options.autoHeight) this.$wrapper.css({ height: $elem.parent().closest('ul').data('calcHeight') });
         var _this = this;
+        $elem.parent('li').attr('aria-expanded', false);
+        $elem.attr('aria-hidden', true).addClass('is-closing');
         $elem.addClass('is-closing').one(Foundation.transitionend($elem), function () {
           $elem.removeClass('is-active is-closing');
           $elem.blur();
@@ -12629,14 +12727,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_getMaxDims',
       value: function _getMaxDims() {
-        var max = 0,
-            result = {};
+        var maxHeight = 0,
+            result = {},
+            _this = this;
         this.$submenus.add(this.$element).each(function () {
           var numOfElems = $(this).children('li').length;
-          max = numOfElems > max ? numOfElems : max;
+          var height = Foundation.Box.GetDimensions(this).height;
+          maxHeight = height > maxHeight ? height : maxHeight;
+          if (_this.options.autoHeight) {
+            $(this).data('calcHeight', height);
+            if (!$(this).hasClass('is-drilldown-submenu')) result['height'] = height;
+          }
         });
 
-        result['min-height'] = max * this.$menuItems[0].getBoundingClientRect().height + 'px';
+        if (!this.options.autoHeight) result['min-height'] = maxHeight + 'px';
+
         result['max-width'] = this.$element[0].getBoundingClientRect().width + 'px';
 
         return result;
@@ -12649,14 +12754,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'destroy',
       value: function destroy() {
+        if (this.options.scrollTop) this.$element.off('.zf.drilldown', this._bindHandler);
         this._hideAll();
+        this.$element.off('mutateme.zf.trigger');
         Foundation.Nest.Burn(this.$element, 'drilldown');
         this.$element.unwrap().find('.js-drilldown-back, .is-submenu-parent-item').remove().end().find('.is-active, .is-closing, .is-drilldown-submenu').removeClass('is-active is-closing is-drilldown-submenu').end().find('[data-submenu]').removeAttr('aria-hidden tabindex role');
         this.$submenuAnchors.each(function () {
           $(this).off('.zf.drilldown');
         });
+
+        this.$submenus.removeClass('drilldown-submenu-cover-previous');
+
         this.$element.find('a').each(function () {
           var $link = $(this);
+          $link.removeAttr('tabindex');
           if ($link.data('savedHref')) {
             $link.attr('href', $link.data('savedHref')).removeData('savedHref');
           } else {
@@ -12672,11 +12783,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   Drilldown.defaults = {
     /**
-     * Markup used for JS generated back button. Prepended to submenu lists and deleted on `destroy` method, 'js-drilldown-back' class required. Remove the backslash (`\`) if copy and pasting.
+     * Markup used for JS generated back button. Prepended  or appended (see backButtonPosition) to submenu lists and deleted on `destroy` method, 'js-drilldown-back' class required. Remove the backslash (`\`) if copy and pasting.
      * @option
      * @example '<\li><\a>Back<\/a><\/li>'
      */
     backButton: '<li class="js-drilldown-back"><a tabindex="0">Back</a></li>',
+    /**
+     * Position the back button either at the top or bottom of drilldown submenus.
+     * @option
+     * @example bottom
+     */
+    backButtonPosition: 'top',
     /**
      * Markup used to wrap drilldown menu. Use a class name for independent styling; the JS applied class: `is-drilldown` is required. Remove the backslash (`\`) if copy and pasting.
      * @option
@@ -12694,7 +12811,49 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @option
      * @example false
      */
-    closeOnClick: false
+    closeOnClick: false,
+    /**
+     * Allow the menu to auto adjust height.
+     * @option
+     * @example false
+     */
+    autoHeight: false,
+    /**
+     * Animate the auto adjust height.
+     * @option
+     * @example false
+     */
+    animateHeight: false,
+    /**
+     * Scroll to the top of the menu after opening a submenu or navigating back using the menu back button
+     * @option
+     * @example false
+     */
+    scrollTop: false,
+    /**
+     * String jquery selector (for example 'body') of element to take offset().top from, if empty string the drilldown menu offset().top is taken
+     * @option
+     * @example ''
+     */
+    scrollTopElement: '',
+    /**
+     * ScrollTop offset
+     * @option
+     * @example 100
+     */
+    scrollTopOffset: 0,
+    /**
+     * Scroll animation duration
+     * @option
+     * @example 500
+     */
+    animationDuration: 500,
+    /**
+     * Scroll animation easing
+     * @option
+     * @example 'swing'
+     */
+    animationEasing: 'swing'
     // holdOpen: false
   };
 
@@ -12737,9 +12896,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       Foundation.Keyboard.register('Dropdown', {
         'ENTER': 'open',
         'SPACE': 'open',
-        'ESCAPE': 'close',
-        'TAB': 'tab_forward',
-        'SHIFT_TAB': 'tab_backward'
+        'ESCAPE': 'close'
       });
     }
 
@@ -12754,7 +12911,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function _init() {
         var $id = this.$element.attr('id');
 
-        this.$anchor = $('[data-toggle="' + $id + '"]') || $('[data-open="' + $id + '"]');
+        this.$anchor = $('[data-toggle="' + $id + '"]').length ? $('[data-toggle="' + $id + '"]') : $('[data-open="' + $id + '"]');
         this.$anchor.attr({
           'aria-controls': $id,
           'data-is-focus': false,
@@ -12764,6 +12921,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         });
 
+        if (this.options.parentClass) {
+          this.$parent = this.$element.parents('.' + this.options.parentClass);
+        } else {
+          this.$parent = null;
+        }
         this.options.positionClass = this.getPositionClass();
         this.counter = 4;
         this.usedPositions = [];
@@ -12786,9 +12948,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function getPositionClass() {
         var verticalPosition = this.$element[0].className.match(/(top|left|right|bottom)/g);
         verticalPosition = verticalPosition ? verticalPosition[0] : '';
-        var horizontalPosition = /float-(\S+)\s/.exec(this.$anchor[0].className);
+        var horizontalPosition = /float-(\S+)/.exec(this.$anchor[0].className);
         horizontalPosition = horizontalPosition ? horizontalPosition[1] : '';
         var position = horizontalPosition ? horizontalPosition + ' ' + verticalPosition : verticalPosition;
+
         return position;
       }
 
@@ -12851,9 +13014,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             param = direction === 'top' ? 'height' : 'width',
             offset = param === 'height' ? this.options.vOffset : this.options.hOffset;
 
-        if ($eleDims.width >= $eleDims.windowDims.width || !this.counter && !Foundation.Box.ImNotTouchingYou(this.$element)) {
-          this.$element.offset(Foundation.Box.GetOffsets(this.$element, this.$anchor, 'center bottom', this.options.vOffset, this.options.hOffset, true)).css({
-            'width': $eleDims.windowDims.width - this.options.hOffset * 2,
+        if ($eleDims.width >= $eleDims.windowDims.width || !this.counter && !Foundation.Box.ImNotTouchingYou(this.$element, this.$parent)) {
+          var newWidth = $eleDims.windowDims.width,
+              parentHOffset = 0;
+          if (this.$parent) {
+            var $parentDims = Foundation.Box.GetDimensions(this.$parent),
+                parentHOffset = $parentDims.offset.left;
+            if ($parentDims.width < newWidth) {
+              newWidth = $parentDims.width;
+            }
+          }
+
+          this.$element.offset(Foundation.Box.GetOffsets(this.$element, this.$anchor, 'center bottom', this.options.vOffset, this.options.hOffset + parentHOffset, true)).css({
+            'width': newWidth - this.options.hOffset * 2,
             'height': 'auto'
           });
           this.classChanged = true;
@@ -12862,7 +13035,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.$element.offset(Foundation.Box.GetOffsets(this.$element, this.$anchor, position, this.options.vOffset, this.options.hOffset));
 
-        while (!Foundation.Box.ImNotTouchingYou(this.$element, false, true) && this.counter) {
+        while (!Foundation.Box.ImNotTouchingYou(this.$element, this.$parent, true) && this.counter) {
           this._reposition(position);
           this._setPosition();
         }
@@ -12886,11 +13059,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         if (this.options.hover) {
           this.$anchor.off('mouseenter.zf.dropdown mouseleave.zf.dropdown').on('mouseenter.zf.dropdown', function () {
-            clearTimeout(_this.timeout);
-            _this.timeout = setTimeout(function () {
-              _this.open();
-              _this.$anchor.data('hover', true);
-            }, _this.options.hoverDelay);
+            var bodyData = $('body').data();
+            if (typeof bodyData.whatinput === 'undefined' || bodyData.whatinput === 'mouse') {
+              clearTimeout(_this.timeout);
+              _this.timeout = setTimeout(function () {
+                _this.open();
+                _this.$anchor.data('hover', true);
+              }, _this.options.hoverDelay);
+            }
           }).on('mouseleave.zf.dropdown', function () {
             clearTimeout(_this.timeout);
             _this.timeout = setTimeout(function () {
@@ -12916,32 +13092,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               visibleFocusableElements = Foundation.Keyboard.findFocusable(_this.$element);
 
           Foundation.Keyboard.handleKey(e, 'Dropdown', {
-            tab_forward: function tab_forward() {
-              if (_this.$element.find(':focus').is(visibleFocusableElements.eq(-1))) {
-                // left modal downwards, setting focus to first element
-                if (_this.options.trapFocus) {
-                  // if focus shall be trapped
-                  visibleFocusableElements.eq(0).focus();
-                  e.preventDefault();
-                } else {
-                  // if focus is not trapped, close dropdown on focus out
-                  _this.close();
-                }
-              }
-            },
-            tab_backward: function tab_backward() {
-              if (_this.$element.find(':focus').is(visibleFocusableElements.eq(0)) || _this.$element.is(':focus')) {
-                // left modal upwards, setting focus to last element
-                if (_this.options.trapFocus) {
-                  // if focus shall be trapped
-                  visibleFocusableElements.eq(-1).focus();
-                  e.preventDefault();
-                } else {
-                  // if focus is not trapped, close dropdown on focus out
-                  _this.close();
-                }
-              }
-            },
             open: function open() {
               if ($target.is(_this.$anchor)) {
                 _this.open();
@@ -13010,6 +13160,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this._addBodyHandler();
         }
 
+        if (this.options.trapFocus) {
+          Foundation.Keyboard.trapFocus(this.$element);
+        }
+
         /**
          * Fires once the dropdown is visible.
          * @event Dropdown#show
@@ -13044,6 +13198,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.usedPositions.length = 0;
         }
         this.$element.trigger('hide.zf.dropdown', [this.$element]);
+
+        if (this.options.trapFocus) {
+          Foundation.Keyboard.releaseFocus(this.$element);
+        }
       }
 
       /**
@@ -13079,6 +13237,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   })();
 
   Dropdown.defaults = {
+    /**
+     * Class that designates bounding container of Dropdown (Default: window)
+     * @option
+     * @example 'dropdown-parent'
+     */
+    parentClass: null,
     /**
      * Amount of time to delay opening a submenu on hover event.
      * @option
@@ -13214,13 +13378,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this._events();
       }
     }, {
-      key: '_events',
+      key: '_isVertical',
+      value: function _isVertical() {
+        return this.$tabs.css('display') === 'block';
+      }
 
       /**
        * Adds event listeners to elements within the menu
        * @private
        * @function
        */
+    }, {
+      key: '_events',
       value: function _events() {
         var _this = this,
             hasTouch = 'ontouchstart' in window || typeof window.ontouchstart !== 'undefined',
@@ -13245,16 +13414,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             } else {
               e.preventDefault();
               e.stopImmediatePropagation();
-              _this._show($elem.children('.is-dropdown-submenu'));
+              _this._show($sub);
               $elem.add($elem.parentsUntil(_this.$element, '.' + parClass)).attr('data-is-click', true);
             }
-          } else {
-            return;
           }
         };
 
         if (this.options.clickOpen || hasTouch) {
           this.$menuItems.on('click.zf.dropdownmenu touchstart.zf.dropdownmenu', handleClickFn);
+        }
+
+        // Handle Leaf element Clicks
+        if (_this.options.closeOnClickInside) {
+          this.$menuItems.on('click.zf.dropdownmenu touchend.zf.dropdownmenu', function (e) {
+            var $elem = $(this),
+                hasSub = $elem.hasClass(parClass);
+            if (!hasSub) {
+              _this._hide();
+            }
+          });
         }
 
         if (!this.options.disableHover) {
@@ -13263,10 +13441,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 hasSub = $elem.hasClass(parClass);
 
             if (hasSub) {
-              clearTimeout(_this.delay);
-              _this.delay = setTimeout(function () {
+              clearTimeout($elem.data('_delay'));
+              $elem.data('_delay', setTimeout(function () {
                 _this._show($elem.children('.is-dropdown-submenu'));
-              }, _this.options.hoverDelay);
+              }, _this.options.hoverDelay));
             }
           }).on('mouseleave.zf.dropdownmenu', function (e) {
             var $elem = $(this),
@@ -13276,10 +13454,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 return false;
               }
 
-              clearTimeout(_this.delay);
-              _this.delay = setTimeout(function () {
+              clearTimeout($elem.data('_delay'));
+              $elem.data('_delay', setTimeout(function () {
                 _this._hide($elem);
-              }, _this.options.closingTime);
+              }, _this.options.closingTime));
             }
           });
         }
@@ -13339,17 +13517,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           };
 
           if (isTab) {
-            if (_this.$element.hasClass(_this.options.verticalClass)) {
+            if (_this._isVertical()) {
               // vertical menu
-              if (_this.options.alignment === 'left') {
-                // left aligned
-                $.extend(functions, {
-                  down: nextSibling,
-                  up: prevSibling,
-                  next: openSub,
-                  previous: closeSub
-                });
-              } else {
+              if (Foundation.rtl()) {
                 // right aligned
                 $.extend(functions, {
                   down: nextSibling,
@@ -13357,31 +13527,50 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                   next: closeSub,
                   previous: openSub
                 });
+              } else {
+                // left aligned
+                $.extend(functions, {
+                  down: nextSibling,
+                  up: prevSibling,
+                  next: openSub,
+                  previous: closeSub
+                });
               }
             } else {
               // horizontal menu
-              $.extend(functions, {
-                next: nextSibling,
-                previous: prevSibling,
-                down: openSub,
-                up: closeSub
-              });
+              if (Foundation.rtl()) {
+                // right aligned
+                $.extend(functions, {
+                  next: prevSibling,
+                  previous: nextSibling,
+                  down: openSub,
+                  up: closeSub
+                });
+              } else {
+                // left aligned
+                $.extend(functions, {
+                  next: nextSibling,
+                  previous: prevSibling,
+                  down: openSub,
+                  up: closeSub
+                });
+              }
             }
           } else {
             // not tabs -> one sub
-            if (_this.options.alignment === 'left') {
-              // left aligned
-              $.extend(functions, {
-                next: openSub,
-                previous: closeSub,
-                down: nextSibling,
-                up: prevSibling
-              });
-            } else {
+            if (Foundation.rtl()) {
               // right aligned
               $.extend(functions, {
                 next: closeSub,
                 previous: openSub,
+                down: nextSibling,
+                up: prevSibling
+              });
+            } else {
+              // left aligned
+              $.extend(functions, {
+                next: openSub,
+                previous: closeSub,
                 down: nextSibling,
                 up: prevSibling
               });
@@ -13427,7 +13616,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }));
         var $sibs = $sub.parent('li.is-dropdown-submenu-parent').siblings('li.is-dropdown-submenu-parent');
         this._hide($sibs, idx);
-        $sub.css('visibility', 'hidden').addClass('js-dropdown-active').attr({ 'aria-hidden': false }).parent('li.is-dropdown-submenu-parent').addClass('is-active').attr({ 'aria-expanded': true });
+        $sub.css('visibility', 'hidden').addClass('js-dropdown-active').parent('li.is-dropdown-submenu-parent').addClass('is-active');
         var clear = Foundation.Box.ImNotTouchingYou($sub, null, true);
         if (!clear) {
           var oldClass = this.options.alignment === 'left' ? '-right' : '-left',
@@ -13474,13 +13663,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         if (somethingToClose) {
           $toClose.find('li.is-active').add($toClose).attr({
-            'aria-expanded': false,
             'data-is-click': false
           }).removeClass('is-active');
 
-          $toClose.find('ul.js-dropdown-active').attr({
-            'aria-hidden': true
-          }).removeClass('js-dropdown-active');
+          $toClose.find('ul.js-dropdown-active').removeClass('js-dropdown-active');
 
           if (this.changed || $toClose.find('opens-inner').length) {
             var oldClass = this.options.alignment === 'left' ? 'right' : 'left';
@@ -13557,6 +13743,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      */
     closeOnClick: true,
     /**
+     * Allow clicks on leaf anchor links to close any open submenus.
+     * @option
+     * @example true
+     */
+    closeOnClickInside: true,
+    /**
      * Class applied to vertical oriented menus, Foundation default is `vertical`. Update this if using your own class.
      * @option
      * @example 'vertical'
@@ -13590,6 +13782,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   /**
    * Equalizer module.
    * @module foundation.equalizer
+   * @requires foundation.util.mediaQuery
+   * @requires foundation.util.timerAndImageLoader if equalizer contains images
    */
 
   var Equalizer = (function () {
@@ -13629,6 +13823,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.$watched = $watched.length ? $watched : this.$element.find('[data-equalizer-watch]');
         this.$element.attr('data-resize', eqId || Foundation.GetYoDigits(6, 'eq'));
+        this.$element.attr('data-mutate', eqId || Foundation.GetYoDigits(6, 'eq'));
 
         this.hasNested = this.$element.find('[data-equalizer]').length > 0;
         this.isNested = this.$element.parentsUntil(document.body, '[data-equalizer]').length > 0;
@@ -13665,7 +13860,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.isOn = false;
         this.$element.off({
           '.zf.equalizer': this._bindHandler.onPostEqualizedBound,
-          'resizeme.zf.trigger': this._bindHandler.onResizeMeBound
+          'resizeme.zf.trigger': this._bindHandler.onResizeMeBound,
+          'mutateme.zf.trigger': this._bindHandler.onResizeMeBound
         });
       }
 
@@ -13704,6 +13900,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.$element.on('postequalized.zf.equalizer', this._bindHandler.onPostEqualizedBound);
         } else {
           this.$element.on('resizeme.zf.trigger', this._bindHandler.onResizeMeBound);
+          this.$element.on('mutateme.zf.trigger', this._bindHandler.onResizeMeBound);
         }
         this.isOn = true;
       }
@@ -13715,7 +13912,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_checkMQ',
       value: function _checkMQ() {
-        var tooSmall = !Foundation.MediaQuery.atLeast(this.options.equalizeOn);
+        var tooSmall = !Foundation.MediaQuery.is(this.options.equalizeOn);
         if (tooSmall) {
           if (this.isOn) {
             this._pauseEvents();
@@ -13766,6 +13963,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_isStacked',
       value: function _isStacked() {
+        if (!this.$watched[0] || !this.$watched[1]) {
+          return true;
+        }
         return this.$watched[0].getBoundingClientRect().top !== this.$watched[1].getBoundingClientRect().top;
       }
 
@@ -13849,8 +14049,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
        * Changes the CSS height property of each child in an Equalizer parent to match the tallest by row
        * @param {array} groups - An array of heights of children within Equalizer container grouped by row with element,height and max as last child
        * @fires Equalizer#preequalized
-       * @fires Equalizer#preequalizedRow
-       * @fires Equalizer#postequalizedRow
+       * @fires Equalizer#preequalizedrow
+       * @fires Equalizer#postequalizedrow
        * @fires Equalizer#postequalized
        */
     }, {
@@ -13869,7 +14069,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
           /**
             * Fires before the heights per row are applied
-            * @event Equalizer#preequalizedRow
+            * @event Equalizer#preequalizedrow
             */
           this.$element.trigger('preequalizedrow.zf.equalizer');
           for (var j = 0, lenJ = groupsILength - 1; j < lenJ; j++) {
@@ -13877,7 +14077,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
           /**
             * Fires when the heights per row have been applied
-            * @event Equalizer#postequalizedRow
+            * @event Equalizer#postequalizedrow
             */
           this.$element.trigger('postequalizedrow.zf.equalizer');
         }
@@ -13910,7 +14110,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @option
      * @example true
      */
-    equalizeOnStack: true,
+    equalizeOnStack: false,
     /**
      * Enable height equalization row by row.
      * @option
@@ -13992,7 +14192,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_events',
       value: function _events() {
-        $(window).on('resize.zf.interchange', Foundation.util.throttle(this._reflow.bind(this), 50));
+        var _this2 = this;
+
+        $(window).on('resize.zf.interchange', Foundation.util.throttle(function () {
+          _this2._reflow();
+        }, 50));
       }
 
       /**
@@ -14009,7 +14213,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         for (var i in this.rules) {
           if (this.rules.hasOwnProperty(i)) {
             var rule = this.rules[i];
-
             if (window.matchMedia(rule.query).matches) {
               match = rule;
             }
@@ -14092,7 +14295,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         // Replacing images
         if (this.$element[0].nodeName === 'IMG') {
-          this.$element.attr('src', path).load(function () {
+          this.$element.attr('src', path).on('load', function () {
             _this.currentPath = path;
           }).trigger(trigger);
         }
@@ -14176,6 +14379,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       this.options = $.extend({}, Magellan.defaults, this.$element.data(), options);
 
       this._init();
+      this.calcPoints();
 
       Foundation.registerPlugin(this, 'Magellan');
     }
@@ -14262,6 +14466,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var arrival = this.getAttribute('href');
           _this.scrollToLoc(arrival);
         });
+        $(window).on('popstate', function (e) {
+          if (_this.options.deepLinking) {
+            _this.scrollToLoc(window.location.hash);
+          }
+        });
       }
 
       /**
@@ -14272,9 +14481,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'scrollToLoc',
       value: function scrollToLoc(loc) {
-        var scrollPos = Math.round($(loc).offset().top - this.options.threshold / 2 - this.options.barOffset);
+        // Do nothing if target does not exist to prevent errors
+        if (!$(loc).length) {
+          return false;
+        }
+        this._inTransition = true;
+        var _this = this,
+            scrollPos = Math.round($(loc).offset().top - this.options.threshold / 2 - this.options.barOffset);
 
-        $('html, body').stop(true).animate({ scrollTop: scrollPos }, this.options.animationDuration, this.options.animationEasing);
+        $('html, body').stop(true).animate({ scrollTop: scrollPos }, this.options.animationDuration, this.options.animationEasing, function () {
+          _this._inTransition = false;_this._updateActive();
+        });
       }
 
       /**
@@ -14297,13 +14514,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_updateActive',
       value: function _updateActive() /*evt, elem, scrollPos*/{
+        if (this._inTransition) {
+          return;
+        }
         var winPos = /*scrollPos ||*/parseInt(window.pageYOffset, 10),
             curIdx;
 
         if (winPos + this.winHeight === this.docHeight) {
           curIdx = this.points.length - 1;
         } else if (winPos < this.points[0]) {
-          curIdx = 0;
+          curIdx = undefined;
         } else {
           var isDown = this.scrollPos < winPos,
               _this = this,
@@ -14314,14 +14534,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         this.$active.removeClass(this.options.activeClass);
-        this.$active = this.$links.eq(curIdx).addClass(this.options.activeClass);
+        this.$active = this.$links.filter('[href="#' + this.$targets.eq(curIdx).data('magellan-target') + '"]').addClass(this.options.activeClass);
 
         if (this.options.deepLinking) {
-          var hash = this.$active[0].getAttribute('href');
-          if (window.history.pushState) {
-            window.history.pushState(null, null, hash);
-          } else {
-            window.location.hash = hash;
+          var hash = "";
+          if (curIdx != undefined) {
+            hash = this.$active[0].getAttribute('href');
+          }
+          if (hash !== window.location.hash) {
+            if (window.history.pushState) {
+              window.history.pushState(null, null, hash);
+            } else {
+              window.location.hash = hash;
+            }
           }
         }
 
@@ -14433,6 +14658,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       this._events();
 
       Foundation.registerPlugin(this, 'OffCanvas');
+      Foundation.Keyboard.register('OffCanvas', {
+        'ESCAPE': 'close'
+      });
     }
 
     /**
@@ -14448,30 +14676,32 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.$element.attr('aria-hidden', 'true');
 
+        this.$element.addClass('is-transition-' + this.options.transition);
+
         // Find triggers that affect this element and add aria-expanded to them
         this.$triggers = $(document).find('[data-open="' + id + '"], [data-close="' + id + '"], [data-toggle="' + id + '"]').attr('aria-expanded', 'false').attr('aria-controls', id);
 
-        // Add a close trigger over the body if necessary
-        if (this.options.closeOnClick) {
-          if ($('.js-off-canvas-exit').length) {
-            this.$exiter = $('.js-off-canvas-exit');
+        // Add an overlay over the content if necessary
+        if (this.options.contentOverlay === true) {
+          var overlay = document.createElement('div');
+          var overlayPosition = $(this.$element).css("position") === 'fixed' ? 'is-overlay-fixed' : 'is-overlay-absolute';
+          overlay.setAttribute('class', 'js-off-canvas-overlay ' + overlayPosition);
+          this.$overlay = $(overlay);
+          if (overlayPosition === 'is-overlay-fixed') {
+            $('body').append(this.$overlay);
           } else {
-            var exiter = document.createElement('div');
-            exiter.setAttribute('class', 'js-off-canvas-exit');
-            $('[data-off-canvas-content]').append(exiter);
-
-            this.$exiter = $(exiter);
+            this.$element.siblings('[data-off-canvas-content]').append(this.$overlay);
           }
         }
 
         this.options.isRevealed = this.options.isRevealed || new RegExp(this.options.revealClass, 'g').test(this.$element[0].className);
 
-        if (this.options.isRevealed) {
+        if (this.options.isRevealed === true) {
           this.options.revealOn = this.options.revealOn || this.$element[0].className.match(/(reveal-for-medium|reveal-for-large)/g)[0].split('-')[2];
           this._setMQChecker();
         }
-        if (!this.options.transitionTime) {
-          this.options.transitionTime = parseFloat(window.getComputedStyle($('[data-off-canvas-wrapper]')[0]).transitionDuration) * 1000;
+        if (!this.options.transitionTime === true) {
+          this.options.transitionTime = parseFloat(window.getComputedStyle($('[data-off-canvas]')[0]).transitionDuration) * 1000;
         }
       }
 
@@ -14490,8 +14720,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           'keydown.zf.offcanvas': this._handleKeyboard.bind(this)
         });
 
-        if (this.options.closeOnClick && this.$exiter.length) {
-          this.$exiter.on({ 'click.zf.offcanvas': this.close.bind(this) });
+        if (this.options.closeOnClick === true) {
+          var $target = this.options.contentOverlay ? this.$overlay : $('[data-off-canvas-content]');
+          $target.on({ 'click.zf.offcanvas': this.close.bind(this) });
         }
       }
 
@@ -14529,21 +14760,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if (isRevealed) {
           this.close();
           this.isRevealed = true;
-          // if (!this.options.forceTop) {
-          //   var scrollPos = parseInt(window.pageYOffset);
-          //   this.$element[0].style.transform = 'translate(0,' + scrollPos + 'px)';
-          // }
-          // if (this.options.isSticky) { this._stick(); }
+          this.$element.attr('aria-hidden', 'false');
           this.$element.off('open.zf.trigger toggle.zf.trigger');
           if ($closer.length) {
             $closer.hide();
           }
         } else {
           this.isRevealed = false;
-          // if (this.options.isSticky || !this.options.forceTop) {
-          //   this.$element[0].style.transform = '';
-          //   $(window).off('scroll.zf.offcanvas');
-          // }
+          this.$element.attr('aria-hidden', 'true');
           this.$element.on({
             'open.zf.trigger': this.open.bind(this),
             'toggle.zf.trigger': this.toggle.bind(this)
@@ -14552,6 +14776,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             $closer.show();
           }
         }
+      }
+
+      /**
+       * Stops scrolling of the body when offcanvas is open on mobile Safari and other troublesome browsers.
+       * @private
+       */
+    }, {
+      key: '_stopScrolling',
+      value: function _stopScrolling(event) {
+        return false;
       }
 
       /**
@@ -14567,102 +14801,52 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if (this.$element.hasClass('is-open') || this.isRevealed) {
           return;
         }
-        var _this = this,
-            $body = $(document.body);
-
-        if (this.options.forceTop) {
-          $('body').scrollTop(0);
-        }
-        // window.pageYOffset = 0;
-
-        // if (!this.options.forceTop) {
-        //   var scrollPos = parseInt(window.pageYOffset);
-        //   this.$element[0].style.transform = 'translate(0,' + scrollPos + 'px)';
-        //   if (this.$exiter.length) {
-        //     this.$exiter[0].style.transform = 'translate(0,' + scrollPos + 'px)';
-        //   }
-        // }
-        /**
-         * Fires when the off-canvas menu opens.
-         * @event OffCanvas#opened
-         */
-        Foundation.Move(this.options.transitionTime, this.$element, function () {
-          $('[data-off-canvas-wrapper]').addClass('is-off-canvas-open is-open-' + _this.options.position);
-
-          _this.$element.addClass('is-open');
-
-          // if (_this.options.isSticky) {
-          //   _this._stick();
-          // }
-        });
-
-        this.$triggers.attr('aria-expanded', 'true');
-        this.$element.attr('aria-hidden', 'false').trigger('opened.zf.offcanvas');
-
-        if (this.options.closeOnClick) {
-          this.$exiter.addClass('is-visible');
-        }
+        var _this = this;
 
         if (trigger) {
           this.$lastTrigger = trigger;
         }
 
-        if (this.options.autoFocus) {
+        if (this.options.forceTo === 'top') {
+          window.scrollTo(0, 0);
+        } else if (this.options.forceTo === 'bottom') {
+          window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        /**
+         * Fires when the off-canvas menu opens.
+         * @event OffCanvas#opened
+         */
+        _this.$element.addClass('is-open');
+
+        this.$triggers.attr('aria-expanded', 'true');
+        this.$element.attr('aria-hidden', 'false').trigger('opened.zf.offcanvas');
+
+        // If `contentScroll` is set to false, add class and disable scrolling on touch devices.
+        if (this.options.contentScroll === false) {
+          $('body').addClass('is-off-canvas-open').on('touchmove', this._stopScrolling);
+        }
+
+        if (this.options.contentOverlay === true) {
+          this.$overlay.addClass('is-visible');
+        }
+
+        if (this.options.closeOnClick === true && this.options.contentOverlay === true) {
+          this.$overlay.addClass('is-closable');
+        }
+
+        if (this.options.autoFocus === true) {
           this.$element.one(Foundation.transitionend(this.$element), function () {
             _this.$element.find('a, button').eq(0).focus();
           });
         }
 
-        if (this.options.trapFocus) {
-          $('[data-off-canvas-content]').attr('tabindex', '-1');
-          this._trapFocus();
+        if (this.options.trapFocus === true) {
+          this.$element.siblings('[data-off-canvas-content]').attr('tabindex', '-1');
+          Foundation.Keyboard.trapFocus(this.$element);
         }
       }
 
-      /**
-       * Traps focus within the offcanvas on open.
-       * @private
-       */
-    }, {
-      key: '_trapFocus',
-      value: function _trapFocus() {
-        var focusable = Foundation.Keyboard.findFocusable(this.$element),
-            first = focusable.eq(0),
-            last = focusable.eq(-1);
-
-        focusable.off('.zf.offcanvas').on('keydown.zf.offcanvas', function (e) {
-          if (e.which === 9 || e.keycode === 9) {
-            if (e.target === last[0] && !e.shiftKey) {
-              e.preventDefault();
-              first.focus();
-            }
-            if (e.target === first[0] && e.shiftKey) {
-              e.preventDefault();
-              last.focus();
-            }
-          }
-        });
-      }
-
-      /**
-       * Allows the offcanvas to appear sticky utilizing translate properties.
-       * @private
-       */
-      // OffCanvas.prototype._stick = function() {
-      //   var elStyle = this.$element[0].style;
-      //
-      //   if (this.options.closeOnClick) {
-      //     var exitStyle = this.$exiter[0].style;
-      //   }
-      //
-      //   $(window).on('scroll.zf.offcanvas', function(e) {
-      //     console.log(e);
-      //     var pageY = window.pageYOffset;
-      //     elStyle.transform = 'translate(0,' + pageY + 'px)';
-      //     if (exitStyle !== undefined) { exitStyle.transform = 'translate(0,' + pageY + 'px)'; }
-      //   });
-      //   // this.$element.trigger('stuck.zf.offcanvas');
-      // };
       /**
        * Closes the off-canvas menu.
        * @function
@@ -14678,30 +14862,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         var _this = this;
 
-        //  Foundation.Move(this.options.transitionTime, this.$element, function() {
-        $('[data-off-canvas-wrapper]').removeClass('is-off-canvas-open is-open-' + _this.options.position);
         _this.$element.removeClass('is-open');
-        // Foundation._reflow();
-        // });
+
         this.$element.attr('aria-hidden', 'true')
         /**
          * Fires when the off-canvas menu opens.
          * @event OffCanvas#closed
          */
         .trigger('closed.zf.offcanvas');
-        // if (_this.options.isSticky || !_this.options.forceTop) {
-        //   setTimeout(function() {
-        //     _this.$element[0].style.transform = '';
-        //     $(window).off('scroll.zf.offcanvas');
-        //   }, this.options.transitionTime);
-        // }
-        if (this.options.closeOnClick) {
-          this.$exiter.removeClass('is-visible');
+
+        // If `contentScroll` is set to false, remove class and re-enable scrolling on touch devices.
+        if (this.options.contentScroll === false) {
+          $('body').removeClass('is-off-canvas-open').off('touchmove', this._stopScrolling);
+        }
+
+        if (this.options.contentOverlay === true) {
+          this.$overlay.removeClass('is-visible');
+        }
+
+        if (this.options.closeOnClick === true && this.options.contentOverlay === true) {
+          this.$overlay.removeClass('is-closable');
         }
 
         this.$triggers.attr('aria-expanded', 'false');
-        if (this.options.trapFocus) {
-          $('[data-off-canvas-content]').removeAttr('tabindex');
+
+        if (this.options.trapFocus === true) {
+          this.$element.siblings('[data-off-canvas-content]').removeAttr('tabindex');
+          Foundation.Keyboard.releaseFocus(this.$element);
         }
       }
 
@@ -14728,13 +14915,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
        */
     }, {
       key: '_handleKeyboard',
-      value: function _handleKeyboard(event) {
-        if (event.which !== 27) return;
+      value: function _handleKeyboard(e) {
+        var _this2 = this;
 
-        event.stopPropagation();
-        event.preventDefault();
-        this.close();
-        this.$lastTrigger.focus();
+        Foundation.Keyboard.handleKey(e, 'OffCanvas', {
+          close: function close() {
+            _this2.close();
+            _this2.$lastTrigger.focus();
+            return true;
+          },
+          handled: function handled() {
+            e.stopPropagation();
+            e.preventDefault();
+          }
+        });
       }
 
       /**
@@ -14746,7 +14940,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function destroy() {
         this.close();
         this.$element.off('.zf.trigger .zf.offcanvas');
-        this.$exiter.off('.zf.offcanvas');
+        this.$overlay.off('.zf.offcanvas');
 
         Foundation.unregisterPlugin(this);
       }
@@ -14764,6 +14958,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     closeOnClick: true,
 
     /**
+     * Adds an overlay on top of `[data-off-canvas-content]`.
+     * @option
+     * @example true
+     */
+    contentOverlay: true,
+
+    /**
+     * Enable/disable scrolling of the main content when an off canvas panel is open.
+     * @option
+     * @example true
+     */
+    contentScroll: true,
+
+    /**
      * Amount of time in ms the open and close transition requires. If none selected, pulls from body style.
      * @option
      * @example 500
@@ -14771,18 +14979,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     transitionTime: 0,
 
     /**
-     * Direction the offcanvas opens from. Determines class applied to body.
+     * Type of transition for the offcanvas menu. Options are 'push', 'detached' or 'slide'.
      * @option
-     * @example left
+     * @example push
      */
-    position: 'left',
+    transition: 'push',
 
     /**
-     * Force the page to scroll to top on open.
+     * Force the page to scroll to top or bottom on open.
      * @option
-     * @example true
+     * @example top
      */
-    forceTop: true,
+    forceTo: null,
 
     /**
      * Allow the offcanvas to remain open for certain breakpoints.
@@ -14879,10 +15087,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     _createClass(Orbit, [{
       key: '_init',
       value: function _init() {
+        // @TODO: consider discussion on PR #9278 about DOM pollution by changeSlide
+        this._reset();
+
         this.$wrapper = this.$element.find('.' + this.options.containerClass);
         this.$slides = this.$element.find('.' + this.options.slideClass);
+
         var $images = this.$element.find('img'),
-            initActive = this.$slides.filter('.is-active');
+            initActive = this.$slides.filter('.is-active'),
+            id = this.$element[0].id || Foundation.GetYoDigits(6, 'orbit');
+
+        this.$element.attr({
+          'data-resize': id,
+          'id': id
+        });
 
         if (!initActive.length) {
           this.$slides.eq(0).addClass('is-active');
@@ -14951,9 +15169,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       key: '_prepareForOrbit',
       value: function _prepareForOrbit() {
         var _this = this;
-        this._setWrapperHeight(function (max) {
-          _this._setSlideHeight(max);
-        });
+        this._setWrapperHeight();
       }
 
       /**
@@ -14968,14 +15184,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         //rewrite this to `for` loop
         var max = 0,
             temp,
-            counter = 0;
+            counter = 0,
+            _this = this;
 
         this.$slides.each(function () {
           temp = this.getBoundingClientRect().height;
           $(this).attr('data-slide', counter);
 
-          if (counter) {
-            //if not the first slide, set css position and display property
+          if (_this.$slides.filter('.is-active')[0] !== _this.$slides.eq(counter)[0]) {
+            //if not the active slide, set css position and display property
             $(this).css({ 'position': 'relative', 'display': 'none' });
           }
           max = temp > max ? temp : max;
@@ -14984,7 +15201,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         if (counter === this.$slides.length) {
           this.$wrapper.css({ 'height': max }); //only change the wrapper height property once.
-          cb(max); //fire callback with max height dimension.
+          if (cb) {
+            cb(max);
+          } //fire callback with max height dimension.
         }
       }
 
@@ -15015,6 +15234,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         //**Now using custom event - thanks to:**
         //**      Yohai Ararat of Toronto      **
         //***************************************
+        //
+        this.$element.off('.resizeme.zf.trigger').on({
+          'resizeme.zf.trigger': this._prepareForOrbit.bind(this)
+        });
         if (this.$slides.length > 1) {
 
           if (this.options.swipe) {
@@ -15068,23 +15291,63 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             });
           }
 
-          this.$wrapper.add(this.$bullets).on('keydown.zf.orbit', function (e) {
-            // handle keyboard event with keyboard util
-            Foundation.Keyboard.handleKey(e, 'Orbit', {
-              next: function next() {
-                _this.changeSlide(true);
-              },
-              previous: function previous() {
-                _this.changeSlide(false);
-              },
-              handled: function handled() {
-                // if bullet is focused, make sure focus moves
-                if ($(e.target).is(_this.$bullets)) {
-                  _this.$bullets.filter('.is-active').focus();
+          if (this.options.accessible) {
+            this.$wrapper.add(this.$bullets).on('keydown.zf.orbit', function (e) {
+              // handle keyboard event with keyboard util
+              Foundation.Keyboard.handleKey(e, 'Orbit', {
+                next: function next() {
+                  _this.changeSlide(true);
+                },
+                previous: function previous() {
+                  _this.changeSlide(false);
+                },
+                handled: function handled() {
+                  // if bullet is focused, make sure focus moves
+                  if ($(e.target).is(_this.$bullets)) {
+                    _this.$bullets.filter('.is-active').focus();
+                  }
                 }
-              }
+              });
             });
+          }
+        }
+      }
+
+      /**
+       * Resets Orbit so it can be reinitialized
+       */
+    }, {
+      key: '_reset',
+      value: function _reset() {
+        // Don't do anything if there are no slides (first run)
+        if (typeof this.$slides == 'undefined') {
+          return;
+        }
+
+        if (this.$slides.length > 1) {
+          // Remove old events
+          this.$element.off('.zf.orbit').find('*').off('.zf.orbit');
+
+          // Restart timer if autoPlay is enabled
+          if (this.options.autoPlay) {
+            this.timer.restart();
+          }
+
+          // Reset all sliddes
+          this.$slides.each(function (el) {
+            $(el).removeClass('is-active is-active is-in').removeAttr('aria-live').hide();
           });
+
+          // Show the first slide
+          this.$slides.first().addClass('is-active').show();
+
+          // Triggers when the slide has finished animating
+          this.$element.trigger('slidechange.zf.orbit', [this.$slides.first()]);
+
+          // Select first bullet if bullets are present
+          if (this.options.bullets) {
+            this._updateBullets(0);
+          }
         }
       }
 
@@ -15099,6 +15362,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'changeSlide',
       value: function changeSlide(isLTR, chosenSlide, idx) {
+        if (!this.$slides) {
+          return;
+        } // Don't freak out if we're in the middle of cleanup
         var $curSlide = this.$slides.filter('.is-active').eq(0);
 
         if (/mui/g.test($curSlide[0].className)) {
@@ -15122,12 +15388,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
 
         if ($newSlide.length) {
+          /**
+          * Triggers before the next slide starts animating in and only if a next slide has been found.
+          * @event Orbit#beforeslidechange
+          */
+          this.$element.trigger('beforeslidechange.zf.orbit', [$curSlide, $newSlide]);
+
           if (this.options.bullets) {
             idx = idx || this.$slides.index($newSlide); //grab index to update bullets
             this._updateBullets(idx);
           }
 
-          if (this.options.useMUI) {
+          if (this.options.useMUI && !this.$element.is(':hidden')) {
             Foundation.Motion.animateIn($newSlide.addClass('is-active').css({ 'position': 'absolute', 'top': 0 }), this.options['animInFrom' + dirIn], function () {
               $newSlide.css({ 'position': 'relative', 'display': 'block' }).attr('aria-live', 'polite');
             });
@@ -15372,6 +15644,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if (!$.isEmptyObject(this.rules)) {
           this._checkMediaQueries();
         }
+        // Add data-mutate since children may need it.
+        this.$element.attr('data-mutate', this.$element.attr('data-mutate') || Foundation.GetYoDigits(6, 'responsive-menu'));
       }
 
       /**
@@ -15516,6 +15790,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         this.$targetMenu = $('#' + targetID);
         this.$toggler = this.$element.find('[data-toggle]');
+        this.options = $.extend({}, this.options, this.$targetMenu.data());
+
+        // If they were set, parse the animation classes
+        if (this.options.animate) {
+          var input = this.options.animate.split(' ');
+
+          this.animationIn = input[0];
+          this.animationOut = input[1] || null;
+        }
 
         this._update();
       }
@@ -15566,14 +15849,38 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'toggleMenu',
       value: function toggleMenu() {
-        if (!Foundation.MediaQuery.atLeast(this.options.hideFor)) {
-          this.$targetMenu.toggle(0);
+        var _this2 = this;
 
-          /**
-           * Fires when the element attached to the tab bar toggles.
-           * @event ResponsiveToggle#toggled
-           */
-          this.$element.trigger('toggled.zf.responsiveToggle');
+        if (!Foundation.MediaQuery.atLeast(this.options.hideFor)) {
+          if (this.options.animate) {
+            if (this.$targetMenu.is(':hidden')) {
+              Foundation.Motion.animateIn(this.$targetMenu, this.animationIn, function () {
+                /**
+                 * Fires when the element attached to the tab bar toggles.
+                 * @event ResponsiveToggle#toggled
+                 */
+                _this2.$element.trigger('toggled.zf.responsiveToggle');
+                _this2.$targetMenu.find('[data-mutate]').triggerHandler('mutateme.zf.trigger');
+              });
+            } else {
+              Foundation.Motion.animateOut(this.$targetMenu, this.animationOut, function () {
+                /**
+                 * Fires when the element attached to the tab bar toggles.
+                 * @event ResponsiveToggle#toggled
+                 */
+                _this2.$element.trigger('toggled.zf.responsiveToggle');
+              });
+            }
+          } else {
+            this.$targetMenu.toggle(0);
+            this.$targetMenu.find('[data-mutate]').trigger('mutateme.zf.trigger');
+
+            /**
+             * Fires when the element attached to the tab bar toggles.
+             * @event ResponsiveToggle#toggled
+             */
+            this.$element.trigger('toggled.zf.responsiveToggle');
+          }
         }
       }
     }, {
@@ -15597,7 +15904,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @option
      * @example 'medium'
      */
-    hideFor: 'medium'
+    hideFor: 'medium',
+
+    /**
+     * To decide if the toggle should be animated or not.
+     * @option
+     * @example false
+     */
+    animate: false
   };
 
   // Window exports
@@ -15640,9 +15954,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       Foundation.Keyboard.register('Reveal', {
         'ENTER': 'open',
         'SPACE': 'open',
-        'ESCAPE': 'close',
-        'TAB': 'tab_forward',
-        'SHIFT_TAB': 'tab_backward'
+        'ESCAPE': 'close'
       });
     }
 
@@ -15684,7 +15996,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if (this.$overlay) {
           this.$element.detach().appendTo(this.$overlay);
         } else {
-          this.$element.detach().appendTo($('body'));
+          this.$element.detach().appendTo($(this.options.appendTo));
           this.$element.addClass('without-overlay');
         }
         this._events();
@@ -15699,9 +16011,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
        */
     }, {
       key: '_makeOverlay',
-      value: function _makeOverlay(id) {
-        var $overlay = $('<div></div>').addClass('reveal-overlay').appendTo('body');
-        return $overlay;
+      value: function _makeOverlay() {
+        return $('<div></div>').addClass('reveal-overlay').appendTo(this.options.appendTo);
       }
 
       /**
@@ -15777,7 +16088,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
         if (this.options.closeOnClick && this.options.overlay) {
           this.$overlay.off('.zf.reveal').on('click.zf.reveal', function (e) {
-            if (e.target === _this.$element[0] || $.contains(_this.$element[0], e.target)) {
+            if (e.target === _this.$element[0] || $.contains(_this.$element[0], e.target) || !$.contains(document, e.target)) {
               return;
             }
             _this.close();
@@ -15852,27 +16163,40 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
            */
           this.$element.trigger('closeme.zf.reveal', this.id);
         }
+
+        var _this = this;
+
+        function addRevealOpenClasses() {
+          if (_this.isMobile) {
+            if (!_this.originalScrollPos) {
+              _this.originalScrollPos = window.pageYOffset;
+            }
+            $('html, body').addClass('is-reveal-open');
+          } else {
+            $('body').addClass('is-reveal-open');
+          }
+        }
         // Motion UI method of reveal
         if (this.options.animationIn) {
-          var _this;
-
           (function () {
-            var afterAnimationFocus = function afterAnimationFocus() {
+            var afterAnimation = function afterAnimation() {
               _this.$element.attr({
                 'aria-hidden': false,
                 'tabindex': -1
               }).focus();
-              console.log('focus');
+              addRevealOpenClasses();
+              Foundation.Keyboard.trapFocus(_this.$element);
             };
-
-            _this = _this3;
 
             if (_this3.options.overlay) {
               Foundation.Motion.animateIn(_this3.$overlay, 'fade-in');
             }
             Foundation.Motion.animateIn(_this3.$element, _this3.options.animationIn, function () {
-              _this3.focusableElements = Foundation.Keyboard.findFocusable(_this3.$element);
-              afterAnimationFocus();
+              if (_this3.$element) {
+                // protect against object having been removed
+                _this3.focusableElements = Foundation.Keyboard.findFocusable(_this3.$element);
+                afterAnimation();
+              }
             });
           })();
         }
@@ -15889,6 +16213,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           'aria-hidden': false,
           'tabindex': -1
         }).focus();
+        Foundation.Keyboard.trapFocus(this.$element);
 
         /**
          * Fires when the modal has successfully opened.
@@ -15896,12 +16221,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          */
         this.$element.trigger('open.zf.reveal');
 
-        if (this.isMobile) {
-          this.originalScrollPos = window.pageYOffset;
-          $('html, body').addClass('is-reveal-open');
-        } else {
-          $('body').addClass('is-reveal-open');
-        }
+        addRevealOpenClasses();
 
         setTimeout(function () {
           _this3._extraHandlers();
@@ -15916,11 +16236,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       key: '_extraHandlers',
       value: function _extraHandlers() {
         var _this = this;
+        if (!this.$element) {
+          return;
+        } // If we're in the middle of cleanup, don't freak out
         this.focusableElements = Foundation.Keyboard.findFocusable(this.$element);
 
         if (!this.options.overlay && this.options.closeOnClick && !this.options.fullScreen) {
           $('body').on('click.zf.reveal', function (e) {
-            if (e.target === _this.$element[0] || $.contains(_this.$element[0], e.target)) {
+            if (e.target === _this.$element[0] || $.contains(_this.$element[0], e.target) || !$.contains(document, e.target)) {
               return;
             }
             _this.close();
@@ -15945,28 +16268,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           var $target = $(this);
           // handle keyboard event with keyboard util
           Foundation.Keyboard.handleKey(e, 'Reveal', {
-            tab_forward: function tab_forward() {
-              if (_this.$element.find(':focus').is(_this.focusableElements.eq(-1))) {
-                // left modal downwards, setting focus to first element
-                _this.focusableElements.eq(0).focus();
-                return true;
-              }
-              if (_this.focusableElements.length === 0) {
-                // no focusable elements inside the modal at all, prevent tabbing in general
-                return true;
-              }
-            },
-            tab_backward: function tab_backward() {
-              if (_this.$element.find(':focus').is(_this.focusableElements.eq(0)) || _this.$element.is(':focus')) {
-                // left modal upwards, setting focus to last element
-                _this.focusableElements.eq(-1).focus();
-                return true;
-              }
-              if (_this.focusableElements.length === 0) {
-                // no focusable elements inside the modal at all, prevent tabbing in general
-                return true;
-              }
-            },
             open: function open() {
               if (_this.$element.find(':focus').is(_this.$element.find('[data-close]'))) {
                 setTimeout(function () {
@@ -16049,6 +16350,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             $('body').removeClass('is-reveal-open');
           }
 
+          Foundation.Keyboard.releaseFocus(_this.$element);
+
           _this.$element.attr('aria-hidden', true);
 
           /**
@@ -16069,7 +16372,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.isActive = false;
         if (_this.options.deepLink) {
           if (window.history.replaceState) {
-            window.history.replaceState("", document.title, window.location.pathname);
+            window.history.replaceState('', document.title, window.location.href.replace('#' + this.id, ''));
           } else {
             window.location.hash = '';
           }
@@ -16098,7 +16401,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
        */
       value: function destroy() {
         if (this.options.overlay) {
-          this.$element.appendTo($('body')); // move $element outside of $overlay to prevent error unregisterPlugin()
+          this.$element.appendTo($(this.options.appendTo)); // move $element outside of $overlay to prevent error unregisterPlugin()
           this.$overlay.hide().off().remove();
         }
         this.$element.hide().off();
@@ -16196,7 +16499,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @option
      * @example false
      */
-    deepLink: false
+    deepLink: false,
+    /**
+    * Allows the modal to append to custom div.
+    * @option
+    * @example false
+    */
+    appendTo: "body"
+
   };
 
   // Window exports
@@ -16235,9 +16545,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   var Slider = (function () {
     /**
-     * Creates a new instance of a drilldown menu.
+     * Creates a new instance of a slider control.
      * @class
-     * @param {jQuery} element - jQuery object to make into an accordion menu.
+     * @param {jQuery} element - jQuery object to make into a slider control.
      * @param {Object} options - Overrides to the default plugin settings.
      */
 
@@ -16296,8 +16606,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           this.inputs = $().add(this.$input);
           this.options.binding = true;
         }
+
         this._setInitAttr(0);
-        this._events(this.$handle);
 
         if (this.handles[1]) {
           this.options.doubleSided = true;
@@ -16309,18 +16619,97 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
           isDbl = true;
 
-          this._setHandlePos(this.$handle, this.options.initialStart, true, function () {
-
-            _this._setHandlePos(_this.$handle2, _this.options.initialEnd, true);
-          });
           // this.$handle.triggerHandler('click.zf.slider');
           this._setInitAttr(1);
-          this._events(this.$handle2);
         }
 
-        if (!isDbl) {
-          this._setHandlePos(this.$handle, this.options.initialStart, true);
+        // Set handle positions
+        this.setHandles();
+
+        this._events();
+      }
+    }, {
+      key: 'setHandles',
+      value: function setHandles() {
+        var _this2 = this;
+
+        if (this.handles[1]) {
+          this._setHandlePos(this.$handle, this.inputs.eq(0).val(), true, function () {
+            _this2._setHandlePos(_this2.$handle2, _this2.inputs.eq(1).val(), true);
+          });
+        } else {
+          this._setHandlePos(this.$handle, this.inputs.eq(0).val(), true);
         }
+      }
+    }, {
+      key: '_reflow',
+      value: function _reflow() {
+        this.setHandles();
+      }
+
+      /**
+      * @function
+      * @private
+      * @param {Number} value - floating point (the value) to be transformed using to a relative position on the slider (the inverse of _value)
+      */
+    }, {
+      key: '_pctOfBar',
+      value: function _pctOfBar(value) {
+        var pctOfBar = percent(value - this.options.start, this.options.end - this.options.start);
+
+        switch (this.options.positionValueFunction) {
+          case "pow":
+            pctOfBar = this._logTransform(pctOfBar);
+            break;
+          case "log":
+            pctOfBar = this._powTransform(pctOfBar);
+            break;
+        }
+
+        return pctOfBar.toFixed(2);
+      }
+
+      /**
+      * @function
+      * @private
+      * @param {Number} pctOfBar - floating point, the relative position of the slider (typically between 0-1) to be transformed to a value
+      */
+    }, {
+      key: '_value',
+      value: function _value(pctOfBar) {
+        switch (this.options.positionValueFunction) {
+          case "pow":
+            pctOfBar = this._powTransform(pctOfBar);
+            break;
+          case "log":
+            pctOfBar = this._logTransform(pctOfBar);
+            break;
+        }
+        var value = (this.options.end - this.options.start) * pctOfBar + this.options.start;
+
+        return value;
+      }
+
+      /**
+      * @function
+      * @private
+      * @param {Number} value - floating point (typically between 0-1) to be transformed using the log function
+      */
+    }, {
+      key: '_logTransform',
+      value: function _logTransform(value) {
+        return baseLog(this.options.nonLinearBase, value * (this.options.nonLinearBase - 1) + 1);
+      }
+
+      /**
+      * @function
+      * @private
+      * @param {Number} value - floating point (typically between 0-1) to be transformed using the power function
+      */
+    }, {
+      key: '_powTransform',
+      value: function _powTransform(value) {
+        return (Math.pow(this.options.nonLinearBase, value) - 1) / (this.options.nonLinearBase - 1);
       }
 
       /**
@@ -16377,7 +16766,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             elemDim = this.$element[0].getBoundingClientRect()[hOrW],
 
         //percentage of bar min/max value based on click or drag point
-        pctOfBar = percent(location - this.options.start, this.options.end - this.options.start).toFixed(2),
+        pctOfBar = this._pctOfBar(location),
 
         //number of actual pixels to shift the handle, based on the percentage obtained above
         pxToMove = (elemDim - handleDim) * pctOfBar,
@@ -16416,7 +16805,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               var handlePos = parseFloat(this.$handle[0].style[lOrT]);
               //calculate the new min-height/width for the fill bar. Use isNaN to prevent false positives for numbers <= 0
               //based on the percentage of movement of the handle being manipulated, less the opposing handle's left/top position, plus the percentage w/h of the handle itself
-              dim = movement - (isNaN(handlePos) ? this.options.initialStart / ((this.options.end - this.options.start) / 100) : handlePos) + handlePct;
+              dim = movement - (isNaN(handlePos) ? (this.options.initialStart - this.options.start) / ((this.options.end - this.options.start) / 100) : handlePos) + handlePct;
             }
           // assign the min-height/width to our css object
           css['min-' + hOrW] = dim + '%';
@@ -16434,8 +16823,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var moveTime = this.$element.data('dragging') ? 1000 / 60 : this.options.moveTime;
 
         Foundation.Move(moveTime, $hndl, function () {
-          //adjusting the left/top property of the handle, based on the percentage calculated above
-          $hndl.css(lOrT, movement + '%');
+          // adjusting the left/top property of the handle, based on the percentage calculated above
+          // if movement isNaN, that is because the slider is hidden and we cannot determine handle width,
+          // fall back to next best guess.
+          if (isNaN(movement)) {
+            $hndl.css(lOrT, pctOfBar * 100 + '%');
+          } else {
+            $hndl.css(lOrT, movement + '%');
+          }
 
           if (!_this.options.doubleSided) {
             //if single-handled, a simple method to expand the fill bar
@@ -16465,6 +16860,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_setInitAttr',
       value: function _setInitAttr(idx) {
+        var initVal = idx === 0 ? this.options.initialStart : this.options.initialEnd;
         var id = this.inputs.eq(idx).attr('id') || Foundation.GetYoDigits(6, 'slider');
         this.inputs.eq(idx).attr({
           'id': id,
@@ -16472,12 +16868,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           'min': this.options.start,
           'step': this.options.step
         });
+        this.inputs.eq(idx).val(initVal);
         this.handles.eq(idx).attr({
           'role': 'slider',
           'aria-controls': id,
           'aria-valuemax': this.options.end,
           'aria-valuemin': this.options.start,
-          'aria-valuenow': idx === 0 ? this.options.initialStart : this.options.initialEnd,
+          'aria-valuenow': initVal,
           'aria-orientation': this.options.vertical ? 'vertical' : 'horizontal',
           'tabindex': 0
         });
@@ -16541,9 +16938,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           } else {
             barXY = eventFromBar;
           }
-          offsetPct = percent(barXY, barDim);
+          var offsetPct = percent(barXY, barDim);
 
-          value = (this.options.end - this.options.start) * offsetPct + this.options.start;
+          value = this._value(offsetPct);
 
           // turn everything around for RTL, yay math!
           if (Foundation.rtl() && !this.options.vertical) {
@@ -16604,11 +17001,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
        * Adds event listeners to the slider elements.
        * @function
        * @private
-       * @param {jQuery} $handle - the current handle to apply listeners to.
        */
     }, {
       key: '_events',
-      value: function _events($handle) {
+      value: function _events() {
+        this._eventsForHandle(this.$handle);
+        if (this.handles[1]) {
+          this._eventsForHandle(this.$handle2);
+        }
+      }
+
+      /**
+       * Adds event listeners a particular handle
+       * @function
+       * @private
+       * @param {jQuery} $handle - the current handle to apply listeners to.
+       */
+    }, {
+      key: '_eventsForHandle',
+      value: function _eventsForHandle($handle) {
         var _this = this,
             curHandle,
             timer;
@@ -16706,6 +17117,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.handles.off('.zf.slider');
         this.inputs.off('.zf.slider');
         this.$element.off('.zf.slider');
+
+        clearTimeout(this.timeout);
 
         Foundation.unregisterPlugin(this);
       }
@@ -16818,7 +17231,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @option
      * @example 500
      */
-    changedDelay: 500
+    changedDelay: 500,
+    /**
+    * Basevalue for non-linear sliders
+    * @option
+    * @example 5
+    */
+    nonLinearBase: 5,
+    /**
+    * Basevalue for non-linear sliders, possible values are: 'linear', 'pow' & 'log'. Pow and Log use the nonLinearBase setting.
+    * @option
+    * @example 'linear'
+    */
+    positionValueFunction: 'linear'
   };
 
   function percent(frac, num) {
@@ -16827,35 +17252,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   function absPosition($handle, dir, clickPos, param) {
     return Math.abs($handle.position()[dir] + $handle[param]() / 2 - clickPos);
   }
+  function baseLog(base, value) {
+    return Math.log(value) / Math.log(base);
+  }
 
   // Window exports
   Foundation.plugin(Slider, 'Slider');
 })(jQuery);
-
-//*********this is in case we go to static, absolute positions instead of dynamic positioning********
-// this.setSteps(function() {
-//   _this._events();
-//   var initStart = _this.options.positions[_this.options.initialStart - 1] || null;
-//   var initEnd = _this.options.initialEnd ? _this.options.position[_this.options.initialEnd - 1] : null;
-//   if (initStart || initEnd) {
-//     _this._handleEvent(initStart, initEnd);
-//   }
-// });
-
-//***********the other part of absolute positions*************
-// Slider.prototype.setSteps = function(cb) {
-//   var posChange = this.$element.outerWidth() / this.options.steps;
-//   var counter = 0
-//   while(counter < this.options.steps) {
-//     if (counter) {
-//       this.options.positions.push(this.options.positions[counter - 1] + posChange);
-//     } else {
-//       this.options.positions.push(posChange);
-//     }
-//     counter++;
-//   }
-//   cb();
-// };
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -16914,6 +17317,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.scrollCount = this.options.checkEvery;
         this.isStuck = false;
         $(window).one('load.zf.sticky', function () {
+          //We calculate the container height to have correct values for anchor points offset calculation.
+          _this.containerHeight = _this.$element.css("display") == "none" ? 0 : _this.$element[0].getBoundingClientRect().height;
+          _this.$container.css('height', _this.containerHeight);
+          _this.elemHeight = _this.containerHeight;
           if (_this.options.anchor !== '') {
             _this.$anchor = $('#' + _this.options.anchor);
           } else {
@@ -16921,7 +17328,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
 
           _this._setSizes(function () {
-            _this._calc(false);
+            var scroll = window.pageYOffset;
+            _this._calc(false, scroll);
+            //Unstick the element will ensure that proper classes are set.
+            if (!_this.isStuck) {
+              _this._removeSticky(scroll >= _this.topPoint ? false : true);
+            }
           });
           _this._events(id.split('-').reverse().join('-'));
         });
@@ -17080,7 +17492,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         css[mrgn] = this.options[mrgn] + 'em';
         css[stickTo] = 0;
         css[notStuckTo] = 'auto';
-        css['left'] = this.$container.offset().left + parseInt(window.getComputedStyle(this.$container[0])["padding-left"], 10);
         this.isStuck = true;
         this.$element.removeClass('is-anchored is-at-' + notStuckTo).addClass('is-stuck is-at-' + stickTo).css(css)
         /**
@@ -17122,7 +17533,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           css['top'] = anchorPt;
         }
 
-        css['left'] = '';
         this.isStuck = false;
         this.$element.removeClass('is-stuck is-at-' + stickTo).addClass('is-anchored is-at-' + topOrBottom).css(css)
         /**
@@ -17142,14 +17552,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_setSizes',
       value: function _setSizes(cb) {
-        this.canStick = Foundation.MediaQuery.atLeast(this.options.stickyOn);
+        this.canStick = Foundation.MediaQuery.is(this.options.stickyOn);
         if (!this.canStick) {
-          cb();
+          if (cb && typeof cb === 'function') {
+            cb();
+          }
         }
         var _this = this,
             newElemWidth = this.$container[0].getBoundingClientRect().width,
             comp = window.getComputedStyle(this.$container[0]),
-            pdng = parseInt(comp['padding-right'], 10);
+            pdngl = parseInt(comp['padding-left'], 10),
+            pdngr = parseInt(comp['padding-right'], 10);
 
         if (this.$anchor && this.$anchor.length) {
           this.anchorHeight = this.$anchor[0].getBoundingClientRect().height;
@@ -17158,7 +17571,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         this.$element.css({
-          'max-width': newElemWidth - pdng + 'px'
+          'max-width': newElemWidth - pdngl - pdngr + 'px'
         });
 
         var newContainerHeight = this.$element[0].getBoundingClientRect().height || this.containerHeight;
@@ -17171,12 +17584,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         });
         this.elemHeight = newContainerHeight;
 
-        if (this.isStuck) {
-          this.$element.css({ "left": this.$container.offset().left + parseInt(comp['padding-left'], 10) });
+        if (!this.isStuck) {
+          if (this.$element.hasClass('is-at-bottom')) {
+            var anchorPt = (this.points ? this.points[1] - this.$container.offset().top : this.anchorHeight) - this.elemHeight;
+            this.$element.css('top', anchorPt);
+          }
         }
 
         this._setBreakPoints(newContainerHeight, function () {
-          if (cb) {
+          if (cb && typeof cb === 'function') {
             cb();
           }
         });
@@ -17192,7 +17608,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       key: '_setBreakPoints',
       value: function _setBreakPoints(elemHeight, cb) {
         if (!this.canStick) {
-          if (cb) {
+          if (cb && typeof cb === 'function') {
             cb();
           } else {
             return false;
@@ -17220,7 +17636,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.topPoint = topPoint;
         this.bottomPoint = bottomPoint;
 
-        if (cb) {
+        if (cb && typeof cb === 'function') {
           cb();
         }
       }
@@ -17395,13 +17811,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       value: function _init() {
         var _this = this;
 
+        this.$element.attr({ 'role': 'tablist' });
         this.$tabTitles = this.$element.find('.' + this.options.linkClass);
         this.$tabContent = $('[data-tabs-content="' + this.$element[0].id + '"]');
 
         this.$tabTitles.each(function () {
           var $elem = $(this),
               $link = $elem.find('a'),
-              isActive = $elem.hasClass('is-active'),
+              isActive = $elem.hasClass('' + _this.options.linkActiveClass),
               hash = $link[0].hash.slice(1),
               linkId = $link[0].id ? $link[0].id : hash + '-label',
               $tabContent = $('#' + hash);
@@ -17422,7 +17839,37 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           });
 
           if (isActive && _this.options.autoFocus) {
-            $link.focus();
+            $(window).load(function () {
+              $('html, body').animate({ scrollTop: $elem.offset().top }, _this.options.deepLinkSmudgeDelay, function () {
+                $link.focus();
+              });
+            });
+          }
+
+          //use browser to open a tab, if it exists in this tabset
+          if (_this.options.deepLink) {
+            var anchor = window.location.hash;
+            //need a hash and a relevant anchor in this tabset
+            if (anchor.length) {
+              var $link = $elem.find('[href="' + anchor + '"]');
+              if ($link.length) {
+                _this.selectTab($(anchor));
+
+                //roll up a little to show the titles
+                if (_this.options.deepLinkSmudge) {
+                  $(window).load(function () {
+                    var offset = $elem.offset();
+                    $('html, body').animate({ scrollTop: offset.top }, _this.options.deepLinkSmudgeDelay);
+                  });
+                }
+
+                /**
+                  * Fires when the zplugin has deeplinked at pageload
+                  * @event Tabs#deeplink
+                  */
+                $elem.trigger('deeplink.zf.tabs', [$link, $(anchor)]);
+              }
+            }
           }
         });
 
@@ -17469,9 +17916,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.$element.off('click.zf.tabs').on('click.zf.tabs', '.' + this.options.linkClass, function (e) {
           e.preventDefault();
           e.stopPropagation();
-          if ($(this).hasClass('is-active')) {
-            return;
-          }
           _this._handleTabChange($(this));
         });
       }
@@ -17484,8 +17928,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       key: '_addKeyHandler',
       value: function _addKeyHandler() {
         var _this = this;
-        var $firstTab = _this.$element.find('li:first-of-type');
-        var $lastTab = _this.$element.find('li:last-of-type');
 
         this.$tabTitles.off('keydown.zf.tabs').on('keydown.zf.tabs', function (e) {
           if (e.which === 9) return;
@@ -17531,7 +17973,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       /**
-       * Opens the tab `$targetContent` defined by `$target`.
+       * Opens the tab `$targetContent` defined by `$target`. Collapses active tab.
        * @param {jQuery} $target - Tab to open.
        * @fires Tabs#change
        * @function
@@ -17539,24 +17981,85 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: '_handleTabChange',
       value: function _handleTabChange($target) {
-        var $tabLink = $target.find('[role="tab"]'),
+
+        /**
+         * Check for active class on target. Collapse if exists.
+         */
+        if ($target.hasClass('' + this.options.linkActiveClass)) {
+          if (this.options.activeCollapse) {
+            this._collapseTab($target);
+
+            /**
+             * Fires when the zplugin has successfully collapsed tabs.
+             * @event Tabs#collapse
+             */
+            this.$element.trigger('collapse.zf.tabs', [$target]);
+          }
+          return;
+        }
+
+        var $oldTab = this.$element.find('.' + this.options.linkClass + '.' + this.options.linkActiveClass),
+            $tabLink = $target.find('[role="tab"]'),
             hash = $tabLink[0].hash,
-            $targetContent = this.$tabContent.find(hash),
-            $oldTab = this.$element.find('.' + this.options.linkClass + '.is-active').removeClass('is-active').find('[role="tab"]').attr({ 'aria-selected': 'false' });
+            $targetContent = this.$tabContent.find(hash);
 
-        $('#' + $oldTab.attr('aria-controls')).removeClass('is-active').attr({ 'aria-hidden': 'true' });
+        //close old tab
+        this._collapseTab($oldTab);
 
-        $target.addClass('is-active');
+        //open new tab
+        this._openTab($target);
 
-        $tabLink.attr({ 'aria-selected': 'true' });
+        //either replace or update browser history
+        if (this.options.deepLink) {
+          var anchor = $target.find('a').attr('href');
 
-        $targetContent.addClass('is-active').attr({ 'aria-hidden': 'false' });
+          if (this.options.updateHistory) {
+            history.pushState({}, '', anchor);
+          } else {
+            history.replaceState({}, '', anchor);
+          }
+        }
 
         /**
          * Fires when the plugin has successfully changed tabs.
          * @event Tabs#change
          */
-        this.$element.trigger('change.zf.tabs', [$target]);
+        this.$element.trigger('change.zf.tabs', [$target, $targetContent]);
+
+        //fire to children a mutation event
+        $targetContent.find("[data-mutate]").trigger("mutateme.zf.trigger");
+      }
+
+      /**
+       * Opens the tab `$targetContent` defined by `$target`.
+       * @param {jQuery} $target - Tab to Open.
+       * @function
+       */
+    }, {
+      key: '_openTab',
+      value: function _openTab($target) {
+        var $tabLink = $target.find('[role="tab"]'),
+            hash = $tabLink[0].hash,
+            $targetContent = this.$tabContent.find(hash);
+
+        $target.addClass('' + this.options.linkActiveClass);
+
+        $tabLink.attr({ 'aria-selected': 'true' });
+
+        $targetContent.addClass('' + this.options.panelActiveClass).attr({ 'aria-hidden': 'false' });
+      }
+
+      /**
+       * Collapses `$targetContent` defined by `$target`.
+       * @param {jQuery} $target - Tab to Open.
+       * @function
+       */
+    }, {
+      key: '_collapseTab',
+      value: function _collapseTab($target) {
+        var $target_anchor = $target.removeClass('' + this.options.linkActiveClass).find('[role="tab"]').attr({ 'aria-selected': 'false' });
+
+        $('#' + $target_anchor.attr('aria-controls')).removeClass('' + this.options.panelActiveClass).attr({ 'aria-hidden': 'true' });
       }
 
       /**
@@ -17597,7 +18100,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         var max = 0;
         this.$tabContent.find('.' + this.options.panelClass).css('height', '').each(function () {
           var panel = $(this),
-              isActive = panel.hasClass('is-active');
+              isActive = panel.hasClass('' + this.options.panelActiveClass);
 
           if (!isActive) {
             panel.css({ 'visibility': 'hidden', 'display': 'block' });
@@ -17640,7 +18143,36 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   Tabs.defaults = {
     /**
+     * Allows the window to scroll to content of pane specified by hash anchor
+     * @option
+     * @example false
+     */
+    deepLink: false,
+
+    /**
+     * Adjust the deep link scroll to make sure the top of the tab panel is visible
+     * @option
+     * @example false
+     */
+    deepLinkSmudge: false,
+
+    /**
+     * Animation time (ms) for the deep link adjustment
+     * @option
+     * @example 300
+     */
+    deepLinkSmudgeDelay: 300,
+
+    /**
+     * Update the browser history with the open tab
+     * @option
+     * @example false
+     */
+    updateHistory: false,
+
+    /**
      * Allows the window to scroll to content of active pane on load if set to true.
+     * Not recommended if more than one tab panel per page.
      * @option
      * @example false
      */
@@ -17661,6 +18193,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     matchHeight: false,
 
     /**
+     * Allows active tabs to collapse when clicked.
+     * @option
+     * @example false
+     */
+    activeCollapse: false,
+
+    /**
      * Class applied to `li`'s in tab link list.
      * @option
      * @example 'tabs-title'
@@ -17668,16 +18207,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     linkClass: 'tabs-title',
 
     /**
+     * Class applied to the active `li` in tab link list.
+     * @option
+     * @example 'is-active'
+     */
+    linkActiveClass: 'is-active',
+
+    /**
      * Class applied to the content containers.
      * @option
      * @example 'tabs-panel'
      */
-    panelClass: 'tabs-panel'
-  };
+    panelClass: 'tabs-panel',
 
-  function checkClass($elem) {
-    return $elem.hasClass('is-active');
-  }
+    /**
+     * Class applied to the active content container.
+     * @option
+     * @example 'is-active'
+     */
+    panelActiveClass: 'is-active'
+  };
 
   // Window exports
   Foundation.plugin(Tabs, 'Tabs');
@@ -17793,6 +18342,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         }
 
         this._updateARIA(isOn);
+        this.$element.find('[data-mutate]').trigger('mutateme.zf.trigger');
       }
     }, {
       key: '_toggleAnimate',
@@ -17803,11 +18353,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           Foundation.Motion.animateIn(this.$element, this.animationIn, function () {
             _this._updateARIA(true);
             this.trigger('on.zf.toggler');
+            this.find('[data-mutate]').trigger('mutateme.zf.trigger');
           });
         } else {
           Foundation.Motion.animateOut(this.$element, this.animationOut, function () {
             _this._updateARIA(false);
             this.trigger('off.zf.toggler');
+            this.find('[data-mutate]').trigger('mutateme.zf.trigger');
           });
         }
       }
@@ -17856,6 +18408,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
    * Tooltip module.
    * @module foundation.tooltip
    * @requires foundation.util.box
+   * @requires foundation.util.mediaQuery
    * @requires foundation.util.triggers
    */
 
@@ -17895,7 +18448,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         this.options.tipText = this.options.tipText || this.$element.attr('title');
         this.template = this.options.template ? $(this.options.template) : this._buildTemplate(elemId);
 
-        this.template.appendTo(document.body).text(this.options.tipText).hide();
+        if (this.options.allowHtml) {
+          this.template.appendTo(document.body).html(this.options.tipText).hide();
+        } else {
+          this.template.appendTo(document.body).text(this.options.tipText).hide();
+        }
 
         this.$element.attr({
           'title': '',
@@ -17903,7 +18460,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           'data-yeti-box': elemId,
           'data-toggle': elemId,
           'data-resize': elemId
-        }).addClass(this.triggerClass);
+        }).addClass(this.options.triggerClass);
 
         //helper variables to track movement on collisions
         this.usedPositions = [];
@@ -18028,7 +18585,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'show',
       value: function show() {
-        if (this.options.showOn !== 'all' && !Foundation.MediaQuery.atLeast(this.options.showOn)) {
+        if (this.options.showOn !== 'all' && !Foundation.MediaQuery.is(this.options.showOn)) {
           // console.error('The screen is too small to display this tooltip');
           return false;
         }
@@ -18194,9 +18751,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }, {
       key: 'destroy',
       value: function destroy() {
-        this.$element.attr('title', this.template.text()).off('.zf.trigger .zf.tootip')
-        //  .removeClass('has-tip')
-        .removeAttr('aria-describedby').removeAttr('data-yeti-box').removeAttr('data-toggle').removeAttr('data-resize');
+        this.$element.attr('title', this.template.text()).off('.zf.trigger .zf.tooltip').removeClass('has-tip top right left').removeAttr('aria-describedby aria-haspopup data-disable-hover data-resize data-toggle data-tooltip data-yeti-box');
 
         this.template.remove();
 
@@ -18293,7 +18848,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @option
      * @example 12
      */
-    hOffset: 12
+    hOffset: 12,
+    /**
+    * Allow HTML in tooltip. Warning: If you are loading user-generated content into tooltips,
+    * allowing HTML may open yourself up to XSS attacks.
+    * @option
+    * @example false
+    */
+    allowHtml: false
   };
 
   /**
@@ -18481,19 +19043,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         break;
       case 'left bottom':
         return {
-          left: $anchorDims.offset.left - ($eleDims.width + hOffset),
-          top: $anchorDims.offset.top + $anchorDims.height
+          left: $anchorDims.offset.left,
+          top: $anchorDims.offset.top + $anchorDims.height + vOffset
         };
         break;
       case 'right bottom':
         return {
           left: $anchorDims.offset.left + $anchorDims.width + hOffset - $eleDims.width,
-          top: $anchorDims.offset.top + $anchorDims.height
+          top: $anchorDims.offset.top + $anchorDims.height + vOffset
         };
         break;
       default:
         return {
-          left: Foundation.rtl() ? $anchorDims.offset.left - $eleDims.width + $anchorDims.width : $anchorDims.offset.left,
+          left: Foundation.rtl() ? $anchorDims.offset.left - $eleDims.width + $anchorDims.width : $anchorDims.offset.left + hOffset,
           top: $anchorDims.offset.top + $anchorDims.height + vOffset
         };
     }
@@ -18535,9 +19097,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      */
     parseKey: function parseKey(event) {
       var key = keyCodes[event.which || event.keyCode] || String.fromCharCode(event.which).toUpperCase();
+
+      // Remove un-printable characters, e.g. for `fromCharCode` calls for CTRL only events
+      key = key.replace(/\W+/, '');
+
       if (event.shiftKey) key = 'SHIFT_' + key;
       if (event.ctrlKey) key = 'CTRL_' + key;
       if (event.altKey) key = 'ALT_' + key;
+
+      // Remove trailing underscore, in case only modifiers were used (e.g. only `CTRL_ALT`)
+      key = key.replace(/_$/, '');
+
       return key;
     },
 
@@ -18587,6 +19157,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
      * @return {jQuery} $focusable - all focusable elements within `$element`
      */
     findFocusable: function findFocusable($element) {
+      if (!$element) {
+        return false;
+      }
       return $element.find('a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, *[tabindex], *[contenteditable]').filter(function () {
         if (!$(this).is(':visible') || $(this).attr('tabindex') < 0) {
           return false;
@@ -18603,6 +19176,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
     register: function register(componentName, cmds) {
       commands[componentName] = cmds;
+    },
+
+    /**
+     * Traps the focus in the given element.
+     * @param  {jQuery} $element  jQuery object to trap the foucs into.
+     */
+    trapFocus: function trapFocus($element) {
+      var $focusable = Foundation.Keyboard.findFocusable($element),
+          $firstFocusable = $focusable.eq(0),
+          $lastFocusable = $focusable.eq(-1);
+
+      $element.on('keydown.zf.trapfocus', function (event) {
+        if (event.target === $lastFocusable[0] && Foundation.Keyboard.parseKey(event) === 'TAB') {
+          event.preventDefault();
+          $firstFocusable.focus();
+        } else if (event.target === $firstFocusable[0] && Foundation.Keyboard.parseKey(event) === 'SHIFT_TAB') {
+          event.preventDefault();
+          $lastFocusable.focus();
+        }
+      });
+    },
+    /**
+     * Releases the trapped focus from the given element.
+     * @param  {jQuery} $element  jQuery object to release the focus for.
+     */
+    releaseFocus: function releaseFocus($element) {
+      $element.off('keydown.zf.trapfocus');
     }
   };
 
@@ -18674,6 +19274,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return window.matchMedia(query).matches;
       }
 
+      return false;
+    },
+
+    /**
+     * Checks if the screen matches to a breakpoint.
+     * @function
+     * @param {String} size - Name of the breakpoint to check, either 'small only' or 'small'. Omitting 'only' falls back to using atLeast() method.
+     * @returns {Boolean} `true` if the breakpoint matches, `false` if it does not.
+     */
+    is: function is(size) {
+      size = size.trim().split(' ');
+      if (size.length > 1 && size[1] === 'only') {
+        if (size[0] === this._getCurrentSize()) return true;
+      } else {
+        return this.atLeast(size[0]);
+      }
       return false;
     },
 
@@ -18760,7 +19376,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       style.type = 'text/css';
       style.id = 'matchmediajs-test';
 
-      script.parentNode.insertBefore(style, script);
+      script && script.parentNode && script.parentNode.insertBefore(style, script);
 
       // 'style.currentStyle' is used by IE <= 8 and 'window.getComputedStyle' for all other browsers
       info = 'getComputedStyle' in window && window.getComputedStyle(style, null) || style.currentStyle;
@@ -18857,8 +19473,14 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         start = null;
     // console.log('called');
 
+    if (duration === 0) {
+      fn.apply(elem);
+      elem.trigger('finished.zf.animate', [elem]).triggerHandler('finished.zf.animate', [elem]);
+      return;
+    }
+
     function move(ts) {
-      if (!start) start = window.performance.now();
+      if (!start) start = ts;
       // console.log(start, ts);
       prog = ts - start;
       fn.apply(elem);
@@ -18941,8 +19563,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           subItemClass = subMenuClass + '-item',
           hasSubClass = 'is-' + type + '-submenu-parent';
 
-      menu.find('a:first').attr('tabindex', 0);
-
       items.each(function () {
         var $item = $(this),
             $sub = $item.children('ul');
@@ -18950,15 +19570,22 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if ($sub.length) {
           $item.addClass(hasSubClass).attr({
             'aria-haspopup': true,
-            'aria-expanded': false,
             'aria-label': $item.children('a:first').text()
           });
+          // Note:  Drilldowns behave differently in how they hide, and so need
+          // additional attributes.  We should look if this possibly over-generalized
+          // utility (Nest) is appropriate when we rework menus in 6.4
+          if (type === 'drilldown') {
+            $item.attr({ 'aria-expanded': false });
+          }
 
           $sub.addClass('submenu ' + subMenuClass).attr({
             'data-submenu': '',
-            'aria-hidden': true,
             'role': 'menu'
           });
+          if (type === 'drilldown') {
+            $sub.attr({ 'aria-hidden': true });
+          }
         }
 
         if ($item.parent('[data-submenu]').length) {
@@ -18970,12 +19597,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     },
 
     Burn: function Burn(menu, type) {
-      var items = menu.find('li').removeAttr('tabindex'),
-          subMenuClass = 'is-' + type + '-submenu',
+      var //items = menu.find('li'),
+      subMenuClass = 'is-' + type + '-submenu',
           subItemClass = subMenuClass + '-item',
           hasSubClass = 'is-' + type + '-submenu-parent';
 
-      menu.find('*').removeClass(subMenuClass + ' ' + subItemClass + ' ' + hasSubClass + ' is-submenu-item submenu is-active').removeAttr('data-submenu').css('display', '');
+      menu.find('>li, .menu, .menu > li').removeClass(subMenuClass + ' ' + subItemClass + ' ' + hasSubClass + ' is-submenu-item submenu is-active').removeAttr('data-submenu').css('display', '');
 
       // console.log(      menu.find('.' + subMenuClass + ', .' + subItemClass + ', .has-submenu, .is-submenu-item, .submenu, [data-submenu]')
       //           .removeClass(subMenuClass + ' ' + subItemClass + ' has-submenu is-submenu-item submenu')
@@ -19028,7 +19655,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         if (options.infinite) {
           _this.restart(); //rerun the timer.
         }
-        cb();
+        if (cb && typeof cb === 'function') {
+          cb();
+        }
       }, remain);
       elem.trigger('timerstart.zf.' + nameSpace);
     };
@@ -19058,15 +19687,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
 
     images.each(function () {
-      if (this.complete) {
+      // Check if image is loaded
+      if (this.complete || this.readyState === 4 || this.readyState === 'complete') {
         singleImageLoaded();
-      } else if (typeof this.naturalWidth !== 'undefined' && this.naturalWidth > 0) {
-        singleImageLoaded();
-      } else {
-        $(this).one('load', function () {
-          singleImageLoaded();
-        });
       }
+      // Force load the image
+      else {
+          // fix for IE. See https://css-tricks.com/snippets/jquery/fixing-load-in-ie-for-cached-images/
+          var src = $(this).attr('src');
+          $(this).attr('src', src + '?' + new Date().getTime());
+          $(this).one('load', function () {
+            singleImageLoaded();
+          });
+        }
     });
 
     function singleImageLoaded() {
@@ -19471,7 +20104,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
   // Elements with [data-toggle] will toggle a plugin that supports it when clicked.
   $(document).on('click.zf.trigger', '[data-toggle]', function () {
-    triggers($(this), 'toggle');
+    var id = $(this).data('toggle');
+    if (id) {
+      triggers($(this), 'toggle');
+    } else {
+      $(this).trigger('toggle.zf.trigger');
+    }
   });
 
   // Elements with [data-closable] will respond to close.zf.trigger events.
@@ -19498,7 +20136,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
   * @function
   * @private
   */
-  $(window).load(function () {
+  $(window).on('load', function () {
     checkListeners();
   });
 
@@ -19506,6 +20144,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     eventsListener();
     resizeListener();
     scrollListener();
+    mutateListener();
     closemeListener();
   }
 
@@ -19589,6 +20228,17 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     }
   }
 
+  function mutateListener(debounce) {
+    var $nodes = $('[data-mutate]');
+    if ($nodes.length && MutationObserver) {
+      //trigger all listening elements and signal a mutate event
+      //no IE 9 or 10
+      $nodes.each(function () {
+        $(this).triggerHandler('mutateme.zf.trigger');
+      });
+    }
+  }
+
   function eventsListener() {
     if (!MutationObserver) {
       return false;
@@ -19598,26 +20248,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     //element callback
     var listeningElementsMutation = function listeningElementsMutation(mutationRecordsList) {
       var $target = $(mutationRecordsList[0].target);
+
       //trigger the event handler for the element depending on type
-      switch ($target.attr("data-events")) {
+      switch (mutationRecordsList[0].type) {
 
-        case "resize":
-          $target.triggerHandler('resizeme.zf.trigger', [$target]);
+        case "attributes":
+          if ($target.attr("data-events") === "scroll" && mutationRecordsList[0].attributeName === "data-events") {
+            $target.triggerHandler('scrollme.zf.trigger', [$target, window.pageYOffset]);
+          }
+          if ($target.attr("data-events") === "resize" && mutationRecordsList[0].attributeName === "data-events") {
+            $target.triggerHandler('resizeme.zf.trigger', [$target]);
+          }
+          if (mutationRecordsList[0].attributeName === "style") {
+            $target.closest("[data-mutate]").attr("data-events", "mutate");
+            $target.closest("[data-mutate]").triggerHandler('mutateme.zf.trigger', [$target.closest("[data-mutate]")]);
+          }
           break;
 
-        case "scroll":
-          $target.triggerHandler('scrollme.zf.trigger', [$target, window.pageYOffset]);
+        case "childList":
+          $target.closest("[data-mutate]").attr("data-events", "mutate");
+          $target.closest("[data-mutate]").triggerHandler('mutateme.zf.trigger', [$target.closest("[data-mutate]")]);
           break;
-
-        // case "mutate" :
-        // console.log('mutate', $target);
-        // $target.triggerHandler('mutate.zf.trigger');
-        //
-        // //make sure we don't get stuck in an infinite loop from sloppy codeing
-        // if ($target.index('[data-mutate]') == $("[data-mutate]").length-1) {
-        //   domMutationObserver();
-        // }
-        // break;
 
         default:
           return false;
@@ -19626,10 +20277,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     };
 
     if (nodes.length) {
-      //for each element that needs to listen for resizing, scrolling, (or coming soon mutation) add a single observer
+      //for each element that needs to listen for resizing, scrolling, or mutation add a single observer
       for (var i = 0; i <= nodes.length - 1; i++) {
         var elementObserver = new MutationObserver(listeningElementsMutation);
-        elementObserver.observe(nodes[i], { attributes: true, childList: false, characterData: false, subtree: false, attributeFilter: ["data-events"] });
+        elementObserver.observe(nodes[i], { attributes: true, childList: true, characterData: false, subtree: true, attributeFilter: ["data-events", "style"] });
       }
     }
   }
@@ -19677,6 +20328,265 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 //     }
 //   }
 // };
+'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+!(function ($) {
+
+  /**
+   * ResponsiveAccordionTabs module.
+   * @module foundation.responsiveAccordionTabs
+   * @requires foundation.util.keyboard
+   * @requires foundation.util.timerAndImageLoader
+   * @requires foundation.util.motion
+   * @requires foundation.accordion
+   * @requires foundation.tabs
+   */
+
+  var ResponsiveAccordionTabs = (function () {
+    /**
+     * Creates a new instance of a responsive accordion tabs.
+     * @class
+     * @fires ResponsiveAccordionTabs#init
+     * @param {jQuery} element - jQuery object to make into a dropdown menu.
+     * @param {Object} options - Overrides to the default plugin settings.
+     */
+
+    function ResponsiveAccordionTabs(element, options) {
+      _classCallCheck(this, ResponsiveAccordionTabs);
+
+      this.$element = $(element);
+      this.options = $.extend({}, this.$element.data(), options);
+      this.rules = this.$element.data('responsive-accordion-tabs');
+      this.currentMq = null;
+      this.currentPlugin = null;
+      if (!this.$element.attr('id')) {
+        this.$element.attr('id', Foundation.GetYoDigits(6, 'responsiveaccordiontabs'));
+      };
+
+      this._init();
+      this._events();
+
+      Foundation.registerPlugin(this, 'ResponsiveAccordionTabs');
+    }
+
+    /**
+     * Initializes the Menu by parsing the classes from the 'data-responsive-accordion-tabs' attribute on the element.
+     * @function
+     * @private
+     */
+
+    _createClass(ResponsiveAccordionTabs, [{
+      key: '_init',
+      value: function _init() {
+        // The first time an Interchange plugin is initialized, this.rules is converted from a string of "classes" to an object of rules
+        if (typeof this.rules === 'string') {
+          var rulesTree = {};
+
+          // Parse rules from "classes" pulled from data attribute
+          var rules = this.rules.split(' ');
+
+          // Iterate through every rule found
+          for (var i = 0; i < rules.length; i++) {
+            var rule = rules[i].split('-');
+            var ruleSize = rule.length > 1 ? rule[0] : 'small';
+            var rulePlugin = rule.length > 1 ? rule[1] : rule[0];
+
+            if (MenuPlugins[rulePlugin] !== null) {
+              rulesTree[ruleSize] = MenuPlugins[rulePlugin];
+            }
+          }
+
+          this.rules = rulesTree;
+        }
+
+        this._getAllOptions();
+
+        if (!$.isEmptyObject(this.rules)) {
+          this._checkMediaQueries();
+        }
+      }
+    }, {
+      key: '_getAllOptions',
+      value: function _getAllOptions() {
+        //get all defaults and options
+        var _this = this;
+        _this.allOptions = {};
+        for (var key in MenuPlugins) {
+          if (MenuPlugins.hasOwnProperty(key)) {
+            var obj = MenuPlugins[key];
+            try {
+              var dummyPlugin = $('<ul></ul>');
+              var tmpPlugin = new obj.plugin(dummyPlugin, _this.options);
+              for (var keyKey in tmpPlugin.options) {
+                if (tmpPlugin.options.hasOwnProperty(keyKey) && keyKey !== 'zfPlugin') {
+                  var objObj = tmpPlugin.options[keyKey];
+                  _this.allOptions[keyKey] = objObj;
+                }
+              }
+              tmpPlugin.destroy();
+            } catch (e) {}
+          }
+        }
+      }
+
+      /**
+       * Initializes events for the Menu.
+       * @function
+       * @private
+       */
+    }, {
+      key: '_events',
+      value: function _events() {
+        var _this = this;
+
+        $(window).on('changed.zf.mediaquery', function () {
+          _this._checkMediaQueries();
+        });
+      }
+
+      /**
+       * Checks the current screen width against available media queries. If the media query has changed, and the plugin needed has changed, the plugins will swap out.
+       * @function
+       * @private
+       */
+    }, {
+      key: '_checkMediaQueries',
+      value: function _checkMediaQueries() {
+        var matchedMq,
+            _this = this;
+        // Iterate through each rule and find the last matching rule
+        $.each(this.rules, function (key) {
+          if (Foundation.MediaQuery.atLeast(key)) {
+            matchedMq = key;
+          }
+        });
+
+        // No match? No dice
+        if (!matchedMq) return;
+
+        // Plugin already initialized? We good
+        if (this.currentPlugin instanceof this.rules[matchedMq].plugin) return;
+
+        // Remove existing plugin-specific CSS classes
+        $.each(MenuPlugins, function (key, value) {
+          _this.$element.removeClass(value.cssClass);
+        });
+
+        // Add the CSS class for the new plugin
+        this.$element.addClass(this.rules[matchedMq].cssClass);
+
+        // Create an instance of the new plugin
+        if (this.currentPlugin) {
+          //don't know why but on nested elements data zfPlugin get's lost
+          if (!this.currentPlugin.$element.data('zfPlugin') && this.storezfData) this.currentPlugin.$element.data('zfPlugin', this.storezfData);
+          this.currentPlugin.destroy();
+        }
+        this._handleMarkup(this.rules[matchedMq].cssClass);
+        this.currentPlugin = new this.rules[matchedMq].plugin(this.$element, {});
+        this.storezfData = this.currentPlugin.$element.data('zfPlugin');
+      }
+    }, {
+      key: '_handleMarkup',
+      value: function _handleMarkup(toSet) {
+        var _this = this,
+            fromString = 'accordion';
+        var $panels = $('[data-tabs-content=' + this.$element.attr('id') + ']');
+        if ($panels.length) fromString = 'tabs';
+        if (fromString === toSet) {
+          return;
+        };
+
+        var tabsTitle = _this.allOptions.linkClass ? _this.allOptions.linkClass : 'tabs-title';
+        var tabsPanel = _this.allOptions.panelClass ? _this.allOptions.panelClass : 'tabs-panel';
+
+        this.$element.removeAttr('role');
+        var $liHeads = this.$element.children('.' + tabsTitle + ',[data-accordion-item]').removeClass(tabsTitle).removeClass('accordion-item').removeAttr('data-accordion-item');
+        var $liHeadsA = $liHeads.children('a').removeClass('accordion-title');
+
+        if (fromString === 'tabs') {
+          $panels = $panels.children('.' + tabsPanel).removeClass(tabsPanel).removeAttr('role').removeAttr('aria-hidden').removeAttr('aria-labelledby');
+          $panels.children('a').removeAttr('role').removeAttr('aria-controls').removeAttr('aria-selected');
+        } else {
+          $panels = $liHeads.children('[data-tab-content]').removeClass('accordion-content');
+        };
+
+        $panels.css({ display: '', visibility: '' });
+        $liHeads.css({ display: '', visibility: '' });
+        if (toSet === 'accordion') {
+          $panels.each(function (key, value) {
+            $(value).appendTo($liHeads.get(key)).addClass('accordion-content').attr('data-tab-content', '').removeClass('is-active').css({ height: '' });
+            $('[data-tabs-content=' + _this.$element.attr('id') + ']').after('<div id="tabs-placeholder-' + _this.$element.attr('id') + '"></div>').remove();
+            $liHeads.addClass('accordion-item').attr('data-accordion-item', '');
+            $liHeadsA.addClass('accordion-title');
+          });
+        } else if (toSet === 'tabs') {
+          var $tabsContent = $('[data-tabs-content=' + _this.$element.attr('id') + ']');
+          var $placeholder = $('#tabs-placeholder-' + _this.$element.attr('id'));
+          if ($placeholder.length) {
+            $tabsContent = $('<div class="tabs-content"></div>').insertAfter($placeholder).attr('data-tabs-content', _this.$element.attr('id'));
+            $placeholder.remove();
+          } else {
+            $tabsContent = $('<div class="tabs-content"></div>').insertAfter(_this.$element).attr('data-tabs-content', _this.$element.attr('id'));
+          };
+          $panels.each(function (key, value) {
+            var tempValue = $(value).appendTo($tabsContent).addClass(tabsPanel);
+            var hash = $liHeadsA.get(key).hash.slice(1);
+            var id = $(value).attr('id') || Foundation.GetYoDigits(6, 'accordion');
+            if (hash !== id) {
+              if (hash !== '') {
+                $(value).attr('id', hash);
+              } else {
+                hash = id;
+                $(value).attr('id', hash);
+                $($liHeadsA.get(key)).attr('href', $($liHeadsA.get(key)).attr('href').replace('#', '') + '#' + hash);
+              };
+            };
+            var isActive = $($liHeads.get(key)).hasClass('is-active');
+            if (isActive) {
+              tempValue.addClass('is-active');
+            };
+          });
+          $liHeads.addClass(tabsTitle);
+        };
+      }
+
+      /**
+       * Destroys the instance of the current plugin on this element, as well as the window resize handler that switches the plugins out.
+       * @function
+       */
+    }, {
+      key: 'destroy',
+      value: function destroy() {
+        if (this.currentPlugin) this.currentPlugin.destroy();
+        $(window).off('.zf.ResponsiveAccordionTabs');
+        Foundation.unregisterPlugin(this);
+      }
+    }]);
+
+    return ResponsiveAccordionTabs;
+  })();
+
+  ResponsiveAccordionTabs.defaults = {};
+
+  // The plugin matches the plugin classes with these plugin instances.
+  var MenuPlugins = {
+    tabs: {
+      cssClass: 'tabs',
+      plugin: Foundation._plugins.tabs || null
+    },
+    accordion: {
+      cssClass: 'accordion',
+      plugin: Foundation._plugins.accordion || null
+    }
+  };
+
+  // Window exports
+  Foundation.plugin(ResponsiveAccordionTabs, 'ResponsiveAccordionTabs');
+})(jQuery);
 "use strict";
 /*
 Turbolinks 5.0.0
@@ -19685,6 +20595,14 @@ Copyright © 2016 Basecamp, LLC
 
 (function(){(function(){(function(){this.Turbolinks={supported:function(){return null!=window.history.pushState&&null!=window.requestAnimationFrame}(),visit:function(e,r){return t.controller.visit(e,r)},clearCache:function(){return t.controller.clearCache()}}}).call(this)}).call(this);var t=this.Turbolinks;(function(){(function(){var e,r;t.copyObject=function(t){var e,r,n;r={};for(e in t)n=t[e],r[e]=n;return r},t.closest=function(t,r){return e.call(t,r)},e=function(){var t,e;return t=document.documentElement,null!=(e=t.closest)?e:function(t){var e;for(e=this;e;){if(e.nodeType===Node.ELEMENT_NODE&&r.call(e,t))return e;e=e.parentNode}}}(),t.defer=function(t){return setTimeout(t,1)},t.dispatch=function(t,e){var r,n,o,i,s;return i=null!=e?e:{},s=i.target,r=i.cancelable,n=i.data,o=document.createEvent("Events"),o.initEvent(t,!0,r===!0),o.data=null!=n?n:{},(null!=s?s:document).dispatchEvent(o),o},t.match=function(t,e){return r.call(t,e)},r=function(){var t,e,r,n;return t=document.documentElement,null!=(e=null!=(r=null!=(n=t.matchesSelector)?n:t.webkitMatchesSelector)?r:t.msMatchesSelector)?e:t.mozMatchesSelector}(),t.uuid=function(){var t,e,r;for(r="",t=e=1;36>=e;t=++e)r+=9===t||14===t||19===t||24===t?"-":15===t?"4":20===t?(Math.floor(4*Math.random())+8).toString(16):Math.floor(15*Math.random()).toString(16);return r}}).call(this),function(){t.Location=function(){function t(t){var e,r;null==t&&(t=""),r=document.createElement("a"),r.href=t.toString(),this.absoluteURL=r.href,e=r.hash.length,2>e?this.requestURL=this.absoluteURL:(this.requestURL=this.absoluteURL.slice(0,-e),this.anchor=r.hash.slice(1))}var e,r,n,o;return t.wrap=function(t){return t instanceof this?t:new this(t)},t.prototype.getOrigin=function(){return this.absoluteURL.split("/",3).join("/")},t.prototype.getPath=function(){var t,e;return null!=(t=null!=(e=this.absoluteURL.match(/\/\/[^\/]*(\/[^?;]*)/))?e[1]:void 0)?t:"/"},t.prototype.getPathComponents=function(){return this.getPath().split("/").slice(1)},t.prototype.getLastPathComponent=function(){return this.getPathComponents().slice(-1)[0]},t.prototype.getExtension=function(){var t,e;return null!=(t=null!=(e=this.getLastPathComponent().match(/\.[^.]*$/))?e[0]:void 0)?t:""},t.prototype.isHTML=function(){return this.getExtension().match(/^(?:|\.(?:htm|html|xhtml))$/)},t.prototype.isPrefixedBy=function(t){var e;return e=r(t),this.isEqualTo(t)||o(this.absoluteURL,e)},t.prototype.isEqualTo=function(t){return this.absoluteURL===(null!=t?t.absoluteURL:void 0)},t.prototype.toCacheKey=function(){return this.requestURL},t.prototype.toJSON=function(){return this.absoluteURL},t.prototype.toString=function(){return this.absoluteURL},t.prototype.valueOf=function(){return this.absoluteURL},r=function(t){return e(t.getOrigin()+t.getPath())},e=function(t){return n(t,"/")?t:t+"/"},o=function(t,e){return t.slice(0,e.length)===e},n=function(t,e){return t.slice(-e.length)===e},t}()}.call(this),function(){var e=function(t,e){return function(){return t.apply(e,arguments)}};t.HttpRequest=function(){function r(r,n,o){this.delegate=r,this.requestCanceled=e(this.requestCanceled,this),this.requestTimedOut=e(this.requestTimedOut,this),this.requestFailed=e(this.requestFailed,this),this.requestLoaded=e(this.requestLoaded,this),this.requestProgressed=e(this.requestProgressed,this),this.url=t.Location.wrap(n).requestURL,this.referrer=t.Location.wrap(o).absoluteURL,this.createXHR()}return r.NETWORK_FAILURE=0,r.TIMEOUT_FAILURE=-1,r.timeout=60,r.prototype.send=function(){var t;return this.xhr&&!this.sent?(this.notifyApplicationBeforeRequestStart(),this.setProgress(0),this.xhr.send(),this.sent=!0,"function"==typeof(t=this.delegate).requestStarted?t.requestStarted():void 0):void 0},r.prototype.cancel=function(){return this.xhr&&this.sent?this.xhr.abort():void 0},r.prototype.requestProgressed=function(t){return t.lengthComputable?this.setProgress(t.loaded/t.total):void 0},r.prototype.requestLoaded=function(){return this.endRequest(function(t){return function(){var e;return 200<=(e=t.xhr.status)&&300>e?t.delegate.requestCompletedWithResponse(t.xhr.responseText,t.xhr.getResponseHeader("Turbolinks-Location")):(t.failed=!0,t.delegate.requestFailedWithStatusCode(t.xhr.status,t.xhr.responseText))}}(this))},r.prototype.requestFailed=function(){return this.endRequest(function(t){return function(){return t.failed=!0,t.delegate.requestFailedWithStatusCode(t.constructor.NETWORK_FAILURE)}}(this))},r.prototype.requestTimedOut=function(){return this.endRequest(function(t){return function(){return t.failed=!0,t.delegate.requestFailedWithStatusCode(t.constructor.TIMEOUT_FAILURE)}}(this))},r.prototype.requestCanceled=function(){return this.endRequest()},r.prototype.notifyApplicationBeforeRequestStart=function(){return t.dispatch("turbolinks:request-start",{data:{url:this.url,xhr:this.xhr}})},r.prototype.notifyApplicationAfterRequestEnd=function(){return t.dispatch("turbolinks:request-end",{data:{url:this.url,xhr:this.xhr}})},r.prototype.createXHR=function(){return this.xhr=new XMLHttpRequest,this.xhr.open("GET",this.url,!0),this.xhr.timeout=1e3*this.constructor.timeout,this.xhr.setRequestHeader("Accept","text/html, application/xhtml+xml"),this.xhr.setRequestHeader("Turbolinks-Referrer",this.referrer),this.xhr.onprogress=this.requestProgressed,this.xhr.onload=this.requestLoaded,this.xhr.onerror=this.requestFailed,this.xhr.ontimeout=this.requestTimedOut,this.xhr.onabort=this.requestCanceled},r.prototype.endRequest=function(t){return this.xhr?(this.notifyApplicationAfterRequestEnd(),null!=t&&t.call(this),this.destroy()):void 0},r.prototype.setProgress=function(t){var e;return this.progress=t,"function"==typeof(e=this.delegate).requestProgressed?e.requestProgressed(this.progress):void 0},r.prototype.destroy=function(){var t;return this.setProgress(1),"function"==typeof(t=this.delegate).requestFinished&&t.requestFinished(),this.delegate=null,this.xhr=null},r}()}.call(this),function(){var e=function(t,e){return function(){return t.apply(e,arguments)}};t.ProgressBar=function(){function t(){this.trickle=e(this.trickle,this),this.stylesheetElement=this.createStylesheetElement(),this.progressElement=this.createProgressElement()}var r;return r=300,t.defaultCSS=".turbolinks-progress-bar {\n  position: fixed;\n  display: block;\n  top: 0;\n  left: 0;\n  height: 3px;\n  background: #0076ff;\n  z-index: 9999;\n  transition: width "+r+"ms ease-out, opacity "+r/2+"ms "+r/2+"ms ease-in;\n  transform: translate3d(0, 0, 0);\n}",t.prototype.show=function(){return this.visible?void 0:(this.visible=!0,this.installStylesheetElement(),this.installProgressElement(),this.startTrickling())},t.prototype.hide=function(){return this.visible&&!this.hiding?(this.hiding=!0,this.fadeProgressElement(function(t){return function(){return t.uninstallProgressElement(),t.stopTrickling(),t.visible=!1,t.hiding=!1}}(this))):void 0},t.prototype.setValue=function(t){return this.value=t,this.refresh()},t.prototype.installStylesheetElement=function(){return document.head.insertBefore(this.stylesheetElement,document.head.firstChild)},t.prototype.installProgressElement=function(){return this.progressElement.style.width=0,this.progressElement.style.opacity=1,document.documentElement.insertBefore(this.progressElement,document.body),this.refresh()},t.prototype.fadeProgressElement=function(t){return this.progressElement.style.opacity=0,setTimeout(t,1.5*r)},t.prototype.uninstallProgressElement=function(){return this.progressElement.parentNode?document.documentElement.removeChild(this.progressElement):void 0},t.prototype.startTrickling=function(){return null!=this.trickleInterval?this.trickleInterval:this.trickleInterval=setInterval(this.trickle,r)},t.prototype.stopTrickling=function(){return clearInterval(this.trickleInterval),this.trickleInterval=null},t.prototype.trickle=function(){return this.setValue(this.value+Math.random()/100)},t.prototype.refresh=function(){return requestAnimationFrame(function(t){return function(){return t.progressElement.style.width=10+90*t.value+"%"}}(this))},t.prototype.createStylesheetElement=function(){var t;return t=document.createElement("style"),t.type="text/css",t.textContent=this.constructor.defaultCSS,t},t.prototype.createProgressElement=function(){var t;return t=document.createElement("div"),t.className="turbolinks-progress-bar",t},t}()}.call(this),function(){var e=function(t,e){return function(){return t.apply(e,arguments)}};t.BrowserAdapter=function(){function r(r){this.controller=r,this.showProgressBar=e(this.showProgressBar,this),this.progressBar=new t.ProgressBar}var n,o,i,s;return s=t.HttpRequest,n=s.NETWORK_FAILURE,i=s.TIMEOUT_FAILURE,o=500,r.prototype.visitProposedToLocationWithAction=function(t,e){return this.controller.startVisitToLocationWithAction(t,e)},r.prototype.visitStarted=function(t){return t.issueRequest(),t.changeHistory(),t.loadCachedSnapshot()},r.prototype.visitRequestStarted=function(t){return this.progressBar.setValue(0),t.hasCachedSnapshot()||"restore"!==t.action?this.showProgressBarAfterDelay():this.showProgressBar()},r.prototype.visitRequestProgressed=function(t){return this.progressBar.setValue(t.progress)},r.prototype.visitRequestCompleted=function(t){return t.loadResponse()},r.prototype.visitRequestFailedWithStatusCode=function(t,e){switch(e){case n:case i:return this.reload();default:return t.loadResponse()}},r.prototype.visitRequestFinished=function(t){return this.hideProgressBar()},r.prototype.visitCompleted=function(t){return t.followRedirect()},r.prototype.pageInvalidated=function(){return this.reload()},r.prototype.showProgressBarAfterDelay=function(){return this.progressBarTimeout=setTimeout(this.showProgressBar,o)},r.prototype.showProgressBar=function(){return this.progressBar.show()},r.prototype.hideProgressBar=function(){return this.progressBar.hide(),clearTimeout(this.progressBarTimeout)},r.prototype.reload=function(){return window.location.reload()},r}()}.call(this),function(){var e,r=function(t,e){return function(){return t.apply(e,arguments)}};e=!1,addEventListener("load",function(){return t.defer(function(){return e=!0})},!1),t.History=function(){function n(t){this.delegate=t,this.onPopState=r(this.onPopState,this)}return n.prototype.start=function(){return this.started?void 0:(addEventListener("popstate",this.onPopState,!1),this.started=!0)},n.prototype.stop=function(){return this.started?(removeEventListener("popstate",this.onPopState,!1),this.started=!1):void 0},n.prototype.push=function(e,r){return e=t.Location.wrap(e),this.update("push",e,r)},n.prototype.replace=function(e,r){return e=t.Location.wrap(e),this.update("replace",e,r)},n.prototype.onPopState=function(e){var r,n,o,i;return this.shouldHandlePopState()&&(i=null!=(n=e.state)?n.turbolinks:void 0)?(r=t.Location.wrap(window.location),o=i.restorationIdentifier,this.delegate.historyPoppedToLocationWithRestorationIdentifier(r,o)):void 0},n.prototype.shouldHandlePopState=function(){return e===!0},n.prototype.update=function(t,e,r){var n;return n={turbolinks:{restorationIdentifier:r}},history[t+"State"](n,null,e)},n}()}.call(this),function(){t.Snapshot=function(){function e(t){var e,r;r=t.head,e=t.body,this.head=null!=r?r:document.createElement("head"),this.body=null!=e?e:document.createElement("body")}return e.wrap=function(t){return t instanceof this?t:this.fromHTML(t)},e.fromHTML=function(t){var e;return e=document.createElement("html"),e.innerHTML=t,this.fromElement(e)},e.fromElement=function(t){return new this({head:t.querySelector("head"),body:t.querySelector("body")})},e.prototype.clone=function(){return new e({head:this.head.cloneNode(!0),body:this.body.cloneNode(!0)})},e.prototype.getRootLocation=function(){var e,r;return r=null!=(e=this.getSetting("root"))?e:"/",new t.Location(r)},e.prototype.getCacheControlValue=function(){return this.getSetting("cache-control")},e.prototype.hasAnchor=function(t){try{return null!=this.body.querySelector("[id='"+t+"']")}catch(e){}},e.prototype.isPreviewable=function(){return"no-preview"!==this.getCacheControlValue()},e.prototype.isCacheable=function(){return"no-cache"!==this.getCacheControlValue()},e.prototype.getSetting=function(t){var e,r;return r=this.head.querySelectorAll("meta[name='turbolinks-"+t+"']"),e=r[r.length-1],null!=e?e.getAttribute("content"):void 0},e}()}.call(this),function(){var e=[].slice;t.Renderer=function(){function t(){}var r;return t.render=function(){var t,r,n,o;return n=arguments[0],r=arguments[1],t=3<=arguments.length?e.call(arguments,2):[],o=function(t,e,r){r.prototype=t.prototype;var n=new r,o=t.apply(n,e);return Object(o)===o?o:n}(this,t,function(){}),o.delegate=n,o.render(r),o},t.prototype.renderView=function(t){return this.delegate.viewWillRender(this.newBody),t(),this.delegate.viewRendered(this.newBody)},t.prototype.invalidateView=function(){return this.delegate.viewInvalidated()},t.prototype.createScriptElement=function(t){var e;return"false"===t.getAttribute("data-turbolinks-eval")?t:(e=document.createElement("script"),e.textContent=t.textContent,r(e,t),e)},r=function(t,e){var r,n,o,i,s,a,u;for(i=e.attributes,a=[],r=0,n=i.length;n>r;r++)s=i[r],o=s.name,u=s.value,a.push(t.setAttribute(o,u));return a},t}()}.call(this),function(){t.HeadDetails=function(){function t(t){var e,r,i,s,a,u,c;for(this.element=t,this.elements={},c=this.element.childNodes,s=0,u=c.length;u>s;s++)i=c[s],i.nodeType===Node.ELEMENT_NODE&&(a=i.outerHTML,r=null!=(e=this.elements)[a]?e[a]:e[a]={type:o(i),tracked:n(i),elements:[]},r.elements.push(i))}var e,r,n,o;return t.prototype.hasElementWithKey=function(t){return t in this.elements},t.prototype.getTrackedElementSignature=function(){var t,e;return function(){var r,n;r=this.elements,n=[];for(t in r)e=r[t].tracked,e&&n.push(t);return n}.call(this).join("")},t.prototype.getScriptElementsNotInDetails=function(t){return this.getElementsMatchingTypeNotInDetails("script",t)},t.prototype.getStylesheetElementsNotInDetails=function(t){return this.getElementsMatchingTypeNotInDetails("stylesheet",t)},t.prototype.getElementsMatchingTypeNotInDetails=function(t,e){var r,n,o,i,s,a;o=this.elements,s=[];for(n in o)i=o[n],a=i.type,r=i.elements,a!==t||e.hasElementWithKey(n)||s.push(r[0]);return s},t.prototype.getProvisionalElements=function(){var t,e,r,n,o,i,s;r=[],n=this.elements;for(e in n)o=n[e],s=o.type,i=o.tracked,t=o.elements,null!=s||i?t.length>1&&r.push.apply(r,t.slice(1)):r.push.apply(r,t);return r},o=function(t){return e(t)?"script":r(t)?"stylesheet":void 0},n=function(t){return"reload"===t.getAttribute("data-turbolinks-track")},e=function(t){var e;return e=t.tagName.toLowerCase(),"script"===e},r=function(t){var e;return e=t.tagName.toLowerCase(),"style"===e||"link"===e&&"stylesheet"===t.getAttribute("rel")},t}()}.call(this),function(){var e=function(t,e){function n(){this.constructor=t}for(var o in e)r.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},r={}.hasOwnProperty;t.SnapshotRenderer=function(r){function n(e,r){this.currentSnapshot=e,this.newSnapshot=r,this.currentHeadDetails=new t.HeadDetails(this.currentSnapshot.head),this.newHeadDetails=new t.HeadDetails(this.newSnapshot.head),this.newBody=this.newSnapshot.body}return e(n,r),n.prototype.render=function(t){return this.trackedElementsAreIdentical()?(this.mergeHead(),this.renderView(function(e){return function(){return e.replaceBody(),e.focusFirstAutofocusableElement(),t()}}(this))):this.invalidateView()},n.prototype.mergeHead=function(){return this.copyNewHeadStylesheetElements(),this.copyNewHeadScriptElements(),this.removeCurrentHeadProvisionalElements(),this.copyNewHeadProvisionalElements()},n.prototype.replaceBody=function(){return this.activateBodyScriptElements(),this.importBodyPermanentElements(),this.assignNewBody()},n.prototype.trackedElementsAreIdentical=function(){return this.currentHeadDetails.getTrackedElementSignature()===this.newHeadDetails.getTrackedElementSignature()},n.prototype.copyNewHeadStylesheetElements=function(){var t,e,r,n,o;for(n=this.getNewHeadStylesheetElements(),o=[],e=0,r=n.length;r>e;e++)t=n[e],o.push(document.head.appendChild(t));return o},n.prototype.copyNewHeadScriptElements=function(){var t,e,r,n,o;for(n=this.getNewHeadScriptElements(),o=[],e=0,r=n.length;r>e;e++)t=n[e],o.push(document.head.appendChild(this.createScriptElement(t)));return o},n.prototype.removeCurrentHeadProvisionalElements=function(){var t,e,r,n,o;for(n=this.getCurrentHeadProvisionalElements(),o=[],e=0,r=n.length;r>e;e++)t=n[e],o.push(document.head.removeChild(t));return o},n.prototype.copyNewHeadProvisionalElements=function(){var t,e,r,n,o;for(n=this.getNewHeadProvisionalElements(),o=[],e=0,r=n.length;r>e;e++)t=n[e],o.push(document.head.appendChild(t));return o},n.prototype.importBodyPermanentElements=function(){var t,e,r,n,o,i;for(n=this.getNewBodyPermanentElements(),i=[],e=0,r=n.length;r>e;e++)o=n[e],(t=this.findCurrentBodyPermanentElement(o))?i.push(o.parentNode.replaceChild(t,o)):i.push(void 0);return i},n.prototype.activateBodyScriptElements=function(){var t,e,r,n,o,i;for(n=this.getNewBodyScriptElements(),i=[],e=0,r=n.length;r>e;e++)o=n[e],t=this.createScriptElement(o),i.push(o.parentNode.replaceChild(t,o));return i},n.prototype.assignNewBody=function(){return document.body=this.newBody},n.prototype.focusFirstAutofocusableElement=function(){var t;return null!=(t=this.findFirstAutofocusableElement())?t.focus():void 0},n.prototype.getNewHeadStylesheetElements=function(){return this.newHeadDetails.getStylesheetElementsNotInDetails(this.currentHeadDetails)},n.prototype.getNewHeadScriptElements=function(){return this.newHeadDetails.getScriptElementsNotInDetails(this.currentHeadDetails)},n.prototype.getCurrentHeadProvisionalElements=function(){return this.currentHeadDetails.getProvisionalElements()},n.prototype.getNewHeadProvisionalElements=function(){return this.newHeadDetails.getProvisionalElements()},n.prototype.getNewBodyPermanentElements=function(){return this.newBody.querySelectorAll("[id][data-turbolinks-permanent]")},n.prototype.findCurrentBodyPermanentElement=function(t){return document.body.querySelector("#"+t.id+"[data-turbolinks-permanent]")},n.prototype.getNewBodyScriptElements=function(){return this.newBody.querySelectorAll("script")},n.prototype.findFirstAutofocusableElement=function(){return document.body.querySelector("[autofocus]")},n}(t.Renderer)}.call(this),function(){var e=function(t,e){function n(){this.constructor=t}for(var o in e)r.call(e,o)&&(t[o]=e[o]);return n.prototype=e.prototype,t.prototype=new n,t.__super__=e.prototype,t},r={}.hasOwnProperty;t.ErrorRenderer=function(t){function r(t){this.html=t}return e(r,t),r.prototype.render=function(t){return this.renderView(function(e){return function(){return e.replaceDocumentHTML(),e.activateBodyScriptElements(),t()}}(this))},r.prototype.replaceDocumentHTML=function(){return document.documentElement.innerHTML=this.html},r.prototype.activateBodyScriptElements=function(){var t,e,r,n,o,i;for(n=this.getScriptElements(),i=[],e=0,r=n.length;r>e;e++)o=n[e],t=this.createScriptElement(o),i.push(o.parentNode.replaceChild(t,o));return i},r.prototype.getScriptElements=function(){return document.documentElement.querySelectorAll("script")},r}(t.Renderer)}.call(this),function(){t.View=function(){function e(t){this.delegate=t,this.element=document.documentElement}return e.prototype.getRootLocation=function(){return this.getSnapshot().getRootLocation()},e.prototype.getSnapshot=function(){return t.Snapshot.fromElement(this.element)},e.prototype.render=function(t,e){var r,n,o;return o=t.snapshot,r=t.error,n=t.isPreview,this.markAsPreview(n),null!=o?this.renderSnapshot(o,e):this.renderError(r,e)},e.prototype.markAsPreview=function(t){return t?this.element.setAttribute("data-turbolinks-preview",""):this.element.removeAttribute("data-turbolinks-preview")},e.prototype.renderSnapshot=function(e,r){return t.SnapshotRenderer.render(this.delegate,r,this.getSnapshot(),t.Snapshot.wrap(e))},e.prototype.renderError=function(e,r){return t.ErrorRenderer.render(this.delegate,r,e)},e}()}.call(this),function(){var e=function(t,e){return function(){return t.apply(e,arguments)}};t.ScrollManager=function(){function t(t){this.delegate=t,this.onScroll=e(this.onScroll,this)}return t.prototype.start=function(){return this.started?void 0:(addEventListener("scroll",this.onScroll,!1),this.onScroll(),this.started=!0)},t.prototype.stop=function(){return this.started?(removeEventListener("scroll",this.onScroll,!1),this.started=!1):void 0},t.prototype.scrollToElement=function(t){return t.scrollIntoView()},t.prototype.scrollToPosition=function(t){var e,r;return e=t.x,r=t.y,window.scrollTo(e,r)},t.prototype.onScroll=function(t){return this.updatePosition({x:window.pageXOffset,y:window.pageYOffset})},t.prototype.updatePosition=function(t){var e;return this.position=t,null!=(e=this.delegate)?e.scrollPositionChanged(this.position):void 0},t}()}.call(this),function(){t.SnapshotCache=function(){function e(t){this.size=t,this.keys=[],this.snapshots={}}var r;return e.prototype.has=function(t){var e;return e=r(t),e in this.snapshots},e.prototype.get=function(t){var e;if(this.has(t))return e=this.read(t),this.touch(t),e},e.prototype.put=function(t,e){return this.write(t,e),this.touch(t),e},e.prototype.read=function(t){var e;return e=r(t),this.snapshots[e]},e.prototype.write=function(t,e){var n;return n=r(t),this.snapshots[n]=e},e.prototype.touch=function(t){var e,n;return n=r(t),e=this.keys.indexOf(n),e>-1&&this.keys.splice(e,1),this.keys.unshift(n),this.trim()},e.prototype.trim=function(){var t,e,r,n,o;for(n=this.keys.splice(this.size),o=[],t=0,r=n.length;r>t;t++)e=n[t],o.push(delete this.snapshots[e]);return o},r=function(e){return t.Location.wrap(e).toCacheKey()},e}()}.call(this),function(){var e=function(t,e){return function(){return t.apply(e,arguments)}};t.Visit=function(){function r(r,n,o){this.controller=r,this.action=o,this.performScroll=e(this.performScroll,this),this.identifier=t.uuid(),this.location=t.Location.wrap(n),this.adapter=this.controller.adapter,this.state="initialized",this.timingMetrics={}}var n;return r.prototype.start=function(){return"initialized"===this.state?(this.recordTimingMetric("visitStart"),this.state="started",this.adapter.visitStarted(this)):void 0},r.prototype.cancel=function(){var t;return"started"===this.state?(null!=(t=this.request)&&t.cancel(),this.cancelRender(),this.state="canceled"):void 0},r.prototype.complete=function(){var t;return"started"===this.state?(this.recordTimingMetric("visitEnd"),this.state="completed","function"==typeof(t=this.adapter).visitCompleted&&t.visitCompleted(this),this.controller.visitCompleted(this)):void 0},r.prototype.fail=function(){var t;return"started"===this.state?(this.state="failed","function"==typeof(t=this.adapter).visitFailed?t.visitFailed(this):void 0):void 0},r.prototype.changeHistory=function(){var t,e;return this.historyChanged?void 0:(t=this.location.isEqualTo(this.referrer)?"replace":this.action,e=n(t),this.controller[e](this.location,this.restorationIdentifier),this.historyChanged=!0)},r.prototype.issueRequest=function(){return this.shouldIssueRequest()&&null==this.request?(this.progress=0,this.request=new t.HttpRequest(this,this.location,this.referrer),this.request.send()):void 0},r.prototype.getCachedSnapshot=function(){var t;return!(t=this.controller.getCachedSnapshotForLocation(this.location))||null!=this.location.anchor&&!t.hasAnchor(this.location.anchor)||"restore"!==this.action&&!t.isPreviewable()?void 0:t},r.prototype.hasCachedSnapshot=function(){return null!=this.getCachedSnapshot()},r.prototype.loadCachedSnapshot=function(){var t,e;return(e=this.getCachedSnapshot())?(t=this.shouldIssueRequest(),this.render(function(){var r;return this.cacheSnapshot(),this.controller.render({snapshot:e,isPreview:t},this.performScroll),"function"==typeof(r=this.adapter).visitRendered&&r.visitRendered(this),t?void 0:this.complete()})):void 0},r.prototype.loadResponse=function(){return null!=this.response?this.render(function(){var t,e;return this.cacheSnapshot(),this.request.failed?(this.controller.render({error:this.response},this.performScroll),"function"==typeof(t=this.adapter).visitRendered&&t.visitRendered(this),this.fail()):(this.controller.render({snapshot:this.response},this.performScroll),"function"==typeof(e=this.adapter).visitRendered&&e.visitRendered(this),this.complete())}):void 0},r.prototype.followRedirect=function(){return this.redirectedToLocation&&!this.followedRedirect?(this.location=this.redirectedToLocation,this.controller.replaceHistoryWithLocationAndRestorationIdentifier(this.redirectedToLocation,this.restorationIdentifier),this.followedRedirect=!0):void 0},r.prototype.requestStarted=function(){var t;return this.recordTimingMetric("requestStart"),"function"==typeof(t=this.adapter).visitRequestStarted?t.visitRequestStarted(this):void 0},r.prototype.requestProgressed=function(t){var e;return this.progress=t,"function"==typeof(e=this.adapter).visitRequestProgressed?e.visitRequestProgressed(this):void 0},r.prototype.requestCompletedWithResponse=function(e,r){return this.response=e,null!=r&&(this.redirectedToLocation=t.Location.wrap(r)),this.adapter.visitRequestCompleted(this)},r.prototype.requestFailedWithStatusCode=function(t,e){return this.response=e,this.adapter.visitRequestFailedWithStatusCode(this,t)},r.prototype.requestFinished=function(){var t;return this.recordTimingMetric("requestEnd"),"function"==typeof(t=this.adapter).visitRequestFinished?t.visitRequestFinished(this):void 0},r.prototype.performScroll=function(){return this.scrolled?void 0:("restore"===this.action?this.scrollToRestoredPosition()||this.scrollToTop():this.scrollToAnchor()||this.scrollToTop(),this.scrolled=!0)},r.prototype.scrollToRestoredPosition=function(){var t,e;return t=null!=(e=this.restorationData)?e.scrollPosition:void 0,null!=t?(this.controller.scrollToPosition(t),!0):void 0},r.prototype.scrollToAnchor=function(){return null!=this.location.anchor?(this.controller.scrollToAnchor(this.location.anchor),!0):void 0},r.prototype.scrollToTop=function(){return this.controller.scrollToPosition({x:0,y:0})},r.prototype.recordTimingMetric=function(t){var e;return null!=(e=this.timingMetrics)[t]?e[t]:e[t]=(new Date).getTime()},r.prototype.getTimingMetrics=function(){return t.copyObject(this.timingMetrics)},n=function(t){switch(t){case"replace":return"replaceHistoryWithLocationAndRestorationIdentifier";case"advance":case"restore":return"pushHistoryWithLocationAndRestorationIdentifier"}},r.prototype.shouldIssueRequest=function(){return"restore"===this.action?!this.hasCachedSnapshot():!0},r.prototype.cacheSnapshot=function(){return this.snapshotCached?void 0:(this.controller.cacheSnapshot(),this.snapshotCached=!0)},r.prototype.render=function(t){return this.cancelRender(),this.frame=requestAnimationFrame(function(e){return function(){return e.frame=null,t.call(e)}}(this))},r.prototype.cancelRender=function(){return this.frame?cancelAnimationFrame(this.frame):void 0},r}()}.call(this),function(){var e=function(t,e){return function(){return t.apply(e,arguments)}};t.Controller=function(){function r(){this.clickBubbled=e(this.clickBubbled,this),this.clickCaptured=e(this.clickCaptured,this),this.pageLoaded=e(this.pageLoaded,this),this.history=new t.History(this),this.view=new t.View(this),this.scrollManager=new t.ScrollManager(this),this.restorationData={},this.clearCache()}return r.prototype.start=function(){return t.supported&&!this.started?(addEventListener("click",this.clickCaptured,!0),addEventListener("DOMContentLoaded",this.pageLoaded,!1),this.scrollManager.start(),this.startHistory(),this.started=!0,this.enabled=!0):void 0},r.prototype.disable=function(){return this.enabled=!1},r.prototype.stop=function(){return this.started?(removeEventListener("click",this.clickCaptured,!0),removeEventListener("DOMContentLoaded",this.pageLoaded,!1),this.scrollManager.stop(),this.stopHistory(),this.started=!1):void 0},r.prototype.clearCache=function(){return this.cache=new t.SnapshotCache(10)},r.prototype.visit=function(e,r){var n,o;return null==r&&(r={}),e=t.Location.wrap(e),this.applicationAllowsVisitingLocation(e)?this.locationIsVisitable(e)?(n=null!=(o=r.action)?o:"advance",this.adapter.visitProposedToLocationWithAction(e,n)):window.location=e:void 0},r.prototype.startVisitToLocationWithAction=function(e,r,n){var o;return t.supported?(o=this.getRestorationDataForIdentifier(n),this.startVisit(e,r,{restorationData:o})):window.location=e},r.prototype.startHistory=function(){return this.location=t.Location.wrap(window.location),this.restorationIdentifier=t.uuid(),this.history.start(),this.history.replace(this.location,this.restorationIdentifier)},r.prototype.stopHistory=function(){return this.history.stop()},r.prototype.pushHistoryWithLocationAndRestorationIdentifier=function(e,r){return this.restorationIdentifier=r,this.location=t.Location.wrap(e),this.history.push(this.location,this.restorationIdentifier)},r.prototype.replaceHistoryWithLocationAndRestorationIdentifier=function(e,r){return this.restorationIdentifier=r,this.location=t.Location.wrap(e),this.history.replace(this.location,this.restorationIdentifier)},r.prototype.historyPoppedToLocationWithRestorationIdentifier=function(e,r){var n;return this.restorationIdentifier=r,this.enabled?(n=this.getRestorationDataForIdentifier(this.restorationIdentifier),this.startVisit(e,"restore",{restorationIdentifier:this.restorationIdentifier,restorationData:n,historyChanged:!0}),this.location=t.Location.wrap(e)):this.adapter.pageInvalidated()},r.prototype.getCachedSnapshotForLocation=function(t){var e;return e=this.cache.get(t),e?e.clone():void 0},r.prototype.shouldCacheSnapshot=function(){return this.view.getSnapshot().isCacheable()},r.prototype.cacheSnapshot=function(){var t;return this.shouldCacheSnapshot()?(this.notifyApplicationBeforeCachingSnapshot(),t=this.view.getSnapshot(),this.cache.put(this.lastRenderedLocation,t.clone())):void 0},r.prototype.scrollToAnchor=function(t){var e;return(e=document.getElementById(t))?this.scrollToElement(e):this.scrollToPosition({x:0,y:0})},r.prototype.scrollToElement=function(t){return this.scrollManager.scrollToElement(t)},r.prototype.scrollToPosition=function(t){return this.scrollManager.scrollToPosition(t)},r.prototype.scrollPositionChanged=function(t){var e;return e=this.getCurrentRestorationData(),e.scrollPosition=t},r.prototype.render=function(t,e){return this.view.render(t,e)},r.prototype.viewInvalidated=function(){return this.adapter.pageInvalidated()},r.prototype.viewWillRender=function(t){return this.notifyApplicationBeforeRender(t)},r.prototype.viewRendered=function(){return this.lastRenderedLocation=this.currentVisit.location,this.notifyApplicationAfterRender()},r.prototype.pageLoaded=function(){return this.lastRenderedLocation=this.location,this.notifyApplicationAfterPageLoad()},r.prototype.clickCaptured=function(){return removeEventListener("click",this.clickBubbled,!1),addEventListener("click",this.clickBubbled,!1)},r.prototype.clickBubbled=function(t){var e,r,n;return this.enabled&&this.clickEventIsSignificant(t)&&(r=this.getVisitableLinkForNode(t.target))&&(n=this.getVisitableLocationForLink(r))&&this.applicationAllowsFollowingLinkToLocation(r,n)?(t.preventDefault(),e=this.getActionForLink(r),this.visit(n,{action:e})):void 0},r.prototype.applicationAllowsFollowingLinkToLocation=function(t,e){var r;return r=this.notifyApplicationAfterClickingLinkToLocation(t,e),!r.defaultPrevented},r.prototype.applicationAllowsVisitingLocation=function(t){var e;return e=this.notifyApplicationBeforeVisitingLocation(t),!e.defaultPrevented},r.prototype.notifyApplicationAfterClickingLinkToLocation=function(e,r){return t.dispatch("turbolinks:click",{target:e,data:{url:r.absoluteURL},cancelable:!0})},r.prototype.notifyApplicationBeforeVisitingLocation=function(e){return t.dispatch("turbolinks:before-visit",{data:{url:e.absoluteURL},cancelable:!0})},r.prototype.notifyApplicationAfterVisitingLocation=function(e){return t.dispatch("turbolinks:visit",{data:{url:e.absoluteURL}})},r.prototype.notifyApplicationBeforeCachingSnapshot=function(){return t.dispatch("turbolinks:before-cache")},r.prototype.notifyApplicationBeforeRender=function(e){return t.dispatch("turbolinks:before-render",{data:{newBody:e}})},r.prototype.notifyApplicationAfterRender=function(){return t.dispatch("turbolinks:render")},r.prototype.notifyApplicationAfterPageLoad=function(e){return null==e&&(e={}),t.dispatch("turbolinks:load",{data:{url:this.location.absoluteURL,timing:e}})},r.prototype.startVisit=function(t,e,r){var n;return null!=(n=this.currentVisit)&&n.cancel(),this.currentVisit=this.createVisit(t,e,r),this.currentVisit.start(),this.notifyApplicationAfterVisitingLocation(t)},r.prototype.createVisit=function(e,r,n){
 var o,i,s,a,u;return i=null!=n?n:{},a=i.restorationIdentifier,s=i.restorationData,o=i.historyChanged,u=new t.Visit(this,e,r),u.restorationIdentifier=null!=a?a:t.uuid(),u.restorationData=t.copyObject(s),u.historyChanged=o,u.referrer=this.location,u},r.prototype.visitCompleted=function(t){return this.notifyApplicationAfterPageLoad(t.getTimingMetrics())},r.prototype.clickEventIsSignificant=function(t){return!(t.defaultPrevented||t.target.isContentEditable||t.which>1||t.altKey||t.ctrlKey||t.metaKey||t.shiftKey)},r.prototype.getVisitableLinkForNode=function(e){return this.nodeIsVisitable(e)?t.closest(e,"a[href]:not([target])"):void 0},r.prototype.getVisitableLocationForLink=function(e){var r;return r=new t.Location(e.getAttribute("href")),this.locationIsVisitable(r)?r:void 0},r.prototype.getActionForLink=function(t){var e;return null!=(e=t.getAttribute("data-turbolinks-action"))?e:"advance"},r.prototype.nodeIsVisitable=function(e){var r;return(r=t.closest(e,"[data-turbolinks]"))?"false"!==r.getAttribute("data-turbolinks"):!0},r.prototype.locationIsVisitable=function(t){return t.isPrefixedBy(this.view.getRootLocation())&&t.isHTML()},r.prototype.getCurrentRestorationData=function(){return this.getRestorationDataForIdentifier(this.restorationIdentifier)},r.prototype.getRestorationDataForIdentifier=function(t){var e;return null!=(e=this.restorationData)[t]?e[t]:e[t]={}},r}()}.call(this),function(){var e,r,n;t.start=function(){return r()?(null==t.controller&&(t.controller=e()),t.controller.start()):void 0},r=function(){return null==window.Turbolinks&&(window.Turbolinks=t),n()},e=function(){var e;return e=new t.Controller,e.adapter=new t.BrowserAdapter(e),e},n=function(){return window.Turbolinks===t},n()&&t.start()}.call(this)}).call(this),"object"==typeof module&&module.exports?module.exports=t:"function"==typeof define&&define.amd&&define(t)}).call(this);
+(function() {
+
+
+}).call(this);
+(function() {
+
+
+}).call(this);
 (function() {
 
 
